@@ -8,3 +8,4 @@ This is a C++ OpenGL repository containing the work for a computer graphics (COM
 **Student** | **ID**
 :---:| ---
 Christopher McArthur | `40004257`
+Daniel Privorotsky | `40002150`
