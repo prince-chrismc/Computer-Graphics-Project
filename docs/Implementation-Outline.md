@@ -11,7 +11,8 @@ This document sets out to lay out the basic ideas for the project, set the timel
 2. [Questions](#Questions)
 3. [Idea Explanation](#Idea-Explanation)
 4. [Milestones](#Milestones)
-4. [Examples](#Examples)
+5. [Contributors](#Contributors)
+6. [Examples](#Examples)
 
 ## Basic Concepts
 - Theme: Post-Apocalyptic Forest Setting
@@ -26,7 +27,7 @@ This document sets out to lay out the basic ideas for the project, set the timel
 - Do we want camera restrictions (beyond collision prevention)?
 
 ## Idea Explanation
-We plan to create a forest representation that our user can walk through. However, instead of creating your traditional forest, we plan to be a bit creative by making an "post-apocolypse forest." In other words, we'll have some burnt, brown, and broken down trees instead of having all our world all beautiful, fully grown, and green. This idea will give a creative twist to the traditional design in addition to an exciting and thrilling walk through to the user. In addition, our world will include a sun that will create light and shadow. This will allow us to apply the various ways to colour an object and to create the effect that our world is real.
+We plan to create a forest representation that our user can walk through. However, instead of creating your traditional forest, we plan to be a bit creative by making an "post-apocolypse forest". In other words, we'll have some burnt, brown, and broken down trees instead of having all our world all beautiful, fully grown, and green. This idea will give a creative twist to the traditional design in addition to an exciting and thrilling walk through to the user. In addition, our world will include a sun that will create light and shadow. This will allow us to apply the various ways to colour an object and to create the effect that our world is real.
 
 As the user moves through the terrain, new world objects will appear within various constraints that we will implement. The constraints are still to be decided, but they will make the objects fall in a certain area, be a certain size, and facing a specific direction. For example, if we generate a path, we have to make sure the path follows a direction and the trees will have to be generated outside of the path.
 
@@ -41,6 +42,14 @@ Our plan is to go through the project by milestones. The following [section](#Mi
 `week #9` | Manipulate trees
 `week #11` | Exploration with trees
 `week #13` | Collision handling
+
+## Contributors
+**Student** | **ID**
+:---:| ---
+Christopher McArthur | `40004257`
+Daniel Privorotsky | `40002150`
+Nicholas Gattuso | `40007087`
+Sameh Heinen | `27073410`
 
 ## Examples
 - [](https://github.com/oxaoo/forest)
