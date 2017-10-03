@@ -16,7 +16,7 @@
 
 ## Idea Explanation
 
-We plan to create a forest representation that our user can walk through. However, instead of creating your traditional forest, we plan to be a bit creative by making an "after apocolypse forest." In other words, we'll have some burnt, brown, and broken down trees instead of having all our world all beautiful, fully grown, and green. This idea will give a creative twist to the traditional design in addition to an exciting and thrilling walk through to the user.
+We plan to create a forest representation that our user can walk through. However, instead of creating your traditional forest, we plan to be a bit creative by making an "after apocolypse forest." In other words, we'll have some burnt, brown, and broken down trees instead of having all our world all beautiful, fully grown, and green. This idea will give a creative twist to the traditional design in addition to an exciting and thrilling walk through to the user. In addition, our world will include a sun that will create light and shadow. This will allow us to apply the various ways to colour an object and to create the effect that our world is real. BONUS: we will simulate the motion of wind ;)
 
 As the user moves through the terrain, new world objects will appear within various constraints that we will implement. The constraints are still to be decided, but they will make the objects fall in a certain area, be a certain size, and facing a specific direction. For example, if we generate a path, we have to make sure the path follows a direction and the trees will have to be generated outside of the path.
 
