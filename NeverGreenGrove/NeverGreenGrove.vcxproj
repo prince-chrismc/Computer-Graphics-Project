@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D9B3DEE0-195F-4E9D-865C-22A335DC2C2B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Template</RootNamespace>
+    <RootNamespace>NeverGreenGrove</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -166,7 +166,7 @@
   <ItemGroup>
     <ClCompile Include="src\GlfwWindow.cpp" />
     <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Template.cpp" />
+    <ClCompile Include="src\NeverGreenGrove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fragment.shader" />

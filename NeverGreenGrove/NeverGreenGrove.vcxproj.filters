@@ -29,7 +29,7 @@
     <ClCompile Include="src\GlfwWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Template.cpp">
+    <ClCompile Include="src\NeverGreenGrove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Shader.cpp">
