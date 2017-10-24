@@ -48,7 +48,6 @@ int main()
    }
 
    // Set the required callback functions
-   MainWindow->SetWindowSizeCallback([](GLFWwindow* window, int width, int height){ MainWindow->UpdateFromResize(width, height);});
 
    // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
    glewExperimental = GL_TRUE;
@@ -105,5 +104,3 @@ int main()
 // ------------------------------------------------------------------------------------------------ //
 //                                      CALLBACK FUNCTIONS                                        - //
 // ------------------------------------------------------------------------------------------------ //
-
-

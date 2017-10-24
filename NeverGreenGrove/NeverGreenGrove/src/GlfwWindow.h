@@ -41,8 +41,6 @@ friend class GlfwWindowFactory;
       void NextBuffer() { glfwSwapBuffers(m_window); }  // Swap the screen buffers
       bool ShouldClose() const { return glfwWindowShouldClose(m_window); } // window should close
 
-      void UpdateFromResize(const int& width, const int& height);
-
       const glm::mat4& GetProjectionMatrix() const { return m_Projection; }
 
       // Allow the required callback functions
