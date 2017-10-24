@@ -57,17 +57,11 @@ GlfwWindow::GlfwWindow(const char* title, const int& width, const int& height) :
       glViewport(0, 0, width, height);
       m_Projection = glm::perspective(45.0f, (GLfloat)width / (GLfloat)height, 0.0f, 100.0f);
    }
+
+   SetWindowSizeCallback([](GLFWwindow* window, int width, int height){ GlfwWindowFactory::GetInstance().FindWindow(window)->UpdateFromResize(width, height); });
 }
 
-
-GlfwWindow::~GlfwWindow()
-{
-   // Terminate GLFW, clearing any resources allocated by GLFW.
-   glfwTerminate();
-}
-
-
-void GlfwWindow::window_callback(GLFWwindow* window, int width, int height)
+void GlfwWindow::UpdateFromResize(const int& width, const int& height)
 {
    // notify GL and calc Projection Matrix using new size
    glViewport(0, 0, width, height);

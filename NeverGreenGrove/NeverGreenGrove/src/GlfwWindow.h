@@ -24,18 +24,24 @@ SOFTWARE.
 
 #pragma once
 
+#include <vector>
+#include <memory>
+
 #include "GLFW/glfw3.h"    // include GLFW helper library
 #include "glm/glm.hpp"     // include GLM library
 
 class GlfwWindow
 {
+friend class GlfwWindowFactory;
+
    public:
       GlfwWindow(const char* title, const int& width, const int& height);
-      ~GlfwWindow();
 
-      bool operator()() const { return m_window != nullptr; } // Make sure windows exists
-      void operator++() { glfwSwapBuffers(m_window); }  // Swap the screen buffers
-      bool operator~() const { return glfwWindowShouldClose(m_window); } // window should close
+      constexpr bool IsValid() const { return m_window != nullptr; } // Make sure windows exists
+      void NextBuffer() { glfwSwapBuffers(m_window); }  // Swap the screen buffers
+      bool ShouldClose() const { return glfwWindowShouldClose(m_window); } // window should close
+
+      void UpdateFromResize(const int& width, const int& height);
 
       const glm::mat4& GetProjectionMatrix() const { return m_Projection; }
 
@@ -43,7 +49,6 @@ class GlfwWindow
       GLFWkeyfun         SetKeyCallback(GLFWkeyfun cbfun) { return glfwSetKeyCallback(m_window, cbfun); }
       GLFWmousebuttonfun SetMouseButtonCallback(GLFWmousebuttonfun cbfun) { return glfwSetMouseButtonCallback(m_window, cbfun); }
       GLFWcursorposfun   SetCursorPosCallback(GLFWcursorposfun cbfun) { return glfwSetCursorPosCallback(m_window, cbfun); }
-      GLFWwindowsizefun  SetWindowSizeCallback(GLFWwindowsizefun cbfun) { return glfwSetWindowSizeCallback(m_window, cbfun); } // already handled
 
       // Default window dimensions
       static const GLuint DEFAULT_WIDTH = 800, DEFAULT_HEIGHT = 600;
@@ -52,6 +57,21 @@ class GlfwWindow
       GLFWwindow* m_window;
       glm::mat4   m_Projection;
 
-      void window_callback(GLFWwindow* window, int width, int height);
+      void UpdateFromResize(const int& width, const int& height);
+      GLFWwindowsizefun  SetWindowSizeCallback(GLFWwindowsizefun cbfun) { return glfwSetWindowSizeCallback(m_window, cbfun); }
 };
 
+
+class GlfwWindowFactory
+{
+   public:
+      ~GlfwWindowFactory() { glfwTerminate(); for (GlfwWindow* win : m_Windows) { delete win; } m_Windows.clear(); }
+      static GlfwWindowFactory& GetInstance() { static GlfwWindowFactory instance; return instance; }
+      GlfwWindow* CreateNewWindow(const char* title, const int& width, const int& height) { m_Windows.push_back(new GlfwWindow(title, width, height)); return m_Windows.back(); }
+      GlfwWindow* FindWindow(GLFWwindow* window){ for(GlfwWindow* win : m_Windows) { if(win->m_window == window) return win; } return nullptr; }
+
+   private:
+      GlfwWindowFactory() {};
+
+      std::vector<GlfwWindow*> m_Windows;
+};

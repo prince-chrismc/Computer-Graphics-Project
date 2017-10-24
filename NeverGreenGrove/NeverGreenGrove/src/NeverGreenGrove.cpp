@@ -34,16 +34,21 @@ SOFTWARE.
 #include "GlfwWindow.h"
 #include "Shader.h"
 
+GlfwWindow* MainWindow = nullptr;
+
 int main()
 {
    std::cout << "Welcome to Template!" << std::endl;
 
    // Create a GLFWwindow
-   GlfwWindow window("Template by <Author>", GlfwWindow::DEFAULT_WIDTH, GlfwWindow::DEFAULT_HEIGHT);
-   if (!window()) // Make sure it exists
+   GlfwWindow* window = GlfwWindowFactory::GetInstance().CreateNewWindow("Template by <Author>", GlfwWindow::DEFAULT_WIDTH, GlfwWindow::DEFAULT_HEIGHT);
+   if (!window->IsValid()) // Make sure it exists
    {
       return -1;
    }
+
+   // Set the required callback functions
+   MainWindow->SetWindowSizeCallback([](GLFWwindow* window, int width, int height){ MainWindow->UpdateFromResize(width, height);});
 
    // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
    glewExperimental = GL_TRUE;
@@ -75,7 +80,7 @@ int main()
    const glm::vec3 eye(0.0f, -5.0f, 3.0f);
 
    // Game loop
-   while (! ~window)
+   while (! window->ShouldClose())
    {
       // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
       glfwPollEvents();
@@ -89,10 +94,16 @@ int main()
       view_matrix = glm::lookAt(eye, center, up);
       shaderProgram->SetShaderMat4("view_matrix", view_matrix);
 
-      shaderProgram->SetShaderMat4("projection_matrix", window.GetProjectionMatrix());
+      shaderProgram->SetShaderMat4("projection_matrix", window->GetProjectionMatrix());
 
-      ++window; // swap buffers
+      window->NextBuffer(); // swap buffers
    }
 
    return 0;
 }
+
+// ------------------------------------------------------------------------------------------------ //
+//                                      CALLBACK FUNCTIONS                                        - //
+// ------------------------------------------------------------------------------------------------ //
+
+
