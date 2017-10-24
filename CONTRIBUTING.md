@@ -8,8 +8,10 @@ This project is a personal exploration. This repository is the result of all the
 
 ### Branch Model and Commit Details
 The `master` branch is for stable and working code that could possibly be submitted. This means any changes to `master` will not break the build or fail the behavoiral test benchmark set by the previous commit. This will require are developmental work to be done in seperate branches; Working branches as they will be called, will be prefixed with either `feature\` or `exploration\`. Feature branches are required work in order to obtain the goals of the project and should end their life cycle is a pull request for master. Exploration branches can fall into two categories:
-- A. Attempts are new features which may no succed. Trial By Error approach.
+
+- A. Attempts a new features which may not succed. Trial by error approach.
 - B. New functionality which may not meet Behavoiral test criteria.
+
 While working in the correct branch, commit message must properly describe the changes applying. *Commits should compile*; however if a sitution araises where a commit does not compile it should be prefixed with a '\*' at the beginning of the message (this is excluding `master` where all commits must meet the [requirements](#Branch-Model-and-Commit-Details) above).
 
 ### Bug reports
