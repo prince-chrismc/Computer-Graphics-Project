@@ -53,7 +53,7 @@ artifacts/
 *_i.h
 *.ilk
 *.meta
-*.obj
+# *.obj # These are also for 3D object files
 *.pch
 *.pdb
 *.pgc
