@@ -4,15 +4,24 @@ This project is a personal exploration. This repository is the result of all the
 ### Why you should read these guidelines.
 >Following these guidelines helps to communicate that you respect the time of the developer(s) managing and developing this private project. In return, they should reciprocate that respect in addressing your issue, assessing changes, and helping you finalize your pull requests.
 
-## What kinds of contributions we are looking for
+## Contributors Guidelines
 
-### Branch Model and Commit Details
-The `master` branch is for stable and working code that could possibly be submitted. This means any changes to `master` will not break the build or fail the behavoiral test benchmark set by the previous commit. This will require are developmental work to be done in seperate branches; Working branches as they will be called, will be prefixed with either `feature\` or `exploration\`. Feature branches are required work in order to obtain the goals of the project and should end their life cycle is a pull request for master. Exploration branches can fall into two categories:
+### Branch Model
+The `master` branch is for stable and working code that could possibly be submitted. This means any changes to `master` will not break the build or fail the behavoiral test benchmark set by the previous commit. This will require are developmental work to be done in seperate branches; *Working branches* as they will be called, will be prefixed with either `feature\` or `exploration\`. Feature branches are required work in order to obtain the goals of the project and should end their life cycle is a pull request for master. Exploration branches can fall into two categories:
 
 - A. Attempts a new features which may not succed. Trial by error approach.
 - B. New functionality which may not meet Behavoiral test criteria.
 
+The third option for a branch prefix will be `fix\`; these branches are used to directly address issues in the code and *should* be attached to an issue. This set of branches also aims to provide a space for any work or maintaince related to the project but does not meet the intentions for either `feature\` or `exploration\`. This means that no branch should exist without a prefix.
+
+### Commit Details
 While working in the correct branch, commit message must properly describe the changes applying. *Commits should compile*; however if a sitution araises where a commit does not compile it should be prefixed with a '\*' at the beginning of the message (this is excluding `master` where all commits must meet the [requirements](#Branch-Model-and-Commit-Details) above).
+
+### Pull Requests
+
+These are the key for the work and development done to transition to the final product. They should be test and reviewed throughly by *all* members of the team in a reasonable time frame. They should also have the correct labels attached in order to track which categories/domains of the project are showing progress.
+
+## What kinds of contributions we are looking for
 
 ### Bug reports
 A bug is a _demonstrable problem_ that is caused by the code in the repository.
