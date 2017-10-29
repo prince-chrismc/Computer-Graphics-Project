@@ -25,65 +25,71 @@ SOFTWARE.
 #pragma once
 
 #include <string>
-#include "GL/glew.h"             // include GL Extension Wrangler
-#include "glm/gtc/type_ptr.hpp"  // glm::value_ptr
+#include <mutex>
+
+#include "GL/glew.h"                            // include GL Extension Wrangler
+#include "glm/gtc/type_ptr.hpp"                 // glm::value_ptr
 
 class Shader abstract
 {
-friend class ShaderLinker;
-   public:
-      Shader(const std::string& rel_path);
-      ~Shader();
+   friend class ShaderLinker;
+public:
+   Shader(const std::string& rel_path);
+   ~Shader();
 
-      bool operator()() const { return m_Status; }
+   bool operator()() const { return m_Status; }
 
-   protected:
-      virtual bool Compile(const std::string& ShaderCode) = 0;
+protected:
+   virtual bool Compile(const std::string& ShaderCode) = 0;
 
-      const std::string m_ShaderRelPath;
-      std::string m_ShaderCode;
-      bool m_Status;
-      GLuint m_Shader;
+   const std::string m_ShaderRelPath;
+   std::string m_ShaderCode;
+   bool m_Status;
+   GLuint m_Shader;
 };
 
 class VertexShader : public Shader
 {
-   public:
-      VertexShader(const std::string& rel_path) : Shader(rel_path) { m_Status = Compile(m_ShaderCode); }
-      VertexShader(const char* rel_path) : VertexShader(std::string(rel_path)) {}
+public:
+   VertexShader(const std::string& rel_path) : Shader(rel_path) { m_Status = Compile(m_ShaderCode); }
+   VertexShader(const char* rel_path) : VertexShader(std::string(rel_path)) {}
 
-      bool Compile(const std::string& ShaderCode);
+   bool Compile(const std::string& ShaderCode);
 };
 
 class FragmentShader : public Shader
 {
-   public:
-      FragmentShader(const std::string& rel_path) : Shader(rel_path) { m_Status = Compile(m_ShaderCode); }
-      FragmentShader(const char* rel_path) : FragmentShader(std::string(rel_path)) {}
+public:
+   FragmentShader(const std::string& rel_path) : Shader(rel_path) { m_Status = Compile(m_ShaderCode); }
+   FragmentShader(const char* rel_path) : FragmentShader(std::string(rel_path)) {}
 
-      bool Compile(const std::string& ShaderCode);
+   bool Compile(const std::string& ShaderCode);
 };
 
 class ShaderLinker
 {
-   public:
-      static ShaderLinker& GetInstance() { static ShaderLinker instance; return instance; }
+public:
+   ~ShaderLinker() = default;
+   ShaderLinker(const ShaderLinker&) = delete;
+   ShaderLinker& operator=(const ShaderLinker&) = delete;
 
-      bool Link(VertexShader* vertex, FragmentShader* frag);
+   static std::shared_ptr<ShaderLinker> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new ShaderLinker()); }); return s_Instance; }
 
-      GLuint GetUniformLocation(const char* shader_obj) const { return glGetUniformLocation(m_ShaderProgram, shader_obj); }
-      GLuint GetAttributeLocation(const char* shader_obj) const { return glGetAttribLocation(m_ShaderProgram, shader_obj); }
+   bool Link(VertexShader* vertex, FragmentShader* frag);
 
-      void SetShaderInt(const char* shader_obj, const GLint& i) const { glUniform1i(GetUniformLocation(shader_obj), i); }
-      void SetShaderMat4(const char* shader_obj, const glm::mat4& mat) const { glUniformMatrix4fv(GetUniformLocation(shader_obj), 1, GL_FALSE, glm::value_ptr(mat)); }
+   GLuint GetUniformLocation(const char* shader_obj) const { return glGetUniformLocation(m_ShaderProgram, shader_obj); }
+   GLuint GetAttributeLocation(const char* shader_obj) const { return glGetAttribLocation(m_ShaderProgram, shader_obj); }
 
-   private:
-      GLuint m_ShaderProgram;
+   void SetShaderInt(const char* shader_obj, const GLint& i) const { glUniform1i(GetUniformLocation(shader_obj), i); }
+   void SetShaderMat4(const char* shader_obj, const glm::mat4& mat) const { glUniformMatrix4fv(GetUniformLocation(shader_obj), 1, GL_FALSE, glm::value_ptr(mat)); }
 
-      ShaderLinker() { m_ShaderProgram = glCreateProgram(); }
-      ~ShaderLinker() = default;
-      ShaderLinker(const ShaderLinker&) = delete;
-      ShaderLinker& operator=(const ShaderLinker&) = delete;
+private:
+   ShaderLinker() { m_ShaderProgram = glCreateProgram(); }
 
-      void AddShader(Shader* NewShader) { glAttachShader(m_ShaderProgram, NewShader->m_Shader); }
+   void AddShader(Shader* NewShader) { glAttachShader(m_ShaderProgram, NewShader->m_Shader); }
+
+   static std::once_flag s_Flag;
+   static std::shared_ptr<ShaderLinker> s_Instance;
+
+   GLuint m_ShaderProgram;
 };

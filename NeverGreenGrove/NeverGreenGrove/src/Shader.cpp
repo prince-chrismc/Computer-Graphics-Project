@@ -26,6 +26,9 @@ SOFTWARE.
 #include <fstream>
 #include "Shader.h"
 
+std::once_flag ShaderLinker::s_Flag;
+std::shared_ptr<ShaderLinker> ShaderLinker::s_Instance;
+
 Shader::Shader(const std::string& rel_path) : m_ShaderRelPath(rel_path), m_Status(false)
 {
    std::ifstream ShaderStream(m_ShaderRelPath, std::ios::in);
