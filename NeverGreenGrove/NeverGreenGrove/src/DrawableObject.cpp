@@ -28,7 +28,7 @@ SOFTWARE.
 
 DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies)
 {
-   ShaderLinker* shaderProgram = &ShaderLinker::GetInstance();
+   auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
 
