@@ -19,7 +19,7 @@ While working in the correct branch, commit message must properly describe the c
 
 ### Pull Requests
 
-These are the key for the work and development done to transition to the final product. They should be test and reviewed throughly by *all* members of the team in a reasonable time frame. They should also have the correct labels attached in order to track which categories/domains of the project are showing progress.
+These are the key for the work and development done to transition to the final product. They should be test and reviewed throughly by *atleast* one member of the team in a reasonable time frame. They should also have the correct labels attached in order to track which categories/domains of the project are showing progress.
 
 ## What kinds of contributions we are looking for
 
