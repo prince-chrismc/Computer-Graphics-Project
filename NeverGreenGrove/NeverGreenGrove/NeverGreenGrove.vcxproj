@@ -167,6 +167,7 @@
     <ClInclude Include="src\ObjLoader.h" />
     <ClInclude Include="src\RenderMode.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\TerrainChunk.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DrawableObject.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="src\ObjLoader.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\NeverGreenGrove.cpp" />
+    <ClCompile Include="src\TerrainChunk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fragment.shader" />
