@@ -5,11 +5,14 @@
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 
-bool loadOBJ(
-   const char * path,
-   std::vector<glm::vec3> & out_vertices,
-   std::vector<glm::vec3> & out_normals,
-   std::vector<glm::vec2> & out_uvs
+#ifdef _WIN32
+// Loads a windows file .obj specialized for DDS textures
+bool LoadObjFile(
+   const char* path,
+   std::vector<glm::vec3>* out_vertices,
+   std::vector<glm::vec3>* out_normals,
+   std::vector<glm::vec2>* out_uvs
 );
+#endif // _WIN32
 
 #endif
