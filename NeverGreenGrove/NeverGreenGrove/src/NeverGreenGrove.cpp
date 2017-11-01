@@ -33,6 +33,7 @@ SOFTWARE.
 
 #include "GlfwWindow.h"
 #include "Shader.h"
+#include "ObjLoader.h"
 
 int main()
 {
@@ -87,6 +88,35 @@ int main()
    const glm::vec3 up(0.0f, 0.0f, 1.0f);
    const glm::vec3 eye(0.0f, -5.0f, 3.0f);
 
+   // cube (food) -----------------------------------------------------------------------------------------------------------------------------------
+   std::vector<glm::vec3> cube_vertices;
+   std::vector<glm::vec3> cube_normals;
+   LoadObjFile("assets/cube.obj", &cube_vertices, &cube_normals, &std::vector<glm::vec2>()); //read the cube_vertices from the cube.obj file
+
+   GLuint VAO_cube;
+   glGenVertexArrays(1, &VAO_cube);
+   // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
+   GLuint cube_vertices_VBO, cube_normals_VBO;
+   glGenBuffers(1, &cube_vertices_VBO);
+   glGenBuffers(1, &cube_normals_VBO);
+
+   // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
+   glBindVertexArray(VAO_cube);
+
+   glBindBuffer(GL_ARRAY_BUFFER, cube_vertices_VBO);
+   glBufferData(GL_ARRAY_BUFFER, cube_vertices.size() * sizeof(glm::vec3), &cube_vertices.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(0);
+
+   glBindBuffer(GL_ARRAY_BUFFER, cube_normals_VBO);
+   glBufferData(GL_ARRAY_BUFFER, cube_normals.size() * sizeof(glm::vec3), &cube_normals.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(1);
+
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+   glBindVertexArray(0); // Unbind VAO_cube (it's always a good thing to unbind any buffer/array to prevent strange bugs)
+
    // Game loop
    while (! window->ShouldClose())
    {
@@ -103,6 +133,13 @@ int main()
       shaderProgram->SetShaderMat4("view_matrix", view_matrix);
 
       shaderProgram->SetShaderMat4("projection_matrix", window->GetProjectionMatrix());
+
+      // Cube -------------------------------------------------------------------------------------------------------------------------------------
+      shaderProgram->SetShaderMat4("model_matrix", glm::mat4());
+      shaderProgram->SetShaderInt("object_color", 0);
+      glBindVertexArray(VAO_cube);
+      glDrawArrays(GL_TRIANGLES, 0, (GLsizei)cube_vertices.size());
+      glBindVertexArray(0);
 
       window->NextBuffer(); // swap buffers
    }
