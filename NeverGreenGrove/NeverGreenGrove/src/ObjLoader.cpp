@@ -1,3 +1,7 @@
+/*
+   This is a modified version of the code provided by the staff of the class
+*/
+
 #include <vector>
 #include <stdio.h>
 #include <string>
@@ -60,9 +64,9 @@ bool LoadObjFile(const char* path, std::vector<glm::vec3>* out_vertices, std::ve
             return false;
          }
 
-         for (unsigned int index : vertexIndex) { vertexIndices.emplace_back(index); }
-         for (unsigned int uv : uvIndex) { uvIndices.emplace_back(uv); }
-         for (unsigned int normal : normalIndex) { normalIndices.emplace_back(normal); }
+         for (unsigned int index : vertexIndex) { vertexIndices.push_back(index); }
+         for (unsigned int uv : uvIndex) { uvIndices.push_back(uv); }
+         for (unsigned int normal : normalIndex) { normalIndices.push_back(normal); }
       }
       else
       {
