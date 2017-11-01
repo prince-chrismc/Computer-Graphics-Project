@@ -62,8 +62,8 @@ bool LoadObjFile(const char* path, std::vector<glm::vec3>* out_vertices, std::ve
          }
 
          for (unsigned int index : vertexIndex) { vertexIndices.emplace_back(index); }
-         for (unsigned int uv : uvIndex) { vertexIndices.emplace_back(uv); }
-         for (unsigned int normal : normalIndex) { vertexIndices.emplace_back(normal); }
+         for (unsigned int uv : uvIndex) { uvIndices.emplace_back(uv); }
+         for (unsigned int normal : normalIndex) { normalIndices.emplace_back(normal); }
       }
       else
       {
@@ -77,9 +77,9 @@ bool LoadObjFile(const char* path, std::vector<glm::vec3>* out_vertices, std::ve
    for (unsigned int i = 0; i < vertexIndices.size(); i++)
    {
       // Get the indices of its attributes
-      unsigned int vertexIndex = vertexIndices[i];
-      unsigned int uvIndex = uvIndices[i];
-      unsigned int normalIndex = normalIndices[i];
+      unsigned int vertexIndex = vertexIndices.at(i);
+      unsigned int uvIndex = uvIndices.at(i);
+      unsigned int normalIndex = normalIndices.at(i);
 
       // Get the attributes thanks to the index
       glm::vec3 vertex = temp_vertices[vertexIndex - 1];
