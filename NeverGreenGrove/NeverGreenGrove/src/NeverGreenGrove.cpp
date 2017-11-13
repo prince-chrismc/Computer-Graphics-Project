@@ -85,13 +85,13 @@ int main()
 
    // Constant vectors
    const glm::vec3 center(0.0f, 0.0f, 0.0f);
-   const glm::vec3 up(0.0f, 0.0f, 1.0f);
-   const glm::vec3 eye(0.0f, 5.0f, 3.0f);
+   const glm::vec3 up(0.0f, 1.0f, 0.0f);
+   const glm::vec3 eye(3.0f, 15.0f, 9.0f);
 
    // cube (food) -----------------------------------------------------------------------------------------------------------------------------------
    std::vector<glm::vec3> cube_vertices;
    std::vector<glm::vec3> cube_normals;
-   LoadObjFile("assets/Tree.obj", &cube_vertices, &cube_normals, &std::vector<glm::vec2>()); //read the cube_vertices from the cube.obj file
+   LoadObjFile("assets/Tree2.obj", &cube_vertices, &cube_normals, &std::vector<glm::vec2>()); //read the cube_vertices from the cube.obj file
 
    GLuint VAO_cube;
    glGenVertexArrays(1, &VAO_cube);
