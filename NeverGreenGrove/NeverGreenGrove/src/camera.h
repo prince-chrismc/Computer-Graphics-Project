@@ -7,9 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Already included in main
 //#include <glad\glad.h>
-//#include <glm\vec3.hpp>
-//#include <glm\mat4x4.hpp>
-//#include <glm\gtc\matrix_transform.hpp>    //glm::lookAt
+#include "glm\vec3.hpp"
+#include "glm\mat4x4.hpp"
+#include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
 
 #include <vector>
 
