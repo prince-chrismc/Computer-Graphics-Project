@@ -42,7 +42,7 @@ TreeObj::TreeObj()
    std::vector<glm::vec3> vertices;
    std::vector<glm::vec3> normals;
    std::vector<glm::vec2> uvs;
-   LoadObjFile("assets/Tree2.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
+   LoadObjFile("assets/tree.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
 
    GLuint VAO_cube;
    glGenVertexArrays(1, &VAO_cube);
@@ -65,7 +65,7 @@ TreeObj::TreeObj()
    glEnableVertexAttribArray(NormalIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, uv_VBO);
-   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec3), &uvs.front(), GL_STATIC_DRAW);
+   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(UvIndex);
 
@@ -85,6 +85,8 @@ TreeObj::~TreeObj()
 
 void DrawableTree::Draw()
 {
+auto shaderProgram = ShaderLinker::GetInstance();
+shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindVertexArray(0);

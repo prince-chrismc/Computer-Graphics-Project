@@ -26,6 +26,7 @@ SOFTWARE.
 
 #pragma once
 #include "glm\matrix.hpp"
+#include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
 #include "gl\glew.h"
 #include <mutex>
 
@@ -60,7 +61,7 @@ class TreeObj
 class DrawableTree
 {
    public:
-      DrawableTree(glm::mat4 model_mat) : m_ModelMatrix(model_mat) {}
+      DrawableTree() : m_ModelMatrix(glm::scale(glm::mat4(), glm::vec3(0.05))) {}
       ~DrawableTree() = default;
 
       void Draw();
