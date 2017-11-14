@@ -130,13 +130,13 @@ int main()
 
       glm::mat4 view_matrix;
       view_matrix = glm::lookAt(eye, center, up);
-      shaderProgram->SetShaderMat4("view_matrix", view_matrix);
+      shaderProgram->SetUniformMat4("view_matrix", view_matrix);
 
-      shaderProgram->SetShaderMat4("projection_matrix", window->GetProjectionMatrix());
+      shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Cube -------------------------------------------------------------------------------------------------------------------------------------
-      shaderProgram->SetShaderMat4("model_matrix", glm::scale(glm::mat4(), glm::vec3(0.05)));
-      shaderProgram->SetShaderInt("object_color", 0);
+      shaderProgram->SetUniformMat4("model_matrix", glm::scale(glm::mat4(), glm::vec3(0.05)));
+      shaderProgram->SetUniformInt("object_color", 0);
       glBindVertexArray(VAO_cube);
       glDrawArrays(GL_TRIANGLES, 0, (GLsizei)cube_vertices.size());
       glBindVertexArray(0);
