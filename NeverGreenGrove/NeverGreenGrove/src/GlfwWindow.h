@@ -48,6 +48,13 @@ public:
    GLFWkeyfun         SetKeyCallback(GLFWkeyfun cbfun) { return glfwSetKeyCallback(m_window, cbfun); }
    GLFWmousebuttonfun SetMouseButtonCallback(GLFWmousebuttonfun cbfun) { return glfwSetMouseButtonCallback(m_window, cbfun); }
    GLFWcursorposfun   SetCursorPosCallback(GLFWcursorposfun cbfun) { return glfwSetCursorPosCallback(m_window, cbfun); }
+   GLFWframebuffersizefun SetFramebufferSizeCallback(GLFWframebuffersizefun cbfun) { return glfwSetFramebufferSizeCallback(m_window, cbfun); }
+   GLFWscrollfun	  SetScrollCallback(GLFWscrollfun cbfun) { return glfwSetScrollCallback(m_window, cbfun); }
+
+
+   // tell GLFW to enable/disable mouse
+   void DisableCursor() { return glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); };
+   void EnableCursor() { return glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); };
 
    static void TriggerCallbacks() { glfwPollEvents(); }                    // For all windows, trigger callback for any pending event
 

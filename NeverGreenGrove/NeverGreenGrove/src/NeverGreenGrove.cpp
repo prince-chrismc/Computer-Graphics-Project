@@ -31,8 +31,30 @@ SOFTWARE.
 #include "GL/glew.h"                            // include GL Extension Wrangler
 #include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
 
+#include "camera.h"
+
 #include "GlfwWindow.h"
 #include "Shader.h"
+
+//for camera
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+
+// settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+// camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+bool firstMouse = true;
+
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
 
 int main()
 {
@@ -63,6 +85,16 @@ int main()
       return -1;
    }
 
+   //set callbacks
+   window->SetFramebufferSizeCallback(framebuffer_size_callback);
+   window->SetCursorPosCallback(mouse_callback);
+   window->SetScrollCallback(scroll_callback);
+   window->SetKeyCallback(key_callback);
+
+   // tell GLFW to capture our mouse
+   window->DisableCursor();
+ 
+
    // Build and compile our shader program
    VertexShader vertexShader("shaders/vertex.shader");
    FragmentShader fragmentShader("shaders/fragment.shader");
@@ -82,6 +114,8 @@ int main()
       return -1;
    }
 
+   //TODO
+   //Delete these.
    // Constant vectors
    const glm::vec3 center(0.0f, 0.0f, 0.0f);
    const glm::vec3 up(0.0f, 0.0f, 1.0f);
@@ -90,6 +124,13 @@ int main()
    // Game loop
    while (! window->ShouldClose())
    {
+	  // per-frame time logic
+      // --------------------
+      float currentFrame = glfwGetTime();
+      deltaTime = currentFrame - lastFrame;
+      lastFrame = currentFrame;
+
+
       // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
       GlfwWindow::TriggerCallbacks();
 
@@ -113,3 +154,49 @@ int main()
 // ------------------------------------------------------------------------------------------------ //
 //                                      CALLBACK FUNCTIONS                                        - //
 // ------------------------------------------------------------------------------------------------ //
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	// make sure the viewport matches the new window dimensions; note that width and 
+	// height will be significantly larger than specified on retina displays.
+	glViewport(0, 0, width, height);
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	//using method from https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/7.4.camera_class/camera_class.cpp
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+//only used for FOV 
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll(yoffset);
+}
