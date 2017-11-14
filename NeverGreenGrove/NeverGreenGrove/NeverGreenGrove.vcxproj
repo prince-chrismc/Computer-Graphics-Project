@@ -160,6 +160,7 @@
     <Text Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\DrawableObject.h" />
     <ClInclude Include="src\GlfwWindow.h" />
     <ClInclude Include="src\RenderMode.h" />
