@@ -42,14 +42,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
+float lastX = GlfwWindow::DEFAULT_WIDTH / 2.0f;
+float lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
@@ -68,11 +64,12 @@ int main()
    }
 
    // Set the required callback functions
-   /*
-   * window->SetKeyCallback(key_callback);
-   * window->SetMouseButtonCallback(mouse_callback);
-   * window->SetCursorPosCallback(cursor_callback);
-   */
+   window->SetFramebufferSizeCallback(framebuffer_size_callback);
+   window->SetCursorPosCallback(mouse_callback);
+   window->SetScrollCallback(scroll_callback);
+   window->SetKeyCallback(key_callback);
+
+   window->CaptureCursor();                     // tell GLFW to capture our mouse
 
    // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
    glewExperimental = GL_TRUE;
@@ -84,15 +81,6 @@ int main()
       std::getline(std::cin, std::string());
       return -1;
    }
-
-   //set callbacks
-   window->SetFramebufferSizeCallback(framebuffer_size_callback);
-   window->SetCursorPosCallback(mouse_callback);
-   window->SetScrollCallback(scroll_callback);
-   window->SetKeyCallback(key_callback);
-
-   // tell GLFW to capture our mouse
-   window->DisableCursor();
 
    // Build and compile our shader program
    VertexShader vertexShader("shaders/vertex.shader");
@@ -113,13 +101,6 @@ int main()
       return -1;
    }
 
-   //TODO
-   //Delete these.
-   // Constant vectors
-   const glm::vec3 center(0.0f, 0.0f, 0.0f);
-   const glm::vec3 up(0.0f, 0.0f, 1.0f);
-   const glm::vec3 eye(0.0f, -5.0f, 3.0f);
-
    // Game loop
    while (! window->ShouldClose())
    {
@@ -138,8 +119,7 @@ int main()
       glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
-      shaderProgram->SetUniformMat4("view_matrix", camera.GetViewMatrix());
-
+      shaderProgram->SetShaderMat4("view_matrix", camera.GetViewMatrix());
       shaderProgram->SetShaderMat4("projection_matrix", window->GetProjectionMatrix());
 
       window->NextBuffer(); // swap buffers
