@@ -13,11 +13,11 @@
 #include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
 
 // Default camera values
-const float YAW = -90.0f;
-const float PITCH = 0.0f;
-const float SPEED = 25.0f;
-const float SENSITIVTY = 0.1f;
-const float ZOOM = 45.0f;
+const float YAW        = -90.0f;
+const float PITCH      =  0.0f;
+const float SPEED      =  25.0f;
+const float SENSITIVTY =  0.1f;
+const float ZOOM       =  45.0f;
 
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera
@@ -132,5 +132,7 @@ private:
       // Also re-calculate the Right and Up vector
       Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
       Up = glm::normalize(glm::cross(Right, Front));
+		std::cout << "\r" << std::flush << "Camera yaw: " << Yaw << "\tCamera Pitch: " << Pitch << "\tPosition(x,y,z): " << Position.x << ", " << Position.y << ", " << Position.z;
+	
    }
 };

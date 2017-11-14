@@ -30,10 +30,13 @@ class TerrainChunk
 {
    public:
    TerrainChunk();
-	
+   DrawableObject m_terrain;
+
    private:
-	   DrawableObject m_terrain;
 	   static const GLuint CHUNK_WIDTH = 256, CHUNK_HEIGHT = 256;
-	   std::vector<std::vector<glm::vec3>> grid_2d;
+	  // std::vector<std::vector<glm::vec3>> grid_2d;
 	   std::vector<glm::vec3> grid;
+	   std::vector<glm::vec3> color;
+	   std::vector<GLuint> indicies;
+
 };

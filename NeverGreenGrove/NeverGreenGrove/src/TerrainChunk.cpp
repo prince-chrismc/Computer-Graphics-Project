@@ -28,8 +28,13 @@ SOFTWARE.
 
 
 ///generates random terrain
-TerrainChunk::TerrainChunk() : m_terrain()
+TerrainChunk::TerrainChunk()
 {
+	int min_radius = CHUNK_WIDTH / 8;
+	int max_radius = CHUNK_WIDTH / 4;
+	
+	float min_height = min_radius/2;
+
 	//Remember: points are (x,y,z) with 
 	//x= width
 	//y= length
@@ -42,11 +47,22 @@ TerrainChunk::TerrainChunk() : m_terrain()
 
 	//Creates up to 10 hills (temporarily)
 	hill_qty = g() % 10;
+	int counter = 0;
 	for (int i = 0; i < CHUNK_HEIGHT; i++) {
 		std::vector<glm::vec3> temp_builder;
 		for (int j = 0; j < CHUNK_WIDTH; j++) {
 			temp_builder.emplace_back(glm::vec3(i, j, 0));
+			grid.emplace_back(glm::vec3(i, j, 0));
+			color.emplace_back(glm::vec3(1));
+			indicies.emplace_back(counter);
+			counter++;
 		}
-	}
 
+	}
+	//TODO: remove
+	//TEMP drawable object for testing
+
+	DrawableObject test(grid,color,indicies);
+	m_terrain = test;
 }
+
