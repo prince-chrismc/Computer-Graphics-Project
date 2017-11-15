@@ -51,7 +51,7 @@ float lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
-float deltaTime = 0.0f;	// time between current frame and last frame
+float deltaTime = 0.0f;   // time between current frame and last frame
 float lastFrame = 0.0f;
 
 // camera
