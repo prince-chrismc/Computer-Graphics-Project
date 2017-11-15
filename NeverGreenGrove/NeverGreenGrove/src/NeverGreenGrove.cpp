@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+                     Daniel P, privorotskyd(at)gmail(dot)com
+                     Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,18 +27,16 @@ SOFTWARE.
 // Template.cpp : Defines the entry point for the console application.
 //
 
-#include <string>
-#include <iostream>
-
-#include "GL/glew.h"                            // include GL Extension Wrangler
-
 #include "camera.h"
-
 #include "GlfwWindow.h"
 #include "Shader.h"
 #include "ObjLoader.h"
 #include "DrawableTree.h"
-#include "glm\matrix.hpp"
+
+#include "GL/glew.h"                            // include GL Extension Wrangler
+
+#include <string>
+#include <iostream>
 
 //for camera
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -51,10 +51,9 @@ float lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
-float deltaTime = 0.0f;   // time between current frame and last frame
-float lastFrame = 0.0f;
+float deltaTime = 0.0f;                         // time between current frame and last frame
+float lastFrame = 0.0f;                         // time of last frame
 
-// camera
 int main()
 {
    std::cout << "Welcome to Never Green Grove!" << std::endl;
@@ -113,7 +112,7 @@ int main()
       return -1;
    }
 
-   // cube (food) -----------------------------------------------------------------------------------------------------------------------------------
+   // Tree -----------------------------------------------------------------------------------------------------------------------------------
    DrawableTree tree;
 
    // Game loop
@@ -125,8 +124,7 @@ int main()
       deltaTime = currentFrame - lastFrame;
       lastFrame = currentFrame;
 
-      // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-      GlfwWindow::TriggerCallbacks();
+      GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
 
       // Render
       // Clear the colorbuffer
@@ -136,7 +134,7 @@ int main()
       shaderProgram->SetUniformMat4("view_matrix", camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
-      // Cube -------------------------------------------------------------------------------------------------------------------------------------
+      // Tree -------------------------------------------------------------------------------------------------------------------------------------
       tree.Draw();
 
       window->NextBuffer(); // swap buffers
@@ -154,13 +152,13 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       glfwSetWindowShouldClose(window, true);
 
    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-      camera.ProcessKeyboard(FORWARD, deltaTime);
+      camera.ProcessKeyboard(Camera::FORWARD, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-      camera.ProcessKeyboard(BACKWARD, deltaTime);
+      camera.ProcessKeyboard(Camera::BACKWARD, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-      camera.ProcessKeyboard(LEFT, deltaTime);
+      camera.ProcessKeyboard(Camera::LEFT, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-      camera.ProcessKeyboard(RIGHT, deltaTime);
+      camera.ProcessKeyboard(Camera::RIGHT, deltaTime);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

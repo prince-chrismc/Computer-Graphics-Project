@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 #pragma once
+
 #include "glm\matrix.hpp"
 #include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
 #include "gl\glew.h"

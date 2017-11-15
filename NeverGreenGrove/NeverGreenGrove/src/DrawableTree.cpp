@@ -45,7 +45,7 @@ TreeObj::TreeObj()
    std::vector<glm::vec2> uvs;
    LoadObjFile("assets/tree_xs.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
 
-   m_NumVertices = vertices.size();
+   m_NumVertices = (GLsizei)vertices.size();
 
    for (glm::vec3 vert : vertices)
    {
