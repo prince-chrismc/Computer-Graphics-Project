@@ -65,6 +65,7 @@ int main()
    RenderMode LINES;
    TerrainChunk terrain;
    //TERRAIN TEST
+   RenderMode LINES =RenderMode::LINES;
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    auto tree1 = TreeFactory::GetNewTree();
    auto tree2 = TreeFactory::GetNewTree();

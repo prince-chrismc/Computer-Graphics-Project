@@ -22,7 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <random>
+#include <random>		//mt19937
+#include <algorithm>    // std::random_shuffle
 
 #include "TerrainChunk.h"
 
@@ -30,23 +31,7 @@ SOFTWARE.
 ///generates random terrain
 TerrainChunk::TerrainChunk()
 {
-	int min_radius = CHUNK_WIDTH / 8;
-	int max_radius = CHUNK_WIDTH / 4;
 	
-	float min_height = min_radius/2;
-
-	//Remember: points are (x,y,z) with 
-	//x= width
-	//y= length
-	//z= height
-
-	int hill_qty;
-	//random shuffle
-	std::random_device rd;
-	std::mt19937 g(rd());
-
-	//Creates up to 10 hills (temporarily)
-	hill_qty = g() % 10;
 	int counter = 0;
 	for (int i = 0; i < CHUNK_HEIGHT; i++) {
 		std::vector<glm::vec3> temp_builder;
@@ -66,3 +51,67 @@ TerrainChunk::TerrainChunk()
 	m_terrain = test;
 }
 
+void TerrainChunk::generateVertices() {
+	//Remember: points are (x,y,z) with 
+	//x= width
+	//y= length
+	//z= height
+
+	int min_radius = CHUNK_WIDTH / 8;
+	int max_radius = CHUNK_WIDTH / 4;
+	int inner_width = CHUNK_WIDTH - 2 * min_radius;
+	int inner_depth = CHUNK_HEIGHT - 2 * min_radius;
+	
+	float min_height = min_radius / 2;
+
+	int hill_qty;
+	//random shuffle
+	std::random_device rd;
+	std::mt19937 g(rd());
+
+	//Creates up to 10 hills
+	//max hills
+	hill_qty = g() % 10;
+
+	//creates indicies for hill peaks
+	std::vector<int> horizontalPeaks;
+	std::vector<int> depthPeaks;
+	for (int i = 0; i < hill_qty; i++) {
+		horizontalPeaks.emplace_back(inner_width / hill_qty + min_radius*i);
+		depthPeaks.emplace_back(inner_depth / hill_qty + min_radius*i);
+	}
+	//shuffle the indicies
+	std::random_shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g());
+	std::random_shuffle(depthPeaks.begin(), depthPeaks.end(), g());
+
+	//create a simple flat terrain
+	for (int i = 0; i < CHUNK_HEIGHT; i++) {
+		std::vector<glm::vec3> temp_builder;
+		for (int j = 0; j < CHUNK_WIDTH; j++) {
+				temp_builder.emplace_back(i, j, 0);
+		}
+		grid_2d.emplace_back(std::move(temp_builder));
+	}
+
+	//replace indexed locations by hills
+	//and change the height of all surrounding pixels
+	for (int i = 0; i < horizontalPeaks.size(); i++) {
+		for (int j = 0; j < depthPeaks.size(); j++) {
+			grid_2d.at(i).at(j).z = g() % max_radius;
+		}
+	}
+
+}
+
+std::vector<glm::vec3> TerrainChunk::flatten(std::vector<std::vector<glm::vec3>> vector2d)
+{
+	std::vector<glm::vec3> new_vector;
+	for (int i = 0; i < vector2d.size(); i++)
+	{
+		for (int j = 0; j < vector2d.front().size(); j++)
+		{
+			new_vector.emplace_back(vector2d.at(i).at(j));
+		}
+	}
+	return new_vector;
+}
