@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+                     Daniel P, privorotskyd(at)gmail(dot)com
+                     Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +26,47 @@ SOFTWARE.
 
 #pragma once
 
-#include <vector>
+#include "glm\matrix.hpp"
+#include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
+#include "gl\glew.h"
+#include <mutex>
 
-#include <gl\glew.h>
-#include "glm\vec3.hpp"
-
-#include "RenderMode.h"
-
-class DrawableObject
+class TreeObj
 {
    public:
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies);
-   virtual void Draw(const RenderMode& render_mode);
-   void Delete();
+      ~TreeObj();
+      TreeObj(const TreeObj&) = delete;
+      TreeObj& operator=(const TreeObj&) = delete;
 
-   protected:
+      static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
+
+      GLuint GetVAO() { return m_VAO; }
+      GLsizei GetNumberOfVertices() { return m_NumVertices; }
+
+   private:
+      TreeObj();
+
       GLuint m_VAO;
       GLuint m_Verticies;
       GLuint m_Colors;
-      GLuint m_Indicies;
+      GLuint m_Normals;
+      GLuint m_Uvs;
 
       GLsizei m_NumVertices;
-      GLsizei m_NumIndicies;
+
+      static std::once_flag s_Flag;
+      static std::shared_ptr<TreeObj> s_Instance;
+};
+
+
+class DrawableTree
+{
+   public:
+      DrawableTree() : m_ModelMatrix(/*glm::scale(glm::mat4(), glm::vec3(0.01))*/) {}
+      ~DrawableTree() = default;
+
+      void Draw();
+
+   private:
+      glm::mat4 m_ModelMatrix;
 };

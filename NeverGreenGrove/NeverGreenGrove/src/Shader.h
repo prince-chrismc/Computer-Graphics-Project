@@ -80,8 +80,8 @@ public:
    GLuint GetUniformLocation(const char* shader_obj) const { return glGetUniformLocation(m_ShaderProgram, shader_obj); }
    GLuint GetAttributeLocation(const char* shader_obj) const { return glGetAttribLocation(m_ShaderProgram, shader_obj); }
 
-   void SetShaderInt(const char* shader_obj, const GLint& i) const { glUniform1i(GetUniformLocation(shader_obj), i); }
-   void SetShaderMat4(const char* shader_obj, const glm::mat4& mat) const { glUniformMatrix4fv(GetUniformLocation(shader_obj), 1, GL_FALSE, glm::value_ptr(mat)); }
+   void SetUniformInt(const char* shader_obj, const GLint& i) const { glUniform1i(GetUniformLocation(shader_obj), i); }
+   void SetUniformMat4(const char* shader_obj, const glm::mat4& mat) const { glUniformMatrix4fv(GetUniformLocation(shader_obj), 1, GL_FALSE, glm::value_ptr(mat)); }
 
 private:
    ShaderLinker() { m_ShaderProgram = glCreateProgram(); }

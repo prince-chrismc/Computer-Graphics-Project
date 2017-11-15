@@ -56,8 +56,7 @@ public:
 
    static void TriggerCallbacks() { glfwPollEvents(); }                    // For all windows, trigger callback for any pending event
 
-                                                                           // Default window dimensions
-   static const GLuint DEFAULT_WIDTH = 800, DEFAULT_HEIGHT = 600;
+   enum : GLuint  { DEFAULT_WIDTH = 800, DEFAULT_HEIGHT = 600 };           // Default window dimensions
 
 private:
    GLFWwindow* m_window;

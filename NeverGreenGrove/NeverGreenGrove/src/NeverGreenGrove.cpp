@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+                     Daniel P, privorotskyd(at)gmail(dot)com
+                     Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +24,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// Template.cpp : Defines the entry point for the console application.
-//
+#include "camera.h"
+#include "GlfwWindow.h"
+#include "Shader.h"
+#include "ObjLoader.h"
+#include "DrawableTree.h"
+
+#include "GL/glew.h"                            // include GL Extension Wrangler
 
 #include <string>
 #include <iostream>
 
-#include "GL/glew.h"                            // include GL Extension Wrangler
-#include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
-
-#include "camera.h"
-
-#include "GlfwWindow.h"
-#include "Shader.h"
+// Function Declarations
+bool SetupShaders();
+void PerFrameCalc();
 
 //for camera
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -49,15 +52,15 @@ float lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
-float deltaTime = 0.0f;	// time between current frame and last frame
-float lastFrame = 0.0f;
+float deltaTime = 0.0f;                         // time between current frame and last frame
+float lastFrame = 0.0f;                         // time of last frame
 
 int main()
 {
    std::cout << "Welcome to Never Green Grove!" << std::endl;
 
    // Create a GLFWwindow
-   std::shared_ptr<GlfwWindow> window = GlfwWindowFactory::GetInstance()->CreateNewWindow("Never Green Grove - Prepare to get lost!");
+   auto window = GlfwWindowFactory::GetInstance()->CreateNewWindow("Never Green Grove - Prepare to get lost!");
    if (!window->IsValid()) // Make sure it exists
    {
       return -1;
@@ -68,7 +71,6 @@ int main()
    window->SetCursorPosCallback(mouse_callback);
    window->SetScrollCallback(scroll_callback);
    window->SetKeyCallback(key_callback);
-
    window->CaptureCursor();                     // tell GLFW to capture our mouse
 
    // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
@@ -82,11 +84,7 @@ int main()
       return -1;
    }
 
-   // Build and compile our shader program
-   VertexShader vertexShader("shaders/vertex.shader");
-   FragmentShader fragmentShader("shaders/fragment.shader");
-   // make sure they are ready to use
-   if (!vertexShader() || !fragmentShader())
+   if (!SetupShaders())
    {
       std::cout << "Press 'enter' to exit." << std::endl;
       std::getline(std::cin, std::string());
@@ -94,38 +92,54 @@ int main()
    }
 
    auto shaderProgram = ShaderLinker::GetInstance();
-   if (!shaderProgram->Link(&vertexShader, &fragmentShader))
-   {
-      std::cout << "Press 'enter' to exit." << std::endl;
-      std::getline(std::cin, std::string());
-      return -1;
-   }
+
+   // Tree -----------------------------------------------------------------------------------------------------------------------------------
+   DrawableTree tree;
 
    // Game loop
    while (! window->ShouldClose())
    {
-      // per-frame time logic
-      // --------------------
-      float currentFrame = glfwGetTime();
-      deltaTime = currentFrame - lastFrame;
-      lastFrame = currentFrame;
-
-
-      // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-      GlfwWindow::TriggerCallbacks();
+      PerFrameCalc();                           // Per frame time drift calc - MUST be called triggering callbacks
+      GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
 
       // Render
       // Clear the colorbuffer
       glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
-      shaderProgram->SetShaderMat4("view_matrix", camera.GetViewMatrix());
-      shaderProgram->SetShaderMat4("projection_matrix", window->GetProjectionMatrix());
+      shaderProgram->SetUniformMat4("view_matrix", camera.GetViewMatrix());
+      shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
+
+      // Tree -------------------------------------------------------------------------------------------------------------------------------------
+      tree.Draw();
 
       window->NextBuffer(); // swap buffers
    }
 
    return 0;
+}
+
+// ------------------------------------------------------------------------------------------------ //
+//                                       UTILITY FUNCTIONS                                          //
+// ------------------------------------------------------------------------------------------------ //
+bool SetupShaders()
+{
+   VertexShader vertexShader("shaders/vertex.shader");
+   FragmentShader fragmentShader("shaders/fragment.shader");
+   // make sure they are ready to use
+   if (!vertexShader() || !fragmentShader()) return false;
+
+   auto shaderProgram = ShaderLinker::GetInstance();
+   if (!shaderProgram->Link(&vertexShader, &fragmentShader)) return false;
+
+   return true;
+}
+
+void PerFrameCalc()
+{
+   float currentFrame = glfwGetTime();
+   deltaTime = currentFrame - lastFrame;
+   lastFrame = currentFrame;
 }
 
 // ------------------------------------------------------------------------------------------------ //
@@ -137,13 +151,13 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       glfwSetWindowShouldClose(window, true);
 
    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-      camera.ProcessKeyboard(FORWARD, deltaTime);
+      camera.ProcessKeyboard(Camera::FORWARD, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-      camera.ProcessKeyboard(BACKWARD, deltaTime);
+      camera.ProcessKeyboard(Camera::BACKWARD, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-      camera.ProcessKeyboard(LEFT, deltaTime);
+      camera.ProcessKeyboard(Camera::LEFT, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-      camera.ProcessKeyboard(RIGHT, deltaTime);
+      camera.ProcessKeyboard(Camera::RIGHT, deltaTime);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
