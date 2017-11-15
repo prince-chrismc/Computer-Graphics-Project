@@ -36,21 +36,27 @@ TreeObj::TreeObj()
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
-   GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
-   GLuint UvIndex = shaderProgram->GetAttributeLocation("color");
+   //GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
+   //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
 
    std::vector<glm::vec3> vertices;
+   std::vector<glm::vec3> colors;
    std::vector<glm::vec3> normals;
    std::vector<glm::vec2> uvs;
-   LoadObjFile("assets/tree.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
+   LoadObjFile("assets/tree_xs.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
 
    m_NumVertices = vertices.size();
+
+   for (glm::vec3 vert : vertices)
+   {
+      (vert.y > 1.15) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
+   }
 
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
    glGenBuffers(1, &m_Colors);
-   glGenBuffers(1, &m_Normals);
-   glGenBuffers(1, &m_Uvs);
+   //glGenBuffers(1, &m_Normals);
+   //glGenBuffers(1, &m_Uvs);
 
    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
    glBindVertexArray(m_VAO);
@@ -61,19 +67,19 @@ TreeObj::TreeObj()
    glEnableVertexAttribArray(PositonIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, m_Colors);
-   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), &colors.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(ColorIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(ColorIndex);
 
-   glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
-   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
-   glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   glEnableVertexAttribArray(NormalIndex);
+   //glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
+   //glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   //glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   //glEnableVertexAttribArray(NormalIndex);
 
-   glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
-   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
-   glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   glEnableVertexAttribArray(UvIndex);
+   //glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
+   //glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
+   //glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   //glEnableVertexAttribArray(UvIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -84,8 +90,8 @@ TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
-   glDeleteBuffers(1, &m_Normals);
-   glDeleteBuffers(1, &m_Uvs);
+   //glDeleteBuffers(1, &m_Normals);
+   //glDeleteBuffers(1, &m_Uvs);
    glDeleteVertexArrays(1, &m_VAO);
 }
 

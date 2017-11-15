@@ -61,7 +61,7 @@ class TreeObj
 class DrawableTree
 {
    public:
-      DrawableTree() : m_ModelMatrix(glm::scale(glm::mat4(), glm::vec3(0.01))) {}
+      DrawableTree() : m_ModelMatrix(/*glm::scale(glm::mat4(), glm::vec3(0.01))*/) {}
       ~DrawableTree() = default;
 
       void Draw();
