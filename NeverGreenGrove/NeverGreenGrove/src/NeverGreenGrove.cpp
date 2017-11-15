@@ -84,7 +84,7 @@ int main()
       return -1;
    }
 
-   if (SetupShaders())
+   if (!SetupShaders())
    {
       std::cout << "Press 'enter' to exit." << std::endl;
       std::getline(std::cin, std::string());
@@ -95,7 +95,7 @@ int main()
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    DrawableTree tree;
-  
+
    // Game loop
    while (! window->ShouldClose())
    {
