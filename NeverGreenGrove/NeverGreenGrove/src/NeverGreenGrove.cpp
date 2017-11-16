@@ -94,7 +94,10 @@ int main()
    auto shaderProgram = ShaderLinker::GetInstance();
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
-   DrawableTree tree;
+   TreeFactory tree_farm;
+   DrawableTree tree1 = tree_farm.GetNewTree();
+   DrawableTree tree2 = tree_farm.GetNewTree();
+   tree2.Translate(glm::vec3(2.5f, 0.0f, 0.0f));
 
    // Game loop
    while (! window->ShouldClose())
@@ -111,7 +114,8 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Tree -------------------------------------------------------------------------------------------------------------------------------------
-      tree.Draw();
+      tree1.Draw();
+      tree2.Draw();
 
       window->NextBuffer(); // swap buffers
    }
