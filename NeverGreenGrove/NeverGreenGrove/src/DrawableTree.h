@@ -49,15 +49,14 @@ class TreeObj
       GLuint m_VAO;
       GLuint m_Verticies;
       GLuint m_Colors;
-      GLuint m_Normals;
-      GLuint m_Uvs;
+      //GLuint m_Normals;
+      //GLuint m_Uvs;
 
       GLsizei m_NumVertices;
 
       static std::once_flag s_Flag;
       static std::shared_ptr<TreeObj> s_Instance;
 };
-
 
 class DrawableTree
 {
@@ -66,7 +65,16 @@ class DrawableTree
       ~DrawableTree() = default;
 
       void Draw();
+      void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
 
    private:
       glm::mat4 m_ModelMatrix;
+};
+
+class TreeFactory
+{
+   public:
+      TreeFactory() = default;
+
+      DrawableTree GetNewTree() { return DrawableTree(); }
 };
