@@ -47,8 +47,8 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = GlfwWindow::DEFAULT_WIDTH / 2.0f;
-float lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0f;
+double lastX = GlfwWindow::DEFAULT_WIDTH / 2.0;
+double lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0;
 bool firstMouse = true;
 
 // timing
@@ -137,7 +137,7 @@ bool SetupShaders()
 
 void PerFrameCalc()
 {
-   float currentFrame = glfwGetTime();
+   float currentFrame = (float)glfwGetTime();
    deltaTime = currentFrame - lastFrame;
    lastFrame = currentFrame;
 }
@@ -177,8 +177,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
       firstMouse = false;
    }
 
-   float xoffset = xpos - lastX;
-   float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+   float xoffset = float(xpos - lastX);
+   float yoffset = float(lastY - ypos); // reversed since y-coordinates go from bottom to top
 
    lastX = xpos;
    lastY = ypos;
@@ -189,5 +189,5 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 //only used for FOV
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-   camera.ProcessMouseScroll(yoffset);
+   camera.ProcessMouseScroll((float)yoffset);
 }
