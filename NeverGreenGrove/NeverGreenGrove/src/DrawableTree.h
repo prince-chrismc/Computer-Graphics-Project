@@ -66,6 +66,7 @@ class DrawableTree
 
       void Draw();
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
+      void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
 
    private:
       glm::mat4 m_ModelMatrix;
