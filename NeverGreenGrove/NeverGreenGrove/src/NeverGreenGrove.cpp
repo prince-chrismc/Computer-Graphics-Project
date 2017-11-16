@@ -93,11 +93,14 @@ int main()
 
    auto shaderProgram = ShaderLinker::GetInstance();
 
+   glEnable(GL_DEPTH_TEST);
+   glDepthFunc(GL_GREATER);
+
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    TreeFactory tree_farm;
    DrawableTree tree1 = tree_farm.GetNewTree();
    DrawableTree tree2 = tree_farm.GetNewTree();
-   tree2.Translate(glm::vec3(2.5f, 0.0f, 0.0f));
+   tree2.Translate(glm::vec3(2.5f, 0.0f, -10.0f));
 
    // Game loop
    while (! window->ShouldClose())
@@ -105,10 +108,10 @@ int main()
       PerFrameCalc();                           // Per frame time drift calc - MUST be called triggering callbacks
       GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
 
-      // Render
-      // Clear the colorbuffer
       glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);
+      glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
+      glClearDepth(0.0);
+      glClear(GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
 
       shaderProgram->SetUniformMat4("view_matrix", camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
