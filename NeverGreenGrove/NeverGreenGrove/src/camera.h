@@ -19,11 +19,13 @@ const float SPEED = 12.5f;
 const float SENSITIVTY = 0.1f;
 const float ZOOM = 45.0f;
 
-
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera
 {
 public:
+	//public direction booleans
+	bool goForward, goBackward, goRight, goLeft, goUp, goDown;
+
     // Constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVTY), Zoom(ZOOM)
     {
@@ -31,6 +33,7 @@ public:
         WorldUp = up;
         Yaw = yaw;
         Pitch = pitch;
+		goForward = goBackward = goRight = goLeft = goUp = goDown = false;
         updateCameraVectors();
     }
     // Constructor with scalar values
@@ -40,6 +43,7 @@ public:
         WorldUp = glm::vec3(upX, upY, upZ);
         Yaw = yaw;
         Pitch = pitch;
+		goForward = goBackward = goRight = goLeft = goUp = goDown = false;
         updateCameraVectors();
     }
 
@@ -61,22 +65,37 @@ public:
     };
 
     // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-    void ProcessKeyboard(Movement direction, float deltaTime)
+  /*  void ProcessKeyboard(Movement direction, float deltaTime)
     {
         float velocity = MovementSpeed * deltaTime;
-        if (direction == FORWARD)
-            Position += Front * velocity;
+        if (goForward == FORWARD)
+			goForward = true;
         if (direction == BACKWARD)
-            Position -= Front * velocity;
+			goBackward = true;
         if (direction == LEFT)
-            Position -= Right * velocity;
+			goLeft = true;
         if (direction == RIGHT)
-            Position += Right * velocity;
+			goRight = true;
 		if (direction == UP)
-			Position += Up * velocity;
+			goUp = true;
 		if (direction == DOWN)
+			goDown = true;
+    }*/
+	void moveCamera(float deltaTime) {
+		float velocity = MovementSpeed * deltaTime;
+		if (goForward)
+			Position += Front * velocity;
+		if (goBackward)
+			Position -= Front * velocity;
+		if (goLeft)
+			Position -= Right * velocity;
+		if (goRight)
+			Position += Right * velocity;
+		if (goUp)
+			Position += Up * velocity;
+		if (goDown)
 			Position -= Up * velocity;
-    }
+	}
 
     // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
@@ -125,6 +144,7 @@ private:
    float MovementSpeed;
    float MouseSensitivity;
    float Zoom;
+   
 
     // Calculates the front vector from the Camera's (updated) Eular Angles
     void updateCameraVectors()
