@@ -64,12 +64,15 @@ class DrawableTree abstract
    public:
       DrawableTree() = default;
 
-      virtual void Draw() = 0;
+      void Draw();
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
-      void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
 
    protected:
+      void Scale(glm::vec3 vec) { m_ModelMatrix = glm::scale(m_ModelMatrix, vec); }
+      void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
       void Shear(float deform_x, float deform_z) { m_ModelMatrix = glm::shearY3D(m_ModelMatrix, deform_x, deform_z); }
+
+   private:
       glm::mat4 m_ModelMatrix;
 };
 
@@ -78,8 +81,18 @@ class TreeA1 : public DrawableTree
 {
    public:
       TreeA1() = default;
+};
 
-      void Draw();
+class TreeA2 : public DrawableTree
+{
+public:
+   TreeA2() { Rotate(90.f); }
+};
+
+class TreeA3 : public DrawableTree
+{
+public:
+   TreeA3() { Shear(-0.25f, 0.1f); }
 };
 
 class TreeFactory

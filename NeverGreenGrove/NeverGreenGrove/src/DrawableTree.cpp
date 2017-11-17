@@ -95,7 +95,7 @@ TreeObjA::~TreeObjA()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void TreeA1::Draw()
+void DrawableTree::Draw()
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
