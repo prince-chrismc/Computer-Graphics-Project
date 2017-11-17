@@ -64,8 +64,8 @@ int main()
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    TreeFactory tree_farm;
-   DrawableTree tree1 = tree_farm.GetNewTree();
-   DrawableTree tree2 = tree_farm.GetNewTree();
+   TreeA1 tree1 = tree_farm.GetNewTree();
+   TreeA1 tree2 = tree_farm.GetNewTree();
    tree1.Rotate(90.0f);
    tree2.Translate(glm::vec3(2.5f, 0.0f, -10.0f));
 
