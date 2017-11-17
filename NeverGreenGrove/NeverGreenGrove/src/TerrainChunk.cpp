@@ -31,12 +31,12 @@ SOFTWARE.
 ///generates random terrain
 TerrainChunk::TerrainChunk()
 {
-	
+	//THIS CONSTRUCTOR IS TEMPORARY.
+	//only created for testing a simple render
+
 	int counter = 0;
 	for (int i = 0; i < CHUNK_HEIGHT; i++) {
-		std::vector<glm::vec3> temp_builder;
 		for (int j = 0; j < CHUNK_WIDTH; j++) {
-			temp_builder.emplace_back(glm::vec3(i, j, 0));
 			grid.emplace_back(glm::vec3(i, j, 0));
 			color.emplace_back(glm::vec3(1));
 			indicies.emplace_back(counter);
@@ -44,12 +44,14 @@ TerrainChunk::TerrainChunk()
 		}
 
 	}
-	//TODO: remove
-	//TEMP drawable object for testing
-
 	DrawableObject test(grid,color,indicies);
 	m_terrain = test;
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Functions to calculate height and location of hills
+
 
 void TerrainChunk::generateVertices() {
 	//Remember: points are (x,y,z) with 
@@ -63,7 +65,7 @@ void TerrainChunk::generateVertices() {
 	int inner_depth = CHUNK_HEIGHT - 2 * min_radius;
 	
 	float min_height = min_radius / 2;
-
+	std::vector<float> all_heights;
 	int hill_qty;
 	//random shuffle
 	std::random_device rd;
@@ -94,9 +96,9 @@ void TerrainChunk::generateVertices() {
 	}
 
 	//replace indexed locations by hills
-	//and change the height of all surrounding pixels
 	for (int i = 0; i < horizontalPeaks.size(); i++) {
 		for (int j = 0; j < depthPeaks.size(); j++) {
+
 			grid_2d.at(i).at(j).z = g() % max_radius;
 		}
 	}

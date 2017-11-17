@@ -39,5 +39,5 @@ class TerrainChunk
 	   std::vector<glm::vec3> color;
 	   std::vector<GLuint> indicies;
 	   void generateVertices();
-	  std::vector<glm::vec3> flatten(std::vector<std::vector<glm::vec3>> vector2d);
+	   std::vector<glm::vec3> flatten(std::vector<std::vector<glm::vec3>> vector2d);
 };
