@@ -85,5 +85,5 @@ class TreeFactory
    public:
       TreeFactory() = default;
 
-      DrawableTree* GetNewTree() { return new TreeA1(); }
+      std::unique_ptr<DrawableTree> GetNewTree() { return std::make_unique<TreeA1>(); }
 };

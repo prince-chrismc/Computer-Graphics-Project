@@ -64,8 +64,8 @@ int main()
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    TreeFactory tree_farm;
-   DrawableTree* tree1 = tree_farm.GetNewTree();
-   DrawableTree* tree2 = tree_farm.GetNewTree();
+   auto tree1 = tree_farm.GetNewTree();
+   auto tree2 = tree_farm.GetNewTree();
    tree1->Rotate(90.0f);
    tree2->Translate(glm::vec3(2.5f, 0.0f, -10.0f));
 
@@ -86,9 +86,6 @@ int main()
 
       window->NextBuffer(); // swap buffers
    }
-
-   delete tree1;
-   delete tree2;
 
    return 0;
 }
