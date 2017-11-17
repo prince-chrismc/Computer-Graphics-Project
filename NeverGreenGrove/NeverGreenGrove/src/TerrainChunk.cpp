@@ -66,15 +66,15 @@ void TerrainChunk::generateVertices() {
 
 	
 	//max hills
-	hill_qty = 3 + g() % 10;
+	hill_qty = 3 + g() % 7;
 	std::vector<float> hill_heights;
 
 	//creates indicies for hill peaks
 	std::vector<int> horizontalPeaks;
 	std::vector<int> depthPeaks;
 	for (int i = 0; i < hill_qty; i++) {
-		horizontalPeaks.emplace_back(inner_length / hill_qty + min_radius*i);
-		depthPeaks.emplace_back(inner_length / hill_qty + min_radius*i);
+		horizontalPeaks.emplace_back(inner_length / hill_qty + (inner_length / hill_qty)*i);
+		depthPeaks.emplace_back(inner_length / hill_qty + (inner_length / hill_qty)*i);
 	}
 	//shuffle the indicies
 	std::shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g);
