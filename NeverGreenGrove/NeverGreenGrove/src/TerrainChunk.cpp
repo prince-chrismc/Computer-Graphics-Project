@@ -49,6 +49,7 @@ void TerrainChunk::generateVertices() {
 	//x= width
 	//y= height
 	//z= depth
+
 	//create a simple flat terrain
 	flatTerrain();
 
@@ -57,6 +58,7 @@ void TerrainChunk::generateVertices() {
 	int inner_length = CHUNK_LENGTH - 2 * min_radius;
 	
 	float min_height = min_radius / 2.0f;
+	float max_height = 100.0f;
 	std::vector<Hill> hills;
 	int hill_qty;
 
@@ -84,12 +86,13 @@ void TerrainChunk::generateVertices() {
 
 	//Saturate their info, create peaks
 	for (int i = 0; i < hill_qty; i++) {
-		float tempheight = 20 + g() % 80;
+		float tempheight = min_height + g() % (int)(max_height - min_height);
 		int max_r = std::min(std::min(std::min((float)horizontalPeaks.at(i), (float)depthPeaks.at(i)), std::min((float)CHUNK_LENGTH - horizontalPeaks.at(i), (float)CHUNK_LENGTH - depthPeaks.at(i))), (float)max_radius);
 		float tempradius = min_radius + (g() % max_r);
 		grid_2d.at(horizontalPeaks.at(i)).at(depthPeaks.at(i)).y = tempheight;
 		Hill newhill(tempheight, tempradius, horizontalPeaks.at(i), depthPeaks.at(i));
 		hills.emplace_back(newhill);
+		color_2d.at(newhill.x).at(newhill.z) = glm::vec3(0.4f + 0.6*(tempheight / max_height), 0.2f + 0.8*(tempheight / max_height), 0.04f + 0.96*(tempheight / max_height));
 	}
 
 	//Change all points inside their radius
@@ -104,6 +107,7 @@ void TerrainChunk::generateVertices() {
 					float newheight = (hill.height / hill.radius) * (hill.radius - distance);
 					if (newheight > grid_2d.at(i).at(j).y) {
 						grid_2d.at(i).at(j).y = newheight;
+						color_2d.at(i).at(j) = glm::vec3(0.4f + 0.6*(newheight/max_height), 0.2f + 0.8*(newheight / max_height), 0.04f + 0.96*(newheight / max_height));
 					}
 				}
 			}
@@ -112,6 +116,7 @@ void TerrainChunk::generateVertices() {
 
 
 	grid = flatten(grid_2d);
+	color = flatten(color_2d);
 }
 
 //create a simple flat terrain
@@ -121,16 +126,19 @@ void TerrainChunk::flatTerrain() {
 
 	for (int i = 0; i < CHUNK_LENGTH; i++) {
 		std::vector<glm::vec3> temp_builder;
+		std::vector<glm::vec3> temp_color;
 		std::vector<GLuint> temp_indices;
 		for (int j = 0; j < CHUNK_LENGTH; j++) {
 			temp_builder.emplace_back(i, 0, j);
 			temp_indices.emplace_back(counter++);
-			color.emplace_back(glm::vec3(1));
+			//brownish color
+			temp_color.emplace_back(glm::vec3(0.4f, 0.2f, 0.04f));
 		}
 		grid_2d.emplace_back(temp_builder);
+		color_2d.emplace_back(temp_color);
 		indices_2d.emplace_back(temp_indices);
 	}
-	grid = flatten(grid_2d);
+	//grid = flatten(grid_2d);
 	indices = createEBO(indices_2d);
 }
 

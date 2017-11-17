@@ -35,6 +35,7 @@ public:
 private:
 	static const GLuint CHUNK_LENGTH = 256;
 	std::vector<std::vector<glm::vec3>> grid_2d;
+	std::vector<std::vector<glm::vec3>> color_2d;
 	std::vector<glm::vec3> grid;
 	std::vector<glm::vec3> color;
 	std::vector<GLuint> indices;
