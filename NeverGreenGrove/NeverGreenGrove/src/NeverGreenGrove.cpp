@@ -38,59 +38,25 @@ SOFTWARE.
 // Function Declarations
 bool SetupShaders();
 void PerFrameCalc();
+void SetCalbacks(std::shared_ptr<GlfwWindow> window);
+int ExitOnEnter();
+void ClearFrame();
+bool SetupGlew();
 
-//for camera
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
-
-// camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-double lastX = GlfwWindow::DEFAULT_WIDTH / 2.0;
-double lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0;
-bool firstMouse = true;
-
-// timing
-float deltaTime = 0.0f;                         // time between current frame and last frame
-float lastFrame = 0.0f;                         // time of last frame
+// Gloabal objects
+Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 int main()
 {
    std::cout << "Welcome to Never Green Grove!" << std::endl;
 
-   // Create a GLFWwindow
    auto window = GlfwWindowFactory::GetInstance()->CreateNewWindow("Never Green Grove - Prepare to get lost!");
-   if (!window->IsValid()) // Make sure it exists
-   {
-      return -1;
-   }
+   if (!window->IsValid()) return ExitOnEnter();
+   SetCalbacks(window);
 
-   // Set the required callback functions
-   window->SetFramebufferSizeCallback(framebuffer_size_callback);
-   window->SetCursorPosCallback(mouse_callback);
-   window->SetScrollCallback(scroll_callback);
-   window->SetKeyCallback(key_callback);
-   window->CaptureCursor();                     // tell GLFW to capture our mouse
+   if(!SetupGlew()) return ExitOnEnter();
 
-   // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
-   glewExperimental = GL_TRUE;
-   // Initialize GLEW to setup the OpenGL Function pointers
-   if (glewInit() != GLEW_OK)
-   {
-      std::cout << "Failed to initialize GLEW" << std::endl;
-      std::cout << "Press 'enter' to exit." << std::endl;
-      std::getline(std::cin, std::string());
-      return -1;
-   }
-
-   if (!SetupShaders())
-   {
-      std::cout << "Press 'enter' to exit." << std::endl;
-      std::getline(std::cin, std::string());
-      return -1;
-   }
-
+   if (!SetupShaders()) return ExitOnEnter();
    auto shaderProgram = ShaderLinker::GetInstance();
 
    glEnable(GL_DEPTH_TEST);
@@ -108,14 +74,10 @@ int main()
    {
       PerFrameCalc();                           // Per frame time drift calc - MUST be called triggering callbacks
       GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
+      ClearFrame();                             // Reset background color and z buffer test
       camera.moveCamera(deltaTime);
 
-      glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
-      glClearDepth(0.0);
-      glClear(GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
-
-      shaderProgram->SetUniformMat4("view_matrix", camera.GetViewMatrix());
+      shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Tree -------------------------------------------------------------------------------------------------------------------------------------
@@ -144,11 +106,59 @@ bool SetupShaders()
    return true;
 }
 
+// Times needs to track camera calcs --------------------------------------------------------------
+float deltaTime = 0.0f;                         // time between current frame and last frame
+float lastFrame = 0.0f;                         // time of last frame
+
 void PerFrameCalc()
 {
    float currentFrame = (float)glfwGetTime();
    deltaTime = currentFrame - lastFrame;
    lastFrame = currentFrame;
+}
+
+// Callback declarations for camera ---------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+
+void SetCalbacks(std::shared_ptr<GlfwWindow> window)
+{
+   // Set the required callback functions
+   window->SetFramebufferSizeCallback(framebuffer_size_callback);
+   window->SetCursorPosCallback(mouse_callback);
+   window->SetScrollCallback(scroll_callback);
+   window->SetKeyCallback(key_callback);
+   window->CaptureCursor();                     // tell GLFW to capture our mouse
+}
+
+int ExitOnEnter()
+{
+   std::cout << "Press 'enter' to exit." << std::endl;
+   std::getline(std::cin, std::string());
+   return -1;
+}
+
+void ClearFrame()
+{
+   glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
+   glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
+   glClearDepth(0.0);
+   glClear(GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
+}
+
+bool SetupGlew()
+{
+   // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
+   glewExperimental = GL_TRUE;
+   // Initialize GLEW to setup the OpenGL Function pointers
+   if (glewInit() != GLEW_OK)
+   {
+      std::cout << "Failed to initialize GLEW" << std::endl;
+      return false;
+   }
+   return true;
 }
 
 // ------------------------------------------------------------------------------------------------ //
@@ -197,6 +207,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
    glViewport(0, 0, width, height);
 }
 
+// Capture mouse mouvements for camera ------------------------------------------------------------
+double lastX = GlfwWindow::DEFAULT_WIDTH / 2.0;
+double lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0;
+bool firstMouse = true;
+
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
    //using method from https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/7.4.camera_class/camera_class.cpp
@@ -213,11 +228,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
    lastX = xpos;
    lastY = ypos;
 
-   camera.ProcessMouseMovement(xoffset, yoffset);
+   g_camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
-//only used for FOV
+// only used for FOV
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-   camera.ProcessMouseScroll((float)yoffset);
+   g_camera.ProcessMouseScroll((float)yoffset);
 }
