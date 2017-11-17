@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include "glm\matrix.hpp"
 #include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
+#include "glm\gtx\transform2.hpp"
 #include "gl\glew.h"
 #include <mutex>
 
@@ -68,6 +69,7 @@ class DrawableTree abstract
       void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
 
    protected:
+      void Shear(float deform_x, float deform_z) { m_ModelMatrix = glm::shearY3D(m_ModelMatrix, deform_x, deform_z); }
       glm::mat4 m_ModelMatrix;
 };
 
