@@ -29,6 +29,7 @@ SOFTWARE.
 #include "Shader.h"
 #include "ObjLoader.h"
 #include "DrawableTree.h"
+#include "TerrainChunk.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
@@ -62,10 +63,9 @@ int main()
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_GREATER);
 
-   RenderMode LINES;
-   TerrainChunk terrain;
    //TERRAIN TEST
-   RenderMode LINES =RenderMode::LINES;
+   TerrainChunk terrain;
+
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    auto tree1 = TreeFactory::GetNewTree();
    auto tree2 = TreeFactory::GetNewTree();
@@ -89,9 +89,9 @@ int main()
       tree2->Draw();
       tree3->Draw();
 
-	  //terrain test
-	  shaderProgram->SetShaderMat4("model_matrix", glm::mat4(1.0f));
-	  terrain.m_terrain.Draw(RenderMode::LINES);
+      //terrain test
+      shaderProgram->SetUniformMat4("model_matrix", glm::mat4(1.0f));
+      terrain.m_terrain.Draw(RenderMode::LINES);
 
       window->NextBuffer(); // swap buffers
    }
@@ -177,8 +177,8 @@ bool SetupGlew()
 // ------------------------------------------------------------------------------------------------ //
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+      glfwSetWindowShouldClose(window, true);
 
    if (key == GLFW_KEY_W && action == GLFW_PRESS)
       g_camera.goForward = true;
