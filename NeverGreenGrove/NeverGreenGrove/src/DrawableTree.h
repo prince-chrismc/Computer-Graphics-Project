@@ -31,20 +31,20 @@ SOFTWARE.
 #include "gl\glew.h"
 #include <mutex>
 
-class TreeObj
+class TreeObjA
 {
    public:
-      ~TreeObj();
-      TreeObj(const TreeObj&) = delete;
-      TreeObj& operator=(const TreeObj&) = delete;
+      ~TreeObjA();
+      TreeObjA(const TreeObjA&) = delete;
+      TreeObjA& operator=(const TreeObjA&) = delete;
 
-      static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
+      static std::shared_ptr<TreeObjA> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObjA()); }); return s_Instance; }
 
       GLuint GetVAO() { return m_VAO; }
       GLsizei GetNumberOfVertices() { return m_NumVertices; }
 
    private:
-      TreeObj();
+      TreeObjA();
 
       GLuint m_VAO;
       GLuint m_Verticies;
@@ -55,18 +55,30 @@ class TreeObj
       GLsizei m_NumVertices;
 
       static std::once_flag s_Flag;
-      static std::shared_ptr<TreeObj> s_Instance;
+      static std::shared_ptr<TreeObjA> s_Instance;
 };
 
-class DrawableTree
+class DrawableTree abstract
 {
    public:
-      DrawableTree() : m_ModelMatrix(/*glm::scale(glm::mat4(), glm::vec3(0.01))*/) {}
-      ~DrawableTree() = default;
+      DrawableTree() = default;
 
-      void Draw();
+      virtual void Draw() = 0;
+
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
       void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
+
+   protected:
+      glm::mat4 m_ModelMatrix;
+};
+
+class TreeA1 : public DrawableTree
+{
+   public:
+      TreeA1() : m_ModelMatrix(/*glm::scale(glm::mat4(), glm::vec3(0.01))*/) {}
+      ~TreeA1() = default;
+
+      void Draw();
 
    private:
       glm::mat4 m_ModelMatrix;
@@ -77,5 +89,5 @@ class TreeFactory
    public:
       TreeFactory() = default;
 
-      DrawableTree GetNewTree() { return DrawableTree(); }
+      std::shared_ptr<DrawableTree> GetNewTree() { return std::make_shared<TreeA1>(); }
 };
