@@ -53,34 +53,6 @@ public:
       return glm::lookAt(Position, Position + Front, Up);
    }
 
-   // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
-   enum Movement
-   {
-      FORWARD,
-      BACKWARD,
-      LEFT,
-      RIGHT,
-      UP,
-      DOWN
-   };
-
-   // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
- /*  void ProcessKeyboard(Movement direction, float deltaTime)
-   {
-       float velocity = MovementSpeed * deltaTime;
-       if (goForward == FORWARD)
-        goForward = true;
-       if (direction == BACKWARD)
-        goBackward = true;
-       if (direction == LEFT)
-        goLeft = true;
-       if (direction == RIGHT)
-        goRight = true;
-     if (direction == UP)
-        goUp = true;
-     if (direction == DOWN)
-        goDown = true;
-   }*/
    void moveCamera(float deltaTime) {
       float velocity = MovementSpeed * deltaTime;
       if (goForward)
