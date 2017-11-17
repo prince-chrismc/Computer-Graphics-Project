@@ -97,11 +97,11 @@ int main()
    DrawableTree tree;
 
    // Game loop
-   while (! window->ShouldClose())
+   while (!window->ShouldClose())
    {
       PerFrameCalc();                           // Per frame time drift calc - MUST be called triggering callbacks
       GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
-	  camera.moveCamera(deltaTime);
+      camera.moveCamera(deltaTime);
 
       // Render
       // Clear the colorbuffer
@@ -152,34 +152,34 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       glfwSetWindowShouldClose(window, true);
 
    if (key == GLFW_KEY_W && action == GLFW_PRESS)
-	   camera.goForward = true;
+      camera.goForward = true;
    if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-	   camera.goForward = false;
+      camera.goForward = false;
 
    if (key == GLFW_KEY_S && action == GLFW_PRESS)
-	   camera.goBackward = true;
+      camera.goBackward = true;
    if (key == GLFW_KEY_S && action == GLFW_RELEASE)
-	   camera.goBackward = false;
+      camera.goBackward = false;
 
    if (key == GLFW_KEY_A && action == GLFW_PRESS)
-	   camera.goLeft = true;
+      camera.goLeft = true;
    if (key == GLFW_KEY_A && action == GLFW_RELEASE)
-	   camera.goLeft = false;
+      camera.goLeft = false;
 
    if (key == GLFW_KEY_D && action == GLFW_PRESS)
-	   camera.goRight= true;
+      camera.goRight = true;
    if (key == GLFW_KEY_D && action == GLFW_RELEASE)
-	   camera.goRight = false;
+      camera.goRight = false;
 
    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-	   camera.goUp = true;
+      camera.goUp = true;
    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
-	   camera.goUp = false;
+      camera.goUp = false;
 
    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
-	   camera.goDown = true;
+      camera.goDown = true;
    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
-	   camera.goDown = false;
+      camera.goDown = false;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
