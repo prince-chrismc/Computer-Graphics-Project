@@ -34,23 +34,9 @@ TerrainChunk::TerrainChunk()
 	//THIS CONSTRUCTOR IS TEMPORARY.
 	//only created for testing a simple render
 
+	generateVertices();
 
-	int counter = 0;
-	std::vector<std::vector<GLuint>> indices_2d;
-
-	for (int i = 0; i < CHUNK_HEIGHT; i++) {
-		std::vector<GLuint> temp_indices;
-		for (int j = 0; j < CHUNK_WIDTH; j++) {
-			grid.emplace_back(glm::vec3(i, 0, j));
-			color.emplace_back(glm::vec3(1));
-			temp_indices.emplace_back(counter);
-			counter++;
-		}
-		indices_2d.emplace_back(temp_indices);
-	}
-	indicies = createEBO(indices_2d);
-
-	DrawableObject test(grid,color,indicies);
+	DrawableObject test(grid,color,indices);
 	m_terrain = test;
 }
 
@@ -61,53 +47,86 @@ TerrainChunk::TerrainChunk()
 void TerrainChunk::generateVertices() {
 	//Remember: points are (x,y,z) with 
 	//x= width
-	//y= length
-	//z= height
+	//y= height
+	//z= depth
+	//create a simple flat terrain
+	flatTerrain();
 
-	int min_radius = CHUNK_WIDTH / 8;
-	int max_radius = CHUNK_WIDTH / 4;
-	int inner_width = CHUNK_WIDTH - 2 * min_radius;
-	int inner_depth = CHUNK_HEIGHT - 2 * min_radius;
+	int min_radius = CHUNK_LENGTH / 8;
+	int max_radius = CHUNK_LENGTH / 4;
+	int inner_length = CHUNK_LENGTH - 2 * min_radius;
 	
 	float min_height = min_radius / 2.0f;
-	std::vector<float> all_heights;
+	std::vector<Hill> hills;
 	int hill_qty;
+
 	//random shuffle
 	std::random_device rd;
 	std::mt19937 g(rd());
 
-	//Creates up to 10 hills
+	
 	//max hills
-	hill_qty = g() % 10;
+	hill_qty = 3 + g() % 10;
+	std::vector<float> hill_heights;
 
 	//creates indicies for hill peaks
 	std::vector<int> horizontalPeaks;
 	std::vector<int> depthPeaks;
 	for (int i = 0; i < hill_qty; i++) {
-		horizontalPeaks.emplace_back(inner_width / hill_qty + min_radius*i);
-		depthPeaks.emplace_back(inner_depth / hill_qty + min_radius*i);
+		horizontalPeaks.emplace_back(inner_length / hill_qty + min_radius*i);
+		depthPeaks.emplace_back(inner_length / hill_qty + min_radius*i);
 	}
 	//shuffle the indicies
-	//std::random_shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g());
-	//std::random_shuffle(depthPeaks.begin(), depthPeaks.end(), g());
+	std::shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g);
+	std::shuffle(depthPeaks.begin(), depthPeaks.end(), g);
 
-	//create a simple flat terrain
-	for (int i = 0; i < CHUNK_HEIGHT; i++) {
-		std::vector<glm::vec3> temp_builder;
-		for (int j = 0; j < CHUNK_WIDTH; j++) {
-				temp_builder.emplace_back(i, j, 0);
-		}
-		grid_2d.emplace_back(std::move(temp_builder));
+	/////////////create all the hills
+
+	//Saturate their info, create peaks
+	for (int i = 0; i < hill_qty; i++) {
+		float tempheight = 20 + g() % 80;
+		int max_r = std::min(std::min(std::min((float)horizontalPeaks.at(i), (float)depthPeaks.at(i)), std::min((float)CHUNK_LENGTH - horizontalPeaks.at(i), (float)CHUNK_LENGTH - depthPeaks.at(i))), (float)max_radius);
+		float tempradius = min_radius + (g() % max_r);
+		grid_2d.at(horizontalPeaks.at(i)).at(depthPeaks.at(i)).y = tempheight;
+		Hill newhill(tempheight, tempradius, horizontalPeaks.at(i), depthPeaks.at(i));
+		hills.emplace_back(newhill);
 	}
 
-	//replace indexed locations by hills
-	/*for (int i = 0; i < horizontalPeaks.size(); i++) {
-		for (int j = 0; j < depthPeaks.size(); j++) {
-
-			grid_2d.at(i).at(j).z = g() % max_radius;
+	//Change all pixels inside their radius
+	for (int i = 0; i < CHUNK_LENGTH; i++) {
+		for (int j = 0; j < CHUNK_LENGTH; j++) {
+			//check every hill
+			for (auto hill : hills) {
+				float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
+				if (distance <= hill.radius) {
+					grid_2d.at(i).at(j).y = hill.height;
+				}
+			}
 		}
-	}*/
+	}
 
+
+	grid = flatten(grid_2d);
+}
+
+//create a simple flat terrain
+void TerrainChunk::flatTerrain() {
+	GLuint counter = 0;
+	std::vector<std::vector<GLuint>> indices_2d;
+
+	for (int i = 0; i < CHUNK_LENGTH; i++) {
+		std::vector<glm::vec3> temp_builder;
+		std::vector<GLuint> temp_indices;
+		for (int j = 0; j < CHUNK_LENGTH; j++) {
+			temp_builder.emplace_back(i, 0, j);
+			temp_indices.emplace_back(counter++);
+			color.emplace_back(glm::vec3(1));
+		}
+		grid_2d.emplace_back(temp_builder);
+		indices_2d.emplace_back(temp_indices);
+	}
+	grid = flatten(grid_2d);
+	indices = createEBO(indices_2d);
 }
 
 std::vector <GLuint> TerrainChunk::createEBO(std::vector<std::vector<GLuint>> index2d)
@@ -143,3 +162,4 @@ std::vector<glm::vec3> TerrainChunk::flatten(std::vector<std::vector<glm::vec3>>
 	}
 	return new_vector;
 }
+
