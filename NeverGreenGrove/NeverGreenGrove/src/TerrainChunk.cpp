@@ -92,14 +92,17 @@ void TerrainChunk::generateVertices() {
 		hills.emplace_back(newhill);
 	}
 
-	//Change all pixels inside their radius
+	//Change all points inside their radius
+	//to find wether a point is in a circle, use https://math.stackexchange.com/questions/198764/how-to-know-if-a-point-is-inside-a-circle
 	for (int i = 0; i < CHUNK_LENGTH; i++) {
 		for (int j = 0; j < CHUNK_LENGTH; j++) {
 			//check every hill
 			for (auto hill : hills) {
 				float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
 				if (distance <= hill.radius) {
-					grid_2d.at(i).at(j).y = hill.height;
+					//map height to range from height https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
+					float newheight = (hill.height / hill.radius) * (hill.radius - distance);
+					grid_2d.at(i).at(j).y = newheight;
 				}
 			}
 		}
