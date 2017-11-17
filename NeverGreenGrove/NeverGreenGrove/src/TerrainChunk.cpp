@@ -102,7 +102,9 @@ void TerrainChunk::generateVertices() {
 				if (distance <= hill.radius) {
 					//map height to range from height https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
 					float newheight = (hill.height / hill.radius) * (hill.radius - distance);
-					grid_2d.at(i).at(j).y = newheight;
+					if (newheight > grid_2d.at(i).at(j).y) {
+						grid_2d.at(i).at(j).y = newheight;
+					}
 				}
 			}
 		}
