@@ -158,6 +158,10 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       camera.ProcessKeyboard(Camera::LEFT, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
       camera.ProcessKeyboard(Camera::RIGHT, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	   camera.ProcessKeyboard(Camera::UP, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	   camera.ProcessKeyboard(Camera::DOWN, deltaTime);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

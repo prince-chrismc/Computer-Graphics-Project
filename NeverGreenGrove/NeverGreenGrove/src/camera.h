@@ -55,7 +55,9 @@ public:
        FORWARD,
        BACKWARD,
        LEFT,
-       RIGHT
+       RIGHT,
+	   UP,
+	   DOWN
     };
 
     // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -70,6 +72,10 @@ public:
             Position -= Right * velocity;
         if (direction == RIGHT)
             Position += Right * velocity;
+		if (direction == UP)
+			Position += Up * velocity;
+		if (direction == DOWN)
+			Position -= Up * velocity;
     }
 
     // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
