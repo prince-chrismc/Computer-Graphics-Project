@@ -64,10 +64,10 @@ int main()
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
    TreeFactory tree_farm;
-   TreeA1 tree1 = tree_farm.GetNewTree();
-   TreeA1 tree2 = tree_farm.GetNewTree();
-   tree1.Rotate(90.0f);
-   tree2.Translate(glm::vec3(2.5f, 0.0f, -10.0f));
+   DrawableTree* tree1 = tree_farm.GetNewTree();
+   DrawableTree* tree2 = tree_farm.GetNewTree();
+   tree1->Rotate(90.0f);
+   tree2->Translate(glm::vec3(2.5f, 0.0f, -10.0f));
 
    // Game loop
    while (!window->ShouldClose())
@@ -81,11 +81,14 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Tree -------------------------------------------------------------------------------------------------------------------------------------
-      tree1.Draw();
-      tree2.Draw();
+      tree1->Draw();
+      tree2->Draw();
 
       window->NextBuffer(); // swap buffers
    }
+
+   delete tree1;
+   delete tree2;
 
    return 0;
 }

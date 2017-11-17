@@ -58,19 +58,26 @@ class TreeObjA
       static std::shared_ptr<TreeObjA> s_Instance;
 };
 
-//class DrawableTree
-class TreeA1
+class DrawableTree abstract
 {
    public:
-      TreeA1() : m_ModelMatrix(/*glm::scale(glm::mat4(), glm::vec3(0.01))*/) {}
-      ~TreeA1() = default;
+      DrawableTree() = default;
 
-      void Draw();
+      virtual void Draw() = 0;
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
       void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
 
-   private:
+   protected:
       glm::mat4 m_ModelMatrix;
+};
+
+
+class TreeA1 : public DrawableTree
+{
+   public:
+      TreeA1() = default;
+
+      void Draw();
 };
 
 class TreeFactory
@@ -78,5 +85,5 @@ class TreeFactory
    public:
       TreeFactory() = default;
 
-      TreeA1 GetNewTree() { return TreeA1(); }
+      DrawableTree* GetNewTree() { return new TreeA1(); }
 };
