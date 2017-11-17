@@ -63,11 +63,11 @@ int main()
    glDepthFunc(GL_GREATER);
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
-   TreeFactory tree_farm;
-   auto tree1 = tree_farm.GetNewTree();
-   auto tree2 = tree_farm.GetNewTree();
-   tree1->Rotate(90.0f);
+   auto tree1 = TreeFactory::GetNewTree();
+   auto tree2 = TreeFactory::GetNewTree();
+   auto tree3 = TreeFactory::GetNewTree();
    tree2->Translate(glm::vec3(2.5f, 0.0f, -10.0f));
+   tree3->Translate(glm::vec3(-3.0f, 0.0f, -8.0f));
 
    // Game loop
    while (!window->ShouldClose())
@@ -83,6 +83,7 @@ int main()
       // Tree -------------------------------------------------------------------------------------------------------------------------------------
       tree1->Draw();
       tree2->Draw();
+      tree3->Draw();
 
       window->NextBuffer(); // swap buffers
    }

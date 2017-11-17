@@ -98,7 +98,6 @@ public:
 class TreeFactory
 {
    public:
-      TreeFactory() = default;
-
-      std::unique_ptr<DrawableTree> GetNewTree() { return std::make_unique<TreeA1>(); }
+      TreeFactory() = delete;
+      static std::unique_ptr<DrawableTree> GetNewTree();
 };

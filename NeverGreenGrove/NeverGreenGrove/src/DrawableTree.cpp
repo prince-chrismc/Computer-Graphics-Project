@@ -104,3 +104,17 @@ void DrawableTree::Draw()
    glDrawArrays(GL_TRIANGLES, 0, TreeObjA::GetInstance()->GetNumberOfVertices());
    glBindVertexArray(0);
 }
+
+std::unique_ptr<DrawableTree> TreeFactory::GetNewTree() {
+   switch (rand() % 3 + 1)
+   {
+   case 1:
+      return std::make_unique<TreeA1>();
+   case 2:
+      return std::make_unique<TreeA2>();
+   case 3:
+      return std::make_unique<TreeA3>();
+   default:
+      return std::make_unique<TreeA1>();
+   }
+}
