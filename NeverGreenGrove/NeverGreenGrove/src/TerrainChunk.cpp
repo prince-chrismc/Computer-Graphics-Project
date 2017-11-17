@@ -34,16 +34,22 @@ TerrainChunk::TerrainChunk()
 	//THIS CONSTRUCTOR IS TEMPORARY.
 	//only created for testing a simple render
 
+
 	int counter = 0;
+	std::vector<std::vector<GLuint>> indices_2d;
+
 	for (int i = 0; i < CHUNK_HEIGHT; i++) {
+		std::vector<GLuint> temp_indices;
 		for (int j = 0; j < CHUNK_WIDTH; j++) {
-			grid.emplace_back(glm::vec3(i, j, 0));
+			grid.emplace_back(glm::vec3(i, 0, j));
 			color.emplace_back(glm::vec3(1));
-			indicies.emplace_back(counter);
+			temp_indices.emplace_back(counter);
 			counter++;
 		}
-
+		indices_2d.emplace_back(temp_indices);
 	}
+	indicies = createEBO(indices_2d);
+
 	DrawableObject test(grid,color,indicies);
 	m_terrain = test;
 }
@@ -63,7 +69,7 @@ void TerrainChunk::generateVertices() {
 	int inner_width = CHUNK_WIDTH - 2 * min_radius;
 	int inner_depth = CHUNK_HEIGHT - 2 * min_radius;
 	
-	float min_height = min_radius / 2;
+	float min_height = min_radius / 2.0f;
 	std::vector<float> all_heights;
 	int hill_qty;
 	//random shuffle
@@ -102,6 +108,27 @@ void TerrainChunk::generateVertices() {
 		}
 	}*/
 
+}
+
+std::vector <GLuint> TerrainChunk::createEBO(std::vector<std::vector<GLuint>> index2d)
+{
+	std::vector<GLuint> EBO_indices;
+	for (int i = 0; i < index2d.size() - 1; i++)
+	{
+		for (int j = 0; j < index2d.front().size() - 1; j++)
+		{
+			//triangle 1
+			EBO_indices.emplace_back(index2d.at(i + 1).at(j));
+			EBO_indices.emplace_back(index2d.at(i).at(j));
+			EBO_indices.emplace_back(index2d.at(i).at(j + 1));
+
+			//triangle 2
+			EBO_indices.emplace_back(index2d.at(i).at(j + 1));
+			EBO_indices.emplace_back(index2d.at(i + 1).at(j + 1));
+			EBO_indices.emplace_back(index2d.at(i + 1).at(j));
+		}
+	}
+	return EBO_indices;
 }
 
 std::vector<glm::vec3> TerrainChunk::flatten(std::vector<std::vector<glm::vec3>> vector2d)
