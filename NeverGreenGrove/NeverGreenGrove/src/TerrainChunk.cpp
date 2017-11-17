@@ -52,7 +52,6 @@ TerrainChunk::TerrainChunk()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Functions to calculate height and location of hills
 
-
 void TerrainChunk::generateVertices() {
 	//Remember: points are (x,y,z) with 
 	//x= width
@@ -83,8 +82,8 @@ void TerrainChunk::generateVertices() {
 		depthPeaks.emplace_back(inner_depth / hill_qty + min_radius*i);
 	}
 	//shuffle the indicies
-	std::random_shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g());
-	std::random_shuffle(depthPeaks.begin(), depthPeaks.end(), g());
+	//std::random_shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g());
+	//std::random_shuffle(depthPeaks.begin(), depthPeaks.end(), g());
 
 	//create a simple flat terrain
 	for (int i = 0; i < CHUNK_HEIGHT; i++) {
@@ -96,12 +95,12 @@ void TerrainChunk::generateVertices() {
 	}
 
 	//replace indexed locations by hills
-	for (int i = 0; i < horizontalPeaks.size(); i++) {
+	/*for (int i = 0; i < horizontalPeaks.size(); i++) {
 		for (int j = 0; j < depthPeaks.size(); j++) {
 
 			grid_2d.at(i).at(j).z = g() % max_radius;
 		}
-	}
+	}*/
 
 }
 

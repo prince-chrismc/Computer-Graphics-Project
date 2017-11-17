@@ -90,7 +90,8 @@ int main()
       tree3->Draw();
 
 	  //terrain test
-	  terrain.m_terrain.Draw(LINES);
+	  shaderProgram->SetShaderMat4("model_matrix", glm::mat4(1.0f));
+	  terrain.m_terrain.Draw(RenderMode::LINES);
 
       window->NextBuffer(); // swap buffers
    }
