@@ -40,4 +40,6 @@ class TerrainChunk
 	   std::vector<GLuint> indicies;
 	   void generateVertices();
 	   std::vector<glm::vec3> flatten(std::vector<std::vector<glm::vec3>> vector2d);
+
+	   std::vector <GLuint> createEBO(std::vector<std::vector<GLuint>> index2d);
 };
