@@ -24,9 +24,8 @@ SOFTWARE.
 
 #include <random>		//mt19937
 #include <algorithm>    // std::random_shuffle
-
+#include <cmath>
 #include "TerrainChunk.h"
-
 
 ///generates random terrain
 TerrainChunk::TerrainChunk()
@@ -103,12 +102,18 @@ void TerrainChunk::generateVertices() {
 			for (auto hill : hills) {
 				float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
 				if (distance <= hill.radius) {
-					//map height to range from height https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
-					float newheight = (hill.height / hill.radius) * (hill.radius - distance);
+
+					//Using Logistic (Sigmoid) function: https://en.wikipedia.org/wiki/Logistic_function
+					float newheight = hill.height / (1 + std::exp(-0.1*(hill.radius - distance - hill.radius*0.5)));
+
 					if (newheight > grid_2d.at(i).at(j).y) {
 						grid_2d.at(i).at(j).y = newheight;
 						color_2d.at(i).at(j) = glm::vec3(0.4f + 0.6*(newheight/max_height), 0.2f + 0.8*(newheight / max_height), 0.04f + 0.96*(newheight / max_height));
 					}
+				}
+				//prevent spikes on hills
+				if (i == hill.x && j == hill.z) {
+					grid_2d.at(i).at(j).y = grid_2d.at(i - 1).at(j).y;
 				}
 			}
 		}
