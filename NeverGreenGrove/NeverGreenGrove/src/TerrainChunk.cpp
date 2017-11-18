@@ -26,6 +26,8 @@ SOFTWARE.
 #include <algorithm>    // std::random_shuffle
 #include <cmath>
 #include "TerrainChunk.h"
+#include <glm\common.hpp> // clamp
+
 
 ///generates random terrain
 TerrainChunk::TerrainChunk()
@@ -78,8 +80,8 @@ void TerrainChunk::generateVertices() {
 		depthPeaks.emplace_back(inner_length / hill_qty + (inner_length / hill_qty)*i);
 	}
 	//shuffle the indicies
-	std::shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), g);
-	std::shuffle(depthPeaks.begin(), depthPeaks.end(), g);
+	std::random_shuffle(horizontalPeaks.begin(), horizontalPeaks.end());
+	std::random_shuffle(depthPeaks.begin(), depthPeaks.end());
 
 	/////////////create all the hills
 
@@ -98,13 +100,15 @@ void TerrainChunk::generateVertices() {
 	//to find wether a point is in a circle, use https://math.stackexchange.com/questions/198764/how-to-know-if-a-point-is-inside-a-circle
 	for (int i = 0; i < CHUNK_LENGTH; i++) {
 		for (int j = 0; j < CHUNK_LENGTH; j++) {
-			//check every hill
+			//check every hills
 			for (auto hill : hills) {
 				float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
 				if (distance <= hill.radius) {
 
 					//Using Logistic (Sigmoid) function: https://en.wikipedia.org/wiki/Logistic_function
-					float newheight = hill.height / (1 + std::exp(-0.1*(hill.radius - distance - hill.radius*0.5)));
+					//clamp multiplier to 1
+					float multiplier = ((hill.radius - distance)/hill.radius * 3 > 1) ? 1 : (hill.radius - distance)/hill.radius * 3;
+					float newheight = (hill.height / (1 + std::exp(-0.1*(hill.radius - distance - hill.radius*0.5)))) * multiplier;
 
 					if (newheight > grid_2d.at(i).at(j).y) {
 						grid_2d.at(i).at(j).y = newheight;
