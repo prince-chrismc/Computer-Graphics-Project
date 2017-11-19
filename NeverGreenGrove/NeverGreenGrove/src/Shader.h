@@ -24,11 +24,10 @@ SOFTWARE.
 
 #pragma once
 
-#include <string>
-#include <mutex>
-
 #include "GL/glew.h"                            // include GL Extension Wrangler
 #include "glm/gtc/type_ptr.hpp"                 // glm::value_ptr
+#include <string>
+#include <mutex>
 
 class Shader abstract
 {

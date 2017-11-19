@@ -24,12 +24,9 @@ SOFTWARE.
 
 #pragma once
 
-#include <vector>
-
-#include <gl\glew.h>
-#include "glm\vec3.hpp"
-
 #include "RenderMode.h"
+#include "glm\vec3.hpp"
+#include <vector>
 
 class DrawableObject
 {

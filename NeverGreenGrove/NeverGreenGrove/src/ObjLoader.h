@@ -1,9 +1,9 @@
 #ifndef OBJLOADER_H
 #define OBJLOADER_H
 
-#include <vector>
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
+#include <vector>
 
 #ifdef _WIN32
 // Loads a windows file .obj specialized for DDS textures

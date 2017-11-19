@@ -24,6 +24,6 @@ SOFTWARE.
 
 #pragma once
 
-#include <gl\GL.h>
+#include "gl\glew.h"
 
 enum class RenderMode { POINTS = GL_POINTS, LINES = GL_LINES, TRIANGLES = GL_TRIANGLES };

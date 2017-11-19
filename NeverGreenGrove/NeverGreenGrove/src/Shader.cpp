@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "Shader.h"
 #include <iostream>
 #include <fstream>
-#include "Shader.h"
 
 std::once_flag ShaderLinker::s_Flag;
 std::shared_ptr<ShaderLinker> ShaderLinker::s_Instance;

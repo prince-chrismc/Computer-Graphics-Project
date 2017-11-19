@@ -2,13 +2,10 @@
    This is a modified version of the code provided by the staff of the class
 */
 
-#include <vector>
+#include "ObjLoader.h"
 #include <stdio.h>
 #include <string>
 
-#include <glm/glm.hpp>
-
-#include "ObjLoader.h"
 
 #ifdef _WIN32
 bool LoadObjFile(const char* path, std::vector<glm::vec3>* out_vertices, std::vector<glm::vec3>* out_normals,

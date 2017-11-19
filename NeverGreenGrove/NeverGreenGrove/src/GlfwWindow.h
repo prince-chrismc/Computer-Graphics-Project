@@ -24,11 +24,10 @@ SOFTWARE.
 
 #pragma once
 
-#include <vector>
-#include <mutex>
-
 #include "GLFW/glfw3.h"                   // include GLFW helper library
 #include "glm/detail/type_mat4x4.hpp"     // include glm::mat4 library
+#include <vector>
+#include <mutex>
 
 class GlfwWindow
 {

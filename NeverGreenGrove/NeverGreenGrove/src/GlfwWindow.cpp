@@ -22,10 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <iostream>
-
 #include "GlfwWindow.h"
 #include "glm/gtc/matrix_transform.hpp"
+#include <iostream>
 
 std::once_flag GlfwWindow::s_InitFlag;
 std::once_flag GlfwWindowFactory::s_Flag;
