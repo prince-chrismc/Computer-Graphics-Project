@@ -36,6 +36,7 @@ public:
       goForward = goBackward = goRight = goLeft = goUp = goDown = false;
       updateCameraVectors();
    }
+
    // Constructor with scalar values
    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVTY), Zoom(ZOOM)
    {
@@ -53,7 +54,8 @@ public:
       return glm::lookAt(Position, Position + Front, Up);
    }
 
-   void moveCamera(float deltaTime) {
+   void moveCamera(float deltaTime)
+   {
       float velocity = MovementSpeed * deltaTime;
       if (goForward)
          Position += Front * velocity;

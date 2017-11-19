@@ -75,7 +75,6 @@ int main()
       PerFrameCalc();                           // Per frame time drift calc - MUST be called before triggering callbacks
       GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
       ClearFrame();                             // Reset background color and z buffer test
-      camera.moveCamera(deltaTime);
 
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
@@ -116,6 +115,8 @@ void PerFrameCalc()
    float currentFrame = (float)glfwGetTime();
    g_deltaTime = currentFrame - g_lastFrame;
    g_lastFrame = currentFrame;
+
+   g_camera.moveCamera(g_deltaTime);
 }
 
 // Callback declarations for camera ---------------------------------------------------------------
@@ -171,34 +172,34 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       glfwSetWindowShouldClose(window, true);
 
    if (key == GLFW_KEY_W && action == GLFW_PRESS)
-      camera.goForward = true;
+      g_camera.goForward = true;
    if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-      camera.goForward = false;
+      g_camera.goForward = false;
 
    if (key == GLFW_KEY_S && action == GLFW_PRESS)
-      camera.goBackward = true;
+      g_camera.goBackward = true;
    if (key == GLFW_KEY_S && action == GLFW_RELEASE)
-      camera.goBackward = false;
+      g_camera.goBackward = false;
 
    if (key == GLFW_KEY_A && action == GLFW_PRESS)
-      camera.goLeft = true;
+      g_camera.goLeft = true;
    if (key == GLFW_KEY_A && action == GLFW_RELEASE)
-      camera.goLeft = false;
+      g_camera.goLeft = false;
 
    if (key == GLFW_KEY_D && action == GLFW_PRESS)
-      camera.goRight = true;
+      g_camera.goRight = true;
    if (key == GLFW_KEY_D && action == GLFW_RELEASE)
-      camera.goRight = false;
+      g_camera.goRight = false;
 
    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-      camera.goUp = true;
+      g_camera.goUp = true;
    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
-      camera.goUp = false;
+      g_camera.goUp = false;
 
    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
-      camera.goDown = true;
+      g_camera.goDown = true;
    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
-      camera.goDown = false;
+      g_camera.goDown = false;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
