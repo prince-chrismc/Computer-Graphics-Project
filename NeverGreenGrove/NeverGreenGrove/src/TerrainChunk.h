@@ -30,7 +30,7 @@ class TerrainChunk
 {
    public:
       TerrainChunk();
-      void Draw(const RenderMode& render_mode) const { m_terrain.Draw(render_mode); }
+      void Draw(const RenderMode& render_mode) const;
 
    private:
       DrawableObject m_terrain;
