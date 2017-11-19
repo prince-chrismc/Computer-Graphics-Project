@@ -162,7 +162,7 @@ TreeB::TreeObj::~TreeObj()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void TreeA::Draw()
+void TreeA::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
@@ -172,7 +172,7 @@ void TreeA::Draw()
    glBindVertexArray(0);
 }
 
-void TreeB::Draw()
+void TreeB::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);

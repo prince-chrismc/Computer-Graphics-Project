@@ -30,9 +30,11 @@ class TerrainChunk
 {
    public:
       TerrainChunk();
-      DrawableObject m_terrain;
+      void Draw(const RenderMode& render_mode) const { m_terrain.Draw(render_mode); }
 
    private:
+      DrawableObject m_terrain;
+
       static constexpr GLuint CHUNK_LENGTH = 128;
       std::vector<std::vector<glm::vec3>> grid_2d;
       std::vector<std::vector<glm::vec3>> color_2d;
@@ -43,16 +45,16 @@ class TerrainChunk
       //functions
       void generateVertices();
       void flatTerrain();
-      std::vector<glm::vec3> flatten(std::vector<std::vector<glm::vec3>> vector2d);
-      std::vector <GLuint> createEBO(std::vector<std::vector<GLuint>> index2d);
+      static std::vector<glm::vec3> flatten(const std::vector<std::vector<glm::vec3>>& vector2d);
+      static std::vector<GLuint> createEBO(const std::vector<std::vector<GLuint>>& index2d);
 
       struct Hill
       {
+         Hill(float h, float r, float x_pos, float z_pos) : height(h), radius(r), x(x_pos), z(z_pos) {}
+
          float height;
          float radius;
          float x;
          float z;
-
-         Hill(float h, float r, float x_pos, float z_pos) : height(h), radius(r), x(x_pos), z(z_pos) {}
       };
 };
