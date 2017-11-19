@@ -37,7 +37,7 @@ class DrawableTree abstract
    public:
       DrawableTree() = default;
 
-      virtual void Draw() = 0;
+      virtual void Draw() const = 0;
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
 
    protected:
@@ -51,7 +51,7 @@ class DrawableTree abstract
 class TreeA : public DrawableTree
 {
    public:
-      void Draw();
+      void Draw() const;
 
    private:
       class TreeObj
@@ -63,8 +63,8 @@ class TreeA : public DrawableTree
 
          static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
 
-         GLuint GetVAO() { return m_VAO; }
-         GLsizei GetNumberOfVertices() { return m_NumVertices; }
+         const GLuint GetVAO() const { return m_VAO; }
+         const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
 
       private:
          TreeObj();
@@ -97,7 +97,7 @@ public:
 class TreeB : public DrawableTree
 {
    public:
-      void Draw();
+      void Draw() const;
 
    private:
       class TreeObj
@@ -109,8 +109,8 @@ class TreeB : public DrawableTree
 
          static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
 
-         GLuint GetVAO() { return m_VAO; }
-         GLsizei GetNumberOfVertices() { return m_NumVertices; }
+         const GLuint GetVAO() const { return m_VAO; }
+         const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
 
       private:
          TreeObj();

@@ -33,7 +33,7 @@ class DrawableObject
    public:
    DrawableObject() {}
    DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies);
-   virtual void Draw(const RenderMode& render_mode);
+   virtual void Draw(const RenderMode& render_mode) const;
    void Delete();
 
    protected:

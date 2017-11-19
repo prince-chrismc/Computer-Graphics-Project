@@ -67,7 +67,7 @@ void DrawableObject::Delete()
    glDeleteVertexArrays(1 ,&m_VAO);
 }
 
-void DrawableObject::Draw(const RenderMode& render_mode)
+void DrawableObject::Draw(const RenderMode& render_mode) const
 {
    switch (render_mode)
    {
@@ -84,13 +84,13 @@ void DrawableObject::Draw(const RenderMode& render_mode)
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);
       break;
-   case RenderMode::LINES:
-	   glBindVertexArray(m_VAO);
-	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
-	   glDrawElements(GL_LINES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
-	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	   glBindVertexArray(0);
-	   break;
 
+   case RenderMode::LINES:
+      glBindVertexArray(m_VAO);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+      glDrawElements(GL_LINES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+      glBindVertexArray(0);
+      break;
    }
 }

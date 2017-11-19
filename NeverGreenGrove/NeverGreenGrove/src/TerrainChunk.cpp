@@ -158,7 +158,7 @@ void TerrainChunk::flatTerrain()
    indices = createEBO(indices_2d);
 }
 
-std::vector <GLuint> TerrainChunk::createEBO(std::vector<std::vector<GLuint>> index2d)
+std::vector <GLuint> TerrainChunk::createEBO(const std::vector<std::vector<GLuint>>& index2d)
 {
    std::vector<GLuint> EBO_indices;
    for (int i = 0; i < index2d.size() - 1; i++)
@@ -179,7 +179,7 @@ std::vector <GLuint> TerrainChunk::createEBO(std::vector<std::vector<GLuint>> in
    return EBO_indices;
 }
 
-std::vector<glm::vec3> TerrainChunk::flatten(std::vector<std::vector<glm::vec3>> vector2d)
+std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::vec3>>& vector2d)
 {
    std::vector<glm::vec3> new_vector;
    for (int i = 0; i < vector2d.size(); i++)
