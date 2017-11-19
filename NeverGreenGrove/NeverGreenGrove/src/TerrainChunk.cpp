@@ -127,11 +127,6 @@ void TerrainChunk::generateVertices() {
                   grid_2d.at(i).at(j).y = new_height;
                   color_2d.at(i).at(j) = glm::vec3(0.4f + 0.6*(new_height / MAX_HEIGHT), 0.2f + 0.8*(new_height / MAX_HEIGHT), 0.04f + 0.96*(new_height / MAX_HEIGHT));
                }
-			   // prevent spikes on hills
-			   if (i == hill.x && j == hill.z)
-			   {
-				   grid_2d.at(i).at(j).y = grid_2d.at(i - 1).at(j).y;
-			   }
             }
          }
       }
