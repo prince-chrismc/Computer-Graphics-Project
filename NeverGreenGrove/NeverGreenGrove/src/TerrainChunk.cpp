@@ -29,6 +29,8 @@ SOFTWARE.
 #include <cmath>
 #include <glm\common.hpp>                       // clamp
 
+#define PI 3.14159265358979
+
 /// generates random terrain
 TerrainChunk::TerrainChunk()
 {
@@ -113,12 +115,12 @@ void TerrainChunk::generateVertices() {
          for (auto hill : hills) {
             float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
             if (distance <= hill.radius)
-            {
-
-               // Using Logistic (Sigmoid) function: https://en.wikipedia.org/wiki/Logistic_function
-               // clamp multiplier to 1
-               float multiplier = ((hill.radius - distance) / hill.radius * 3 > 1) ? 1 : (hill.radius - distance) / hill.radius * 3;
-               float new_height = (hill.height / (1 + std::exp(-0.1*(hill.radius - distance - hill.radius*0.5)))) * multiplier;
+            {  //Using a simple cosine function A*cos(nx) + k
+			   //A = half of height
+			   //n = PI/radius
+			   //x = distance from center
+			   //k = half of height
+			   float new_height = hill.height*0.5 * glm::cos(PI/hill.radius * distance) + hill.height*0.5;
 
                if (new_height > grid_2d.at(i).at(j).y)
                {
