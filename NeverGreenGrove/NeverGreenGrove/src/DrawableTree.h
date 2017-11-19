@@ -59,12 +59,39 @@ class TreeObjA
       static std::shared_ptr<TreeObjA> s_Instance;
 };
 
+class TreeObjB
+{
+public:
+   ~TreeObjB();
+   TreeObjB(const TreeObjB&) = delete;
+   TreeObjB& operator=(const TreeObjB&) = delete;
+
+   static std::shared_ptr<TreeObjB> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObjB()); }); return s_Instance; }
+
+   GLuint GetVAO() { return m_VAO; }
+   GLsizei GetNumberOfVertices() { return m_NumVertices; }
+
+private:
+   TreeObjB();
+
+   GLuint m_VAO;
+   GLuint m_Verticies;
+   GLuint m_Colors;
+   //GLuint m_Normals;
+   //GLuint m_Uvs;
+
+   GLsizei m_NumVertices;
+
+   static std::once_flag s_Flag;
+   static std::shared_ptr<TreeObjB> s_Instance;
+};
+
 class DrawableTree abstract
 {
    public:
       DrawableTree() = default;
 
-      void Draw();
+      virtual void Draw() = 0;
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
 
    protected:
@@ -72,27 +99,37 @@ class DrawableTree abstract
       void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
       void Shear(float deform_x, float deform_z) { m_ModelMatrix = glm::shearY3D(m_ModelMatrix, deform_x, deform_z); }
 
-   private:
       glm::mat4 m_ModelMatrix;
 };
 
-
-class TreeA1 : public DrawableTree
+class TreeA : public DrawableTree
 {
    public:
-      TreeA1() = default;
+      void Draw();
 };
 
-class TreeA2 : public DrawableTree
+class TreeA2 : public TreeA
 {
 public:
    TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); Rotate(90.f); }
 };
 
-class TreeA3 : public DrawableTree
+class TreeA3 : public TreeA
 {
 public:
    TreeA3() { Shear(-0.25f, 0.1f); }
+};
+
+class TreeB : public DrawableTree
+{
+public:
+   void Draw();
+};
+
+class TreeB2 : public TreeB
+{
+public:
+   TreeB2() { Scale(glm::vec3(1.1, 1.25, 0.9)); Rotate(75.0f); }
 };
 
 class TreeFactory
