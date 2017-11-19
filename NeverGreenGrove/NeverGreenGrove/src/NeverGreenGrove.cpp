@@ -191,12 +191,12 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       g_camera.goBackward = false;
 
    if (key == GLFW_KEY_A && action == GLFW_PRESS)
-      camera.goLeft = true;
+      g_camera.goLeft = true;
    if (key == GLFW_KEY_A && action == GLFW_RELEASE)
       g_camera.goLeft = false;
 
    if (key == GLFW_KEY_D && action == GLFW_PRESS)
-      camera.goRight = true;
+      g_camera.goRight = true;
    if (key == GLFW_KEY_D && action == GLFW_RELEASE)
       g_camera.goRight = false;
 
