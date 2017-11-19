@@ -66,8 +66,9 @@ int main()
    auto tree1 = TreeFactory::GetNewTree();
    auto tree2 = TreeFactory::GetNewTree();
    auto tree3 = TreeFactory::GetNewTree();
-   tree2->Translate(glm::vec3(2.5f, 0.0f, -10.0f));
-   tree3->Translate(glm::vec3(-3.0f, 0.0f, -8.0f));
+   tree1->Translate(glm::vec3(5.5f, 0.0f, 1.0f));
+   tree2->Translate(glm::vec3(2.5f, 0.0f, 3.0f));
+   tree3->Translate(glm::vec3(4.0f, 0.0f, 5.0f));
 
    // Game loop
    while (!window->ShouldClose())
