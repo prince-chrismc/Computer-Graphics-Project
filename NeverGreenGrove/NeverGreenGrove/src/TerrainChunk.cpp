@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include "TerrainChunk.h"
+#include "Shader.h"
 #include <random>                               //mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
@@ -38,6 +39,12 @@ TerrainChunk::TerrainChunk()
 
    DrawableObject test(grid, color, indices);
    m_terrain = test;
+}
+
+void TerrainChunk::Draw(const RenderMode& render_mode) const
+{
+   ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(1.0f));
+   m_terrain.Draw(render_mode);
 }
 
 

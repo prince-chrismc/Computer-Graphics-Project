@@ -63,7 +63,7 @@ int main()
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_GREATER);
 
-   //TERRAIN TEST
+   // Terrain
    TerrainChunk terrain;
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
@@ -84,14 +84,13 @@ int main()
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
-      // Tree -------------------------------------------------------------------------------------------------------------------------------------
+      // Render -------------------------------------------------------------------------------------------------------------------------------------
       tree1->Draw();
       tree2->Draw();
       tree3->Draw();
 
-      //terrain test
-      shaderProgram->SetUniformMat4("model_matrix", glm::mat4(1.0f));
       terrain.Draw(RenderMode::LINES);
+      /// Render
 
       window->NextBuffer(); // swap buffers
    }
