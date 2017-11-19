@@ -29,12 +29,12 @@ SOFTWARE.
 #include "Shader.h"
 #include <random>                               //std::mt19937
 
-std::once_flag TreeObjA::s_Flag;
-std::shared_ptr<TreeObjA> TreeObjA::s_Instance;
-std::once_flag TreeObjB::s_Flag;
-std::shared_ptr<TreeObjB> TreeObjB::s_Instance;
+std::once_flag TreeA::TreeObj::s_Flag;
+std::shared_ptr<TreeA::TreeObj> TreeA::TreeObj::s_Instance;
+std::once_flag TreeB::TreeObj::s_Flag;
+std::shared_ptr<TreeB::TreeObj> TreeB::TreeObj::s_Instance;
 
-TreeObjA::TreeObjA()
+TreeA::TreeObj::TreeObj()
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -89,7 +89,7 @@ TreeObjA::TreeObjA()
    glBindVertexArray(0);
 }
 
-TreeObjA::~TreeObjA()
+TreeA::TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
@@ -98,7 +98,7 @@ TreeObjA::~TreeObjA()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-TreeObjB::TreeObjB()
+TreeB::TreeObj::TreeObj()
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -153,7 +153,7 @@ TreeObjB::TreeObjB()
    glBindVertexArray(0);
 }
 
-TreeObjB::~TreeObjB()
+TreeB::TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
@@ -167,8 +167,8 @@ void TreeA::Draw()
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
 
-   glBindVertexArray(TreeObjA::GetInstance()->GetVAO());
-   glDrawArrays(GL_TRIANGLES, 0, TreeObjA::GetInstance()->GetNumberOfVertices());
+   glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindVertexArray(0);
 }
 
@@ -177,8 +177,8 @@ void TreeB::Draw()
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
 
-   glBindVertexArray(TreeObjB::GetInstance()->GetVAO());
-   glDrawArrays(GL_TRIANGLES, 0, TreeObjB::GetInstance()->GetNumberOfVertices());
+   glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindVertexArray(0);
 }
 

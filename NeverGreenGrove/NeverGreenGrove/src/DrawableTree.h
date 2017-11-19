@@ -32,60 +32,6 @@ SOFTWARE.
 #include "gl\glew.h"
 #include <mutex>
 
-class TreeObjA
-{
-   public:
-      ~TreeObjA();
-      TreeObjA(const TreeObjA&) = delete;
-      TreeObjA& operator=(const TreeObjA&) = delete;
-
-      static std::shared_ptr<TreeObjA> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObjA()); }); return s_Instance; }
-
-      GLuint GetVAO() { return m_VAO; }
-      GLsizei GetNumberOfVertices() { return m_NumVertices; }
-
-   private:
-      TreeObjA();
-
-      GLuint m_VAO;
-      GLuint m_Verticies;
-      GLuint m_Colors;
-      //GLuint m_Normals;
-      //GLuint m_Uvs;
-
-      GLsizei m_NumVertices;
-
-      static std::once_flag s_Flag;
-      static std::shared_ptr<TreeObjA> s_Instance;
-};
-
-class TreeObjB
-{
-public:
-   ~TreeObjB();
-   TreeObjB(const TreeObjB&) = delete;
-   TreeObjB& operator=(const TreeObjB&) = delete;
-
-   static std::shared_ptr<TreeObjB> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObjB()); }); return s_Instance; }
-
-   GLuint GetVAO() { return m_VAO; }
-   GLsizei GetNumberOfVertices() { return m_NumVertices; }
-
-private:
-   TreeObjB();
-
-   GLuint m_VAO;
-   GLuint m_Verticies;
-   GLuint m_Colors;
-   //GLuint m_Normals;
-   //GLuint m_Uvs;
-
-   GLsizei m_NumVertices;
-
-   static std::once_flag s_Flag;
-   static std::shared_ptr<TreeObjB> s_Instance;
-};
-
 class DrawableTree abstract
 {
    public:
@@ -106,6 +52,34 @@ class TreeA : public DrawableTree
 {
    public:
       void Draw();
+
+   private:
+      class TreeObj
+      {
+      public:
+         ~TreeObj();
+         TreeObj(const TreeObj&) = delete;
+         TreeObj& operator=(const TreeObj&) = delete;
+
+         static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
+
+         GLuint GetVAO() { return m_VAO; }
+         GLsizei GetNumberOfVertices() { return m_NumVertices; }
+
+      private:
+         TreeObj();
+
+         GLuint m_VAO;
+         GLuint m_Verticies;
+         GLuint m_Colors;
+         //GLuint m_Normals;
+         //GLuint m_Uvs;
+
+         GLsizei m_NumVertices;
+
+         static std::once_flag s_Flag;
+         static std::shared_ptr<TreeObj> s_Instance;
+      };
 };
 
 class TreeA2 : public TreeA
@@ -122,8 +96,36 @@ public:
 
 class TreeB : public DrawableTree
 {
-public:
-   void Draw();
+   public:
+      void Draw();
+
+   private:
+      class TreeObj
+      {
+      public:
+         ~TreeObj();
+         TreeObj(const TreeObj&) = delete;
+         TreeObj& operator=(const TreeObj&) = delete;
+
+         static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
+
+         GLuint GetVAO() { return m_VAO; }
+         GLsizei GetNumberOfVertices() { return m_NumVertices; }
+
+      private:
+         TreeObj();
+
+         GLuint m_VAO;
+         GLuint m_Verticies;
+         GLuint m_Colors;
+         //GLuint m_Normals;
+         //GLuint m_Uvs;
+
+         GLsizei m_NumVertices;
+
+         static std::once_flag s_Flag;
+         static std::shared_ptr<TreeObj> s_Instance;
+      };
 };
 
 class TreeB2 : public TreeB
