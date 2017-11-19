@@ -36,12 +36,12 @@ SOFTWARE.
 #include <iostream>
 
 // Function Declarations
-bool SetupShaders();
-void PerFrameCalc();
-void SetCalbacks(std::shared_ptr<GlfwWindow> window);
-int ExitOnEnter();
-void ClearFrame();
 bool SetupGlew();
+bool SetupShaders();
+int ExitOnEnter();
+void SetCalbacks(std::shared_ptr<GlfwWindow> window);
+void ClearFrame();
+void PerFrameCalc();
 
 // Gloabal objects
 Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -72,7 +72,7 @@ int main()
    // Game loop
    while (!window->ShouldClose())
    {
-      PerFrameCalc();                           // Per frame time drift calc - MUST be called triggering callbacks
+      PerFrameCalc();                           // Per frame time drift calc - MUST be called before triggering callbacks
       GlfwWindow::TriggerCallbacks();           // For all windows check callbacks
       ClearFrame();                             // Reset background color and z buffer test
       camera.moveCamera(deltaTime);
@@ -108,14 +108,14 @@ bool SetupShaders()
 }
 
 // Times needs to track camera calcs --------------------------------------------------------------
-float deltaTime = 0.0f;                         // time between current frame and last frame
-float lastFrame = 0.0f;                         // time of last frame
+float g_deltaTime = 0.0f;                         // time between current frame and last frame
+float g_lastFrame = 0.0f;                         // time of last frame
 
 void PerFrameCalc()
 {
    float currentFrame = (float)glfwGetTime();
-   deltaTime = currentFrame - lastFrame;
-   lastFrame = currentFrame;
+   g_deltaTime = currentFrame - g_lastFrame;
+   g_lastFrame = currentFrame;
 }
 
 // Callback declarations for camera ---------------------------------------------------------------
@@ -209,25 +209,25 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 // Capture mouse mouvements for camera ------------------------------------------------------------
-double lastX = GlfwWindow::DEFAULT_WIDTH / 2.0;
-double lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0;
-bool firstMouse = true;
+double g_lastX = GlfwWindow::DEFAULT_WIDTH / 2.0;
+double g_lastY = GlfwWindow::DEFAULT_HEIGHT / 2.0;
+bool g_firstMouse = true;
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-   //using method from https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/7.4.camera_class/camera_class.cpp
-   if (firstMouse)
+   // using method from https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/7.4.camera_class/camera_class.cpp
+   if (g_firstMouse)
    {
-      lastX = xpos;
-      lastY = ypos;
-      firstMouse = false;
+      g_lastX = xpos;
+      g_lastY = ypos;
+      g_firstMouse = false;
    }
 
-   float xoffset = float(xpos - lastX);
-   float yoffset = float(lastY - ypos); // reversed since y-coordinates go from bottom to top
+   float xoffset = float(xpos - g_lastX);
+   float yoffset = float(g_lastY - ypos);       // reversed since y-coordinates go from bottom to top
 
-   lastX = xpos;
-   lastY = ypos;
+   g_lastX = xpos;
+   g_lastY = ypos;
 
    g_camera.ProcessMouseMovement(xoffset, yoffset);
 }
