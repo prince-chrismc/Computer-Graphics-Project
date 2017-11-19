@@ -97,7 +97,7 @@ void TerrainChunk::generateVertices() {
    {
       const float temp_height = MIN_HEIGHT + gen() % (int)(MAX_HEIGHT - MIN_HEIGHT);
       const int max_r = std::min( { (float)horizontal_peaks.at(i), (float)depth_peaks.at(i), (float)CHUNK_LENGTH - horizontal_peaks.at(i), (float)CHUNK_LENGTH - depth_peaks.at(i), (float)MAX_RADIUS });
-      const float temp_radius = MIN_RADIUS + (gen() % max_r);
+      const float temp_radius = MIN_RADIUS + (gen() % (max_r - MIN_RADIUS));
 
       grid_2d.at(horizontal_peaks.at(i)).at(depth_peaks.at(i)).y = temp_height;
       Hill new_hill(temp_height, temp_radius, horizontal_peaks.at(i), depth_peaks.at(i));
