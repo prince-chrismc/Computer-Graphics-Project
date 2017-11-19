@@ -51,6 +51,7 @@ class DrawableTree abstract
 class TreeA : public DrawableTree
 {
    public:
+      TreeA() { Scale(glm::vec3(2.5)); }
       void Draw() const;
 
    private:
@@ -97,6 +98,7 @@ public:
 class TreeB : public DrawableTree
 {
    public:
+      TreeB() { Scale(glm::vec3(2.5)); }
       void Draw() const;
 
    private:
