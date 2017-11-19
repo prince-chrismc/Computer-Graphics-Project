@@ -59,7 +59,6 @@ void TerrainChunk::generateVertices() {
 	int inner_length = CHUNK_LENGTH - 2 * min_radius;
 	
 	float min_height = min_radius / 2.0f;
-	float max_height = 100.0f;
 	std::vector<Hill> hills;
 	int hill_qty;
 
@@ -87,13 +86,13 @@ void TerrainChunk::generateVertices() {
 
 	//Saturate their info, create peaks
 	for (int i = 0; i < hill_qty; i++) {
-		float tempheight = min_height + g() % (int)(max_height - min_height);
+		float tempheight = min_height + g() % (int)(MAX_HILL_HEIGHT - min_height);
 		int max_r = std::min(std::min(std::min((float)horizontalPeaks.at(i), (float)depthPeaks.at(i)), std::min((float)CHUNK_LENGTH - horizontalPeaks.at(i), (float)CHUNK_LENGTH - depthPeaks.at(i))), (float)max_radius);
 		float tempradius = min_radius + (g() % max_r);
 		grid_2d.at(horizontalPeaks.at(i)).at(depthPeaks.at(i)).y = tempheight;
 		Hill newhill(tempheight, tempradius, horizontalPeaks.at(i), depthPeaks.at(i));
 		hills.emplace_back(newhill);
-		color_2d.at(newhill.x).at(newhill.z) = glm::vec3(0.4f + 0.6*(tempheight / max_height), 0.2f + 0.8*(tempheight / max_height), 0.04f + 0.96*(tempheight / max_height));
+		color_2d.at(newhill.x).at(newhill.z) = glm::vec3(0.4f + 0.6*(tempheight / MAX_HILL_HEIGHT), 0.2f + 0.8*(tempheight / MAX_HILL_HEIGHT), 0.04f + 0.96*(tempheight / MAX_HILL_HEIGHT));
 	}
 
 	//Change all points inside their radius
@@ -112,7 +111,7 @@ void TerrainChunk::generateVertices() {
 
 					if (newheight > grid_2d.at(i).at(j).y) {
 						grid_2d.at(i).at(j).y = newheight;
-						color_2d.at(i).at(j) = glm::vec3(0.4f + 0.6*(newheight/max_height), 0.2f + 0.8*(newheight / max_height), 0.04f + 0.96*(newheight / max_height));
+						color_2d.at(i).at(j) = glm::vec3(0.4f + 0.6*(newheight/MAX_HILL_HEIGHT), 0.2f + 0.8*(newheight / MAX_HILL_HEIGHT), 0.04f + 0.96*(newheight / MAX_HILL_HEIGHT));
 					}
 				}
 				//prevent spikes on hills

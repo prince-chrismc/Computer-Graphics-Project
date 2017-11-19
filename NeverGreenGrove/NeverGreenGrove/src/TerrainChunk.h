@@ -33,7 +33,7 @@ public:
 	DrawableObject m_terrain;
 
 private:
-	static const GLuint CHUNK_LENGTH = 256;
+	enum : GLuint { CHUNK_LENGTH = 128, MAX_HILL_HEIGHT = 52 };
 	std::vector<std::vector<glm::vec3>> grid_2d;
 	std::vector<std::vector<glm::vec3>> color_2d;
 	std::vector<glm::vec3> grid;

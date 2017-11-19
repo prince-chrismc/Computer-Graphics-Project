@@ -97,6 +97,9 @@ public:
 class TreeB : public DrawableTree
 {
    public:
+      DrawableTree() : m_ModelMatrix(glm::scale(glm::mat4(), glm::vec3(2.5))) {}
+      ~DrawableTree() = default;
+
       void Draw();
 
    private:

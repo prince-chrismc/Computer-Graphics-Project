@@ -91,7 +91,10 @@ int main()
 
       //terrain test
       shaderProgram->SetUniformMat4("model_matrix", glm::mat4(1.0f));
-      terrain.m_terrain.Draw(RenderMode::LINES);
+      terrain.m_terrain.Draw(RenderMode::TRIANGLES);
+
+      // Tree -------------------------------------------------------------------------------------------------------------------------------------
+      tree.Draw();
 
       window->NextBuffer(); // swap buffers
    }
