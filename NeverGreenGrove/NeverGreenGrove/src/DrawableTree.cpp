@@ -27,6 +27,7 @@ SOFTWARE.
 #include "DrawableTree.h"
 #include "ObjLoader.h"
 #include "Shader.h"
+#include <random>                               //std::mt19937
 
 std::once_flag TreeObjA::s_Flag;
 std::shared_ptr<TreeObjA> TreeObjA::s_Instance;
@@ -106,7 +107,11 @@ void DrawableTree::Draw()
 }
 
 std::unique_ptr<DrawableTree> TreeFactory::GetNewTree() {
-   switch (rand() % 3 + 1)
+
+   std::random_device rd;
+   std::mt19937 g(rd());
+
+   switch (g() % 3 + 1)
    {
    case 1:
       return std::make_unique<TreeA1>();

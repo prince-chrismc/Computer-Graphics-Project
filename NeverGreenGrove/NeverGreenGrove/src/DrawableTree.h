@@ -86,7 +86,7 @@ class TreeA1 : public DrawableTree
 class TreeA2 : public DrawableTree
 {
 public:
-   TreeA2() { Rotate(90.f); }
+   TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); Rotate(90.f); }
 };
 
 class TreeA3 : public DrawableTree
