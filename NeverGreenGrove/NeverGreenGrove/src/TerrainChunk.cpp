@@ -95,9 +95,12 @@ void TerrainChunk::generateVertices() {
    // Saturate their info, create peaks
    for (int i = 0; i < hill_qty; i++)
    {
-      const float temp_height = MIN_HEIGHT + gen() % (int)(MAX_HEIGHT - MIN_HEIGHT);
+      
       const int max_r = std::min( { (float)horizontal_peaks.at(i), (float)depth_peaks.at(i), (float)CHUNK_LENGTH - horizontal_peaks.at(i), (float)CHUNK_LENGTH - depth_peaks.at(i), (float)MAX_RADIUS });
       const float temp_radius = (max_r <= MIN_RADIUS) ? max_r : MIN_RADIUS + (gen() % (max_r - MIN_RADIUS));
+	  const float temp_height = (MIN_HEIGHT + gen() % (int)(temp_radius - MIN_HEIGHT));
+
+	  
 
       grid_2d.at(horizontal_peaks.at(i)).at(depth_peaks.at(i)).y = temp_height;
       Hill new_hill(temp_height, temp_radius, horizontal_peaks.at(i), depth_peaks.at(i));
@@ -125,7 +128,7 @@ void TerrainChunk::generateVertices() {
                if (new_height > grid_2d.at(i).at(j).y)
                {
                   grid_2d.at(i).at(j).y = new_height;
-                  color_2d.at(i).at(j) = glm::vec3(0.4f + 0.6*(new_height / MAX_HEIGHT), 0.2f + 0.8*(new_height / MAX_HEIGHT), 0.04f + 0.96*(new_height / MAX_HEIGHT));
+                  color_2d.at(i).at(j) = glm::vec3(0.4f + 0.4*(new_height / hill.radius), 0.2f + 0.4*(new_height / hill.radius), 0.04f + 0.5*(new_height / hill.radius));
                }
             }
          }
