@@ -50,7 +50,7 @@ TreeObjA::TreeObjA()
 
    for (glm::vec3 vert : vertices)
    {
-      (vert.y > 1.15) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
+      (vert.y > 2.10) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
    }
 
    glGenVertexArrays(1, &m_VAO);
