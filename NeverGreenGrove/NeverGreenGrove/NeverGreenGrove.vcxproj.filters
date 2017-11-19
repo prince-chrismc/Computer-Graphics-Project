@@ -43,6 +43,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\camera.h">
+       <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\TerrainChunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
