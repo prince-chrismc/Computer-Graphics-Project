@@ -53,8 +53,8 @@ void TerrainChunk::generateVertices() {
    // create a simple flat terrain
    flatTerrain();
 
-   constexpr int MIN_RADIUS = CHUNK_LENGTH / 4;
-   constexpr int MAX_RADIUS = CHUNK_LENGTH / 2;
+   constexpr int MIN_RADIUS = CHUNK_LENGTH / 8;
+   constexpr int MAX_RADIUS = CHUNK_LENGTH / 4;
    constexpr int INNER_LENGTH = CHUNK_LENGTH - 2 * MIN_RADIUS;
 
    constexpr float MIN_HEIGHT = MIN_RADIUS / 2.0f;
@@ -79,8 +79,8 @@ void TerrainChunk::generateVertices() {
    }
 
    // shuffle the indicies
-   std::random_shuffle(horizontalPeaks.begin(), horizontalPeaks.end());
-   std::random_shuffle(depthPeaks.begin(), depthPeaks.end());
+   std::shuffle(horizontalPeaks.begin(), horizontalPeaks.end(), gen);
+   std::shuffle(depthPeaks.begin(), depthPeaks.end(), gen);
 
    // create all the hills --------------------------------------------------------------------------------------------------------------------------
    std::vector<Hill> hills;
@@ -88,9 +88,10 @@ void TerrainChunk::generateVertices() {
    // Saturate their info, create peaks
    for (int i = 0; i < hill_qty; i++)
    {
-      float tempheight = MIN_HEIGHT + gen() % (int)(MAX_HEIGHT - MIN_HEIGHT);
-      int max_r = std::min(std::min(std::min((float)horizontalPeaks.at(i), (float)depthPeaks.at(i)), std::min((float)CHUNK_LENGTH - horizontalPeaks.at(i), (float)CHUNK_LENGTH - depthPeaks.at(i))), (float)MAX_RADIUS);
-      float tempradius = MIN_RADIUS + (gen() % max_r);
+      const float tempheight = MIN_HEIGHT + gen() % (int)(MAX_HEIGHT - MIN_HEIGHT);
+      const int max_r = std::min( { (float)horizontalPeaks.at(i), (float)depthPeaks.at(i), (float)CHUNK_LENGTH - horizontalPeaks.at(i), (float)CHUNK_LENGTH - depthPeaks.at(i), (float)MAX_RADIUS });
+      const float tempradius = MIN_RADIUS + (gen() % max_r);
+
       grid_2d.at(horizontalPeaks.at(i)).at(depthPeaks.at(i)).y = tempheight;
       Hill newhill(tempheight, tempradius, horizontalPeaks.at(i), depthPeaks.at(i));
       hills.emplace_back(newhill);
