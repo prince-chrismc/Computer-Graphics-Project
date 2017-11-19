@@ -29,37 +29,30 @@ SOFTWARE.
 class TerrainChunk
 {
 public:
-	TerrainChunk();
-	DrawableObject m_terrain;
+   TerrainChunk();
+   DrawableObject m_terrain;
 
 private:
-	static const GLuint CHUNK_LENGTH = 256;
-	std::vector<std::vector<glm::vec3>> grid_2d;
-	std::vector<std::vector<glm::vec3>> color_2d;
-	std::vector<glm::vec3> grid;
-	std::vector<glm::vec3> color;
-	std::vector<GLuint> indices;
+   static const GLuint CHUNK_LENGTH = 256;
+   std::vector<std::vector<glm::vec3>> grid_2d;
+   std::vector<std::vector<glm::vec3>> color_2d;
+   std::vector<glm::vec3> grid;
+   std::vector<glm::vec3> color;
+   std::vector<GLuint> indices;
 
-	//functions
-	void generateVertices();
-	void flatTerrain();
-	std::vector<glm::vec3> flatten(std::vector<std::vector<glm::vec3>> vector2d);
-	std::vector <GLuint> createEBO(std::vector<std::vector<GLuint>> index2d);
+   //functions
+   void generateVertices();
+   void flatTerrain();
+   std::vector<glm::vec3> flatten(std::vector<std::vector<glm::vec3>> vector2d);
+   std::vector <GLuint> createEBO(std::vector<std::vector<GLuint>> index2d);
 };
 
-class Hill {
+struct Hill
+{
+   float height;
+   float radius;
+   float x;
+   float z;
 
-public:
-	float height;
-	float radius;
-	float x;
-	float z;
-
-	Hill(float h, float r, float x_pos, float z_pos) {
-		height = h; 
-		radius = r;
-		x = x_pos; 
-		z = z_pos; 
-	}
-
+   Hill(float h, float r, float x_pos, float z_pos) : height(h), radius(r), x(x_pos), z(z_pos) {}
 };
