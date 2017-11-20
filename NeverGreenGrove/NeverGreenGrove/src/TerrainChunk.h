@@ -25,7 +25,6 @@ SOFTWARE.
 #pragma once
 
 #include "DrawableObject.h"
-#include "Texture.h"
 
 class TerrainChunk
 {
