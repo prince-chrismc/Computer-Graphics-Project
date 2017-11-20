@@ -26,6 +26,7 @@ SOFTWARE.
 
 #include "DrawableObject.h"
 #include "Forest.h"
+#include "Texture.h"
 
 class TerrainChunk
 {
