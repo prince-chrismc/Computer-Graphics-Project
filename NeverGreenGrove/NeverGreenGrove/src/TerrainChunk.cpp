@@ -39,7 +39,9 @@ TerrainChunk::TerrainChunk()
 
    generateVertices();
 
-   m_terrain = DrawableObject(grid, color, indices);
+   //DrawableObject test(grid, color, indices);
+   DrawableObject test(grid, "assets/wall.jpg", indices);
+   m_terrain = test;
 }
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const
