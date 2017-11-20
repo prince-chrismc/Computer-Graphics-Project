@@ -196,3 +196,5 @@ std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::
    return new_vector;
 }
 
+unsigned int TerrainChunk::getTexture() { return m_terrain.getTexture(); }
+

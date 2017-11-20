@@ -31,6 +31,7 @@ class TerrainChunk
    public:
       TerrainChunk();
       void Draw(const RenderMode& render_mode) const;
+	  unsigned int getTexture();
 
    private:
       DrawableObject m_terrain;
