@@ -95,12 +95,9 @@ void TerrainChunk::generateVertices() {
    // Saturate their info, create peaks
    for (int i = 0; i < hill_qty; i++)
    {
-      
-      const int max_r = std::min( { (float)horizontal_peaks.at(i), (float)depth_peaks.at(i), (float)CHUNK_LENGTH - horizontal_peaks.at(i), (float)CHUNK_LENGTH - depth_peaks.at(i), (float)MAX_RADIUS });
+      const int max_r = std::min({ (float)horizontal_peaks.at(i), (float)depth_peaks.at(i), (float)CHUNK_LENGTH - horizontal_peaks.at(i), (float)CHUNK_LENGTH - depth_peaks.at(i), (float)MAX_RADIUS });
       const float temp_radius = (max_r <= MIN_RADIUS) ? max_r : MIN_RADIUS + (gen() % (max_r - MIN_RADIUS));
-	  const float temp_height = (MIN_HEIGHT + gen() % (int)(temp_radius - MIN_HEIGHT));
-
-	  
+      const float temp_height = (MIN_HEIGHT + gen() % (int)(temp_radius - MIN_HEIGHT));
 
       grid_2d.at(horizontal_peaks.at(i)).at(depth_peaks.at(i)).y = temp_height;
       Hill new_hill(temp_height, temp_radius, horizontal_peaks.at(i), depth_peaks.at(i));
@@ -119,11 +116,11 @@ void TerrainChunk::generateVertices() {
             float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
             if (distance <= hill.radius)
             {  //Using a simple cosine function A*cos(nx) + k
-			   //A = half of height
-			   //n = PI/radius
-			   //x = distance from center
-			   //k = half of height
-			   float new_height = hill.height*0.5 * glm::cos(PI/hill.radius * distance) + hill.height*0.5;
+            //A = half of height
+            //n = PI/radius
+            //x = distance from center
+            //k = half of height
+               float new_height = hill.height*0.5 * glm::cos(PI / hill.radius * distance) + hill.height*0.5;
 
                if (new_height > grid_2d.at(i).at(j).y)
                {
