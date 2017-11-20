@@ -12,7 +12,11 @@ public:
 	Texture() {}
 	void createTexture(const char* imagePath);
 
+	unsigned int getTexture();
+
 private:
+	unsigned int texture;
+
 	int width;
 	int height;
 	int channel;
