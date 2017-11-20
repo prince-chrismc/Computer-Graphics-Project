@@ -5,7 +5,7 @@
 
 #include "gl\glew.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include <\Users\Nicholas\Programming\Computer_Graphics_Project\Computer-Graphics-Project\NeverGreenGrove\NeverGreenGrove\src\stb_image.h>
+#include "stb_image.h"
 
 class Texture
 {
