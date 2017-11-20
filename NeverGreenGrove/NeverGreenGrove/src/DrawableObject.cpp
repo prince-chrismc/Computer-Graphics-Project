@@ -129,3 +129,5 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
    }
 }
+
+unsigned int DrawableObject::getTexture() { return texture.getTexture(); }

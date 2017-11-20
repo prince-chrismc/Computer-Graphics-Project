@@ -37,6 +37,7 @@ class DrawableObject
    DrawableObject(const std::vector<glm::vec3> verticies, const char *texturePath, const std::vector<GLuint> indicies);
    virtual void Draw(const RenderMode& render_mode) const;
    void Delete();
+   unsigned int getTexture();
 
    protected:
       GLuint m_VAO;
