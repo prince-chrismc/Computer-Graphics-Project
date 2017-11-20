@@ -4,7 +4,6 @@
 void Texture::createTexture(const char* imagePath)
 {
 	//modified from learnopengl.com
-	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -27,3 +26,5 @@ void Texture::createTexture(const char* imagePath)
 
 	stbi_image_free(dataTemp);
 }
+
+unsigned int Texture::getTexture() { return texture; }
