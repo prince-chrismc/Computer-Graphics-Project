@@ -31,4 +31,4 @@ void Texture::createTexture(const char* imagePath)
 
 unsigned int Texture::getTexture() { return texture; }
 
-float Texture::getCoordinates() { return textureCoord[1]; }
+//float Texture::getCoordinates() { return textureCoord[1]; }
