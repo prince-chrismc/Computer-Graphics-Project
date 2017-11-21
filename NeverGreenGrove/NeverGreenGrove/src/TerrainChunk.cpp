@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include "TerrainChunk.h"
 #include "Shader.h"
+#include "Grid.h"
 #include <random>                               //mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
@@ -36,6 +37,9 @@ TerrainChunk::TerrainChunk()
 {
    // THIS CONSTRUCTOR IS TEMPORARY.
    // only created for testing a simple render
+
+   GridMap<float> terrain(CHUNK_LENGTH);
+   terrain.set(0,0,1.0f);
 
    generateVertices();
 
