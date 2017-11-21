@@ -10,7 +10,7 @@ class Texture
 public:
 	Texture() {}
 	void createTexture(const char* imagePath);
-	float getCoordinates();
+	//float getCoordinates();
 	unsigned int getTexture();
 
 private:
@@ -20,12 +20,12 @@ private:
 	int height;
 	int channel;
 
-	float textureCoord[] = {// texture coords
+	/*float textureCoord[] = {// texture coords
 		1.0f, 1.0f,   // top right
 		1.0f, 0.0f,   // bottom right
 		0.0f, 0.0f,   // bottom left
 		0.0f, 1.0f    // top left 
-	}
+	}*/
 };
 
 #endif
