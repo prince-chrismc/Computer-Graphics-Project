@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include "TerrainChunk.h"
 #include "Shader.h"
-#include "Grid.h"
+#include "MultiDim_Grid.hpp"
 #include <random>                               //mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
@@ -38,8 +38,8 @@ TerrainChunk::TerrainChunk()
    // THIS CONSTRUCTOR IS TEMPORARY.
    // only created for testing a simple render
 
-   GridVectors<float> terrain(CHUNK_LENGTH);
-   terrain.set(0,0,1.0f);
+   multidim::Grid<float, CHUNK_LENGTH, CHUNK_LENGTH> terrain; // https://github.com/coin-au-carre/MultiDimGrid/blob/master/example/01-basic.cpp
+   std::generate(terrain.begin(), terrain.end(), []{ return 0.0f; } );
 
    generateVertices();
 
