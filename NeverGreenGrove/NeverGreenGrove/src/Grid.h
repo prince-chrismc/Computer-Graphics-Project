@@ -29,6 +29,18 @@ SOFTWARE.
 #include <map>
 #include <memory>
 
+struct Point { std::size_t x, y; };
+
+typedef Point* PointPtr;
+//Compare the x-coordinates of two Point pointers
+struct PointCmp
+{
+   bool operator()(const Point &lhs, const Point &rhs) const
+   {
+      return lhs.x < rhs.x;
+   }
+};
+
 template<typename Object>
 // This is a 2D grid template to map an Object
 class GridMap
@@ -36,11 +48,16 @@ class GridMap
 public:
    GridMap<Object>(std::size_t length) : m_Map() {}
 
-   const Object& at(std::size_t x, std::size_t y) const { m_Map.at(std::make_pair(x, y)); }
-   void set(std::size_t x, std::size_t y, const Object& obj) { m_Map.emplace(std::make_pair(x, y), obj); }
+   const Object& at(std::size_t x, std::size_t y) const { m_Map.at(Point{ x, y } ); }
+   void set(std::size_t x, std::size_t y, const Object& obj) { m_Map.emplace(Point{ x, y }, obj); }
 
 private:
-   std::map<std::pair<std::size_t, std::size_t>, Object> m_Map;
+   std::map<Point, Object, PointCmp> m_Map;
+};
+
+class GridVectors
+{
+
 };
 
 
