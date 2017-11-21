@@ -38,7 +38,7 @@ TerrainChunk::TerrainChunk()
    // THIS CONSTRUCTOR IS TEMPORARY.
    // only created for testing a simple render
 
-   GridMap<float> terrain(CHUNK_LENGTH);
+   GridVectors<float> terrain(CHUNK_LENGTH);
    terrain.set(0,0,1.0f);
 
    generateVertices();

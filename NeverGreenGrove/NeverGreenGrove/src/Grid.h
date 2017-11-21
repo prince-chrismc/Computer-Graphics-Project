@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include <map>
 #include <memory>
+#include <vector>
 
 struct Point { std::size_t x, y; };
 
@@ -46,7 +47,7 @@ template<typename Object>
 class GridMap
 {
 public:
-   GridMap<Object>(std::size_t length) : m_Map() {}
+   GridMap<Object>(std::size_t length) : m_Map() {} // figure how to easly fix size
 
    const Object& at(std::size_t x, std::size_t y) const { m_Map.at(Point{ x, y } ); }
    void set(std::size_t x, std::size_t y, const Object& obj) { m_Map.emplace(Point{ x, y }, obj); }
@@ -55,20 +56,21 @@ private:
    std::map<Point, Object, PointCmp> m_Map;
 };
 
+template<typename Object>
 class GridVectors
 {
+public:
+   GridVectors<Object>(std::size_t length) : m_Vecs(length, std::vector<Object>(length, Object())) { }
+
+   const Object& at(std::size_t x, std::size_t y) const { m_Vecs.at(x).at(y); }
+   void set(std::size_t x, std::size_t y, const Object& obj) { m_Vecs.at(x).at(y) = obj; }
+
+private:
+   std::vector<std::vector<Object>> m_Vecs;
+
+   //void FillToSize(std::size_t length);
 
 };
 
-
-//class GridPtr
-//{
-//public:
-//   Grid();
-//   ~Grid();
-//
-//private:
-//   std::map<std::pair<int, int>, std::shared_ptr<Object>> m_Map
-//};
-
 GridMap<float>;
+GridVectors<float>;

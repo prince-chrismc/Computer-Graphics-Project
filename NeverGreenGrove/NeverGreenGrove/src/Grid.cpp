@@ -23,3 +23,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
+#include "Grid.h"
+
+//template<typename Object>
+//void GridVectors<Object>::FillToSize(std::size_t length)
+//{
+//   std::vector<std::future<std::vector<Object>> results;
+//
+//   for (std::size_t x = 0; x < length; x += 1)
+//   {
+//      results.push_back(std::async(std::launch::async, [length] {
+//         for (std::size_t x = 0; x < length; x += 1)
+//         {
+//
+//         }
+//      });
+//   }
+//}
