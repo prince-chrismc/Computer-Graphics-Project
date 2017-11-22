@@ -62,5 +62,5 @@ class TerrainChunk
          float z;
       };
 
-	  glm::vec3 calcNormal(Hill hill, float distance);
+	  glm::vec3 calcNormal(Hill hill, float distance,int posx, int posy);
 };
