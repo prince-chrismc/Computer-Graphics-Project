@@ -74,7 +74,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const cha
 		1.0f, 1.0f,   // top right
 		1.0f, 0.0f,   // bottom right
 		0.0f, 0.0f,   // bottom left
-		0.0f, 1.0f    // top left 
+		0.0f, 1.0f    // top left
 	};
 
 	glGenVertexArrays(1, &m_VAO);
@@ -99,10 +99,6 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const cha
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(GLuint), &indicies.front(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	
-
-	texture.createTexture(texturePath);
-
 
 	glBindVertexArray(0);
 
