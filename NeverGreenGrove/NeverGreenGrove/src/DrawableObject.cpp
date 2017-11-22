@@ -94,7 +94,6 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const cha
 	glBufferData(GL_ARRAY_BUFFER, sizeof(textureCoord), textureCoord, GL_STATIC_DRAW);
 	glVertexAttribPointer(textureIndex, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(textureIndex);
-	glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(GLuint), &indicies.front(), GL_STATIC_DRAW);
@@ -120,14 +119,18 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
    {
    case RenderMode::POINTS:
       glBindVertexArray(m_VAO);
+	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
       glDrawArrays(GL_POINTS, 0, m_NumVertices);
+	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindVertexArray(0);
       break;
 
    case RenderMode::TRIANGLES:
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
       glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
+	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);
       break;
@@ -135,7 +138,9 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
    case RenderMode::LINES:
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
       glDrawElements(GL_LINES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
+	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);
       break;
