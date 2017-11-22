@@ -30,7 +30,7 @@ class Texture
 {
 public:
    Texture() {}
-   Texture::Texture(const char* imagePath);
+   Texture(const char* imagePath);
 
    unsigned int getTexture() const { return texture; }
 
