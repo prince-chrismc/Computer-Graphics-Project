@@ -56,8 +56,7 @@ TreeA::TreeObj::TreeObj()
       (vert.y > 2.10) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
    }
 
-   texture.createTexture("assets/wall.jpg");
-
+   m_Texture.createTexture("assets/wall.jpg");
 
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
@@ -98,7 +97,7 @@ TreeA::TreeObj::~TreeObj()
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
    //glDeleteBuffers(1, &m_Normals);
-   //glDeleteBuffers(1, &m_Uvs);
+   glDeleteBuffers(1, &m_Uvs);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
@@ -124,7 +123,7 @@ TreeB::TreeObj::TreeObj()
       (vert.y > 2.00) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
    }
 
-   texture.createTexture("assets/wall.jpg");
+   m_Texture.createTexture("assets/wall.jpg");
 
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
@@ -165,7 +164,7 @@ TreeB::TreeObj::~TreeObj()
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
    //glDeleteBuffers(1, &m_Normals);
-   //glDeleteBuffers(1, &m_Uvs);
+   glDeleteBuffers(1, &m_Uvs);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
@@ -191,8 +190,8 @@ void TreeB::Draw() const
 
 std::unique_ptr<DrawableTree> TreeFactory::GetNewTree() {
 
-   std::random_device rd;
-   std::mt19937 g(rd());
+   static std::random_device rd;
+   static std::mt19937 g(rd());
 
    switch (g() % 5 + 1)
    {
