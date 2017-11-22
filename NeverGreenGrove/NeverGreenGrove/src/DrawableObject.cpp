@@ -105,6 +105,10 @@ void DrawableObject::Delete()
 
 void DrawableObject::Draw(const RenderMode& render_mode) const
 {
+	Texture text2("assets/wall.jpg");
+	auto shaderProgram = ShaderLinker::GetInstance();
+	GLuint objectLOC = shaderProgram->GetAttributeLocation("object");
+
    switch (render_mode)
    {
    case RenderMode::POINTS:
@@ -116,9 +120,11 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
 
    case RenderMode::TRIANGLES:
+	  glUniform1i(objectLOC, 0);
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
 	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
+	  glBindTexture(GL_TEXTURE_2D, text2.getTexture());
       glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
 	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
