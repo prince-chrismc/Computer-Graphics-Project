@@ -1,5 +1,8 @@
 #version 330 core
 
+uniform sampler2D gSamplers[2];
+uniform int numTextures;
+
 in vec4 vertex_color;
 in vec2 textureCoord;
 in vec3 outNormal;
@@ -14,23 +17,17 @@ void main()
 {
 	//will add a variable to chose when to use the texture eventually
    //color = vertex_color;
-	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
-	vec3 objColor = vec3(texture(textures, textureCoord));
+	for (int i = 0; i < numTextures; i++)
+	{
+		if (i == 0)
+		{
+			color = texture2D(gSamplers[0], textureCoord);
+		}
+		else
+		{
+			color = texture2D(gSamplers[1], textureCoord);
+		}
+	}
 
-	//folllowing from ta
-	//ambient lighting
-	float ambientStrength = 0.35f;
-	vec3 ambient_contribution = ambientStrength * lightColor;
-
-	//diffuse lighting
-	vec3 light_position = vec3(1.0f, 1.0f, 1.0f); //world coords
-
-	vec3 norm = normalize(outNormal);
-
-	vec3 light_direction = normalize(light_position - fragPosition);
-	float incident_degree = max(dot(norm, light_direction), 0.0f);
-	vec3 diffuse_contribution = incident_degree * lightColor;
-
-	vec3 resultantColour = (ambient_contribution + diffuse_contribution) * objColor;
-	color = vec4(resultantColour, 1.0f);
+		//color = texture(textures, textureCoord);
 }

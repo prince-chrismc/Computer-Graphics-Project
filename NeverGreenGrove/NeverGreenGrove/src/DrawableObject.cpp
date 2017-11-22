@@ -65,6 +65,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
 	auto shaderProgram = ShaderLinker::GetInstance();
 	GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
 	GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
+	GLuint shaderSampler = shaderProgram->GetAttributeLocation("gSampler");
 
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_Verticies);
