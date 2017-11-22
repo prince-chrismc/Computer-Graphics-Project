@@ -89,7 +89,7 @@ int main()
       tree2->Draw();
       tree3->Draw();
 
-      terrain.Draw(RenderMode::LINES);
+      terrain.Draw(RenderMode::TRIANGLES);
       /// Render
 
       window->NextBuffer(); // swap buffers
