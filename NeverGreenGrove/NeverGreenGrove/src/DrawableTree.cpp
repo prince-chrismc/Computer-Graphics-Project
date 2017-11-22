@@ -86,6 +86,7 @@ TreeA::TreeObj::TreeObj()
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(textureIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
    glEnableVertexAttribArray(textureIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -154,8 +155,9 @@ TreeB::TreeObj::TreeObj()
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(textureIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
    glEnableVertexAttribArray(textureIndex);
-
+ 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
    glBindVertexArray(0);
