@@ -48,5 +48,5 @@ class DrawableObject
       GLsizei m_NumVertices;
       GLsizei m_NumIndicies;
 
-	  Texture texture;
+	  Texture m_Texture;
 };

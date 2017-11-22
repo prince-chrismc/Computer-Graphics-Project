@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include "TerrainChunk.h"
 #include "Shader.h"
-#include <random>                               //mt19937
+#include <random>                               // mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
 #include <glm\common.hpp>                       // clamp
