@@ -113,9 +113,12 @@ void TerrainChunk::generateVertices() {
       {
          //check every hills
          for (auto hill : hills) {
+
+			//check if in mountain
             float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
-            if (distance <= hill.radius)
-            {  //Using a simple cosine function A*cos(nx) + k
+			if (distance <= hill.radius)
+            {  
+			//Using a simple cosine function A*cos(nx) + k
             //A = half of height
             //n = PI/radius
             //x = distance from center
@@ -131,9 +134,9 @@ void TerrainChunk::generateVertices() {
          }
       }
    }
-
    grid = flatten(grid_2d);
    color = flatten(color_2d);
+   normals = flatten(normals_2d);
 }
 
 //create a simple flat terrain
@@ -146,20 +149,24 @@ void TerrainChunk::flatTerrain()
    {
       std::vector<glm::vec3> temp_builder;
       std::vector<glm::vec3> temp_color;
+	  std::vector<glm::vec3> temp_normals;
       std::vector<GLuint> temp_indices;
       for (int j = 0; j < CHUNK_LENGTH; j++)
       {
          temp_builder.emplace_back(i, 0, j);
          temp_indices.emplace_back(counter++);
-		 UV.emplace_back(glm::vec2(i,j));
+		 UVs.emplace_back(glm::vec2(i,j));
+		 //directly up
+		 temp_normals.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f));
          //brownish color
          temp_color.emplace_back(glm::vec3(0.4f, 0.2f, 0.04f));
       }
+	  normals_2d.emplace_back(temp_normals);
       grid_2d.emplace_back(temp_builder);
       color_2d.emplace_back(temp_color);
       indices_2d.emplace_back(temp_indices);
    }
-   //grid = flatten(grid_2d);
+  
    indices = createEBO(indices_2d);
 }
 
