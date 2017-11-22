@@ -120,11 +120,13 @@ class TreeB : public DrawableTree
       private:
          TreeObj();
 
+		 Texture texture;
+
          GLuint m_VAO;
          GLuint m_Verticies;
          GLuint m_Colors;
          //GLuint m_Normals;
-         //GLuint m_Uvs;
+         GLuint m_Uvs;
 
          GLsizei m_NumVertices;
 
