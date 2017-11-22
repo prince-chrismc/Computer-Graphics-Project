@@ -40,6 +40,7 @@ TerrainChunk::TerrainChunk()
 
    multidim::Grid<float, CHUNK_LENGTH, CHUNK_LENGTH> terrain; // https://github.com/coin-au-carre/MultiDimGrid/blob/master/example/01-basic.cpp
    std::generate(terrain.begin(), terrain.end(), []{ return 0.0f; } );
+   terrain[{10, 27}] = 4.5f;
 
    generateVertices();
 
