@@ -50,6 +50,7 @@ class TerrainChunk
       void flatTerrain();
       static std::vector<glm::vec3> flatten(const std::vector<std::vector<glm::vec3>>& vector2d);
       static std::vector<GLuint> createEBO(const std::vector<std::vector<GLuint>>& index2d);
+	  
 
       struct Hill
       {
@@ -60,4 +61,6 @@ class TerrainChunk
          float x;
          float z;
       };
+
+	  glm::vec3 calcNormal(Hill hill, float distance);
 };

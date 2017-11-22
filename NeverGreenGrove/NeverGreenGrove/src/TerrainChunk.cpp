@@ -129,6 +129,8 @@ void TerrainChunk::generateVertices() {
                {
                   grid_2d.at(i).at(j).y = new_height;
                   color_2d.at(i).at(j) = glm::vec3(0.4f + 0.4*(new_height / hill.radius), 0.2f + 0.4*(new_height / hill.radius), 0.04f + 0.5*(new_height / hill.radius));
+				  //calculate normal at this location
+				  normals_2d.at(i).at(j) = calcNormal(hill,distance);
                }
             }
          }
@@ -204,3 +206,19 @@ std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::
    return new_vector;
 }
 
+glm::vec3 TerrainChunk::calcNormal(Hill hill, float distance)
+{
+	//is simply the derivative of A*cos(nx) + k
+
+	//becomes -A*n*sin(nx)
+	//A = half of height
+	//n = PI/radius
+	//x = distance from center
+	//k = half of height
+	float derivative = (hill.height * -0.5) * (PI / hill.radius) * sin((PI / hill.radius) * distance);
+	//the normal is the inverse of the slope
+	float normal_slope = -1 / derivative;
+	
+
+	return glm::normalize(glm::vec3(1.0f, normal_slope, 0.0f));
+}
