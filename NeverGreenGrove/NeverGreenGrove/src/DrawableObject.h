@@ -25,6 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "RenderMode.h"
+#include "Texture.h"
 #include "glm\vec3.hpp"
 #include <vector>
 
@@ -33,8 +34,10 @@ class DrawableObject
    public:
    DrawableObject() {}
    DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies);
+   DrawableObject(const std::vector<glm::vec3> verticies, const char *texturePath, const std::vector<GLuint> indicies);
    virtual void Draw(const RenderMode& render_mode) const;
    void Delete();
+   unsigned int getTexture();
 
    protected:
       GLuint m_VAO;
@@ -44,4 +47,6 @@ class DrawableObject
 
       GLsizei m_NumVertices;
       GLsizei m_NumIndicies;
+
+	  Texture texture;
 };

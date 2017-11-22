@@ -39,7 +39,8 @@ TerrainChunk::TerrainChunk()
 
    generateVertices();
 
-   DrawableObject test(grid, color, indices);
+   //DrawableObject test(grid, color, indices);
+   DrawableObject test(grid, "assets/wall.jpg", indices);
    m_terrain = test;
 }
 
@@ -195,4 +196,6 @@ std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::
    }
    return new_vector;
 }
+
+unsigned int TerrainChunk::getTexture() { return m_terrain.getTexture(); }
 
