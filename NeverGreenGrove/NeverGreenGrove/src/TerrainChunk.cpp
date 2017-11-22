@@ -156,7 +156,7 @@ void TerrainChunk::flatTerrain()
       {
          temp_builder.emplace_back(i, 0, j);
          temp_indices.emplace_back(counter++);
-         UVs.emplace_back(glm::vec2(i, j));
+         UVs.emplace_back(glm::vec2(i/100.0f, j/100.0f));
          //directly up
          temp_normals.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f));
          //brownish color
