@@ -39,8 +39,7 @@ TerrainChunk::TerrainChunk()
 
    generateVertices();
 
-   DrawableObject test(grid, color, indices);
-   m_terrain = test;
+   m_terrain = DrawableObject(grid, color, indices);
 }
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const
@@ -48,7 +47,6 @@ void TerrainChunk::Draw(const RenderMode& render_mode) const
    ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(1.0f));
    m_terrain.Draw(render_mode);
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Functions to calculate height and location of hills
@@ -112,25 +110,25 @@ void TerrainChunk::generateVertices() {
       for (int j = 0; j < CHUNK_LENGTH; j++)
       {
          //check every hills
-         for (auto hill : hills) {
+         for (const auto hill : hills) {
 
-			//check if in mountain
-            float distance = sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
-			if (distance <= hill.radius)
-            {  
-			//Using a simple cosine function A*cos(nx) + k
-            //A = half of height
-            //n = PI/radius
-            //x = distance from center
-            //k = half of height
-               float new_height = hill.height*0.5 * glm::cos(PI / hill.radius * distance) + hill.height*0.5;
+            //check if in mountain
+            const float distance = std::sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
+            if (distance <= hill.radius)
+            {
+               //Using a simple cosine function A*cos(nx) + k
+                  //A = half of height
+                  //n = PI/radius
+                  //x = distance from center
+                  //k = half of height
+               float new_height = hill.height*0.5 * std::cos(PI / hill.radius * distance) + hill.height*0.5;
 
                if (new_height > grid_2d.at(i).at(j).y)
                {
                   grid_2d.at(i).at(j).y = new_height;
                   color_2d.at(i).at(j) = glm::vec3(0.4f + 0.4*(new_height / hill.radius), 0.2f + 0.4*(new_height / hill.radius), 0.04f + 0.5*(new_height / hill.radius));
-				  //calculate normal at this location
-				  normals_2d.at(i).at(j) = calcNormal(hill,distance,i,j);
+                  //calculate normal at this location
+                  normals_2d.at(i).at(j) = calcNormal(hill, distance, i, j);
                }
             }
          }
@@ -151,24 +149,24 @@ void TerrainChunk::flatTerrain()
    {
       std::vector<glm::vec3> temp_builder;
       std::vector<glm::vec3> temp_color;
-	  std::vector<glm::vec3> temp_normals;
+      std::vector<glm::vec3> temp_normals;
       std::vector<GLuint> temp_indices;
       for (int j = 0; j < CHUNK_LENGTH; j++)
       {
          temp_builder.emplace_back(i, 0, j);
          temp_indices.emplace_back(counter++);
-		 UVs.emplace_back(glm::vec2(i,j));
-		 //directly up
-		 temp_normals.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f));
+         UVs.emplace_back(glm::vec2(i, j));
+         //directly up
+         temp_normals.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f));
          //brownish color
          temp_color.emplace_back(glm::vec3(0.4f, 0.2f, 0.04f));
       }
-	  normals_2d.emplace_back(temp_normals);
+      normals_2d.emplace_back(temp_normals);
       grid_2d.emplace_back(temp_builder);
       color_2d.emplace_back(temp_color);
       indices_2d.emplace_back(temp_indices);
    }
-  
+
    indices = createEBO(indices_2d);
 }
 
@@ -209,32 +207,31 @@ std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::
 ///Calculate normals of 3D cos based hill
 glm::vec3 TerrainChunk::calcNormal(Hill hill, float distance, int i, int j)
 {
-	//To find a 3D vector, the we need a tangent plane of A*cos(sqrt(i^2+j^2)) + k
-	//I pretty much re-learned Calculus III to do this
-	
-	//using the center of a hill as the new (0,0) coordinate, convert (i,j) to that
-	float x = i - hill.x;
-	float z = j - hill.z;
-	float n = PI / hill.radius;
+   // To find a 3D vector, the we need a tangent plane of A*cos(sqrt(i^2+j^2)) + k
+   // I pretty much re-learned Calculus III to do this
 
-	//Step 1: Get partial derivatives
-	//used wolfram alpha to simplify, https://www.wolframalpha.com/input/?i=differentiate+5*cos(((x%5E2%2Bz%5E2)%5E0.5)+*+8)%2B5
-		//in respect to x axis
-		//-(5 x sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
-	float a = -(hill.height*0.5 *n* x * sin(n*sqrt(x*x + z*z))) / sqrt(x*x + z*z);
-		
-		//in respect to z axis
-		//-(5 z sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
-	float b = -(hill.height*0.5 *n* z * sin(n*sqrt(x*x + z*z))) / sqrt(x*x + z*z);
+   // using the center of a hill as the new (0,0) coordinate, convert (i,j) to that
+   const float x = i - hill.x;
+   const float z = j - hill.z;
+   const float n = PI / hill.radius;
 
-	//Step 2: Tangent plane formula
-	//With our plane being y = a(x - x0) + b(z - z0) + y0
-		//simplified we get	y = ax - c1 + bz - c2 +c3
-						  //C = ax - y + bz
-	//where x0, y0, z0 are the current point against which we are testing
-	//means our normal vector to that plane is made of the slope of each of the axis. 
-	//x axis is sloped by a, y axis is -1, z axis is sloped by b
+   // Step 1: Get partial derivatives
+   // used wolfram alpha to simplify, https://www.wolframalpha.com/input/?i=differentiate+5*cos(((x%5E2%2Bz%5E2)%5E0.5)+*+8)%2B5
+      // in respect to x axis
+      // -(5 x sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
+   const float a = -(hill.height * 0.5 * n * x * std::sin(n * sqrt(x * x + z * z))) / std::sqrt(x * x + z * z);
 
-	return glm::normalize(glm::vec3(a,-1.0f,b));
+   // in respect to z axis
+   // -(5 z sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
+   const float b = -(hill.height * 0.5 * n * z * std::sin(n * sqrt(x * x + z * z))) / std::sqrt(x * x + z * z);
 
+   // Step 2: Tangent plane formula
+   // With our plane being y = a(x - x0) + b(z - z0) + y0
+      // simplified we get y = ax - c1 + bz - c2 +c3
+                    // C = ax - y + bz
+   // where x0, y0, z0 are the current point against which we are testing
+   // means our normal vector to that plane is made of the slope of each of the axis.
+   // x axis is sloped by a, y axis is -1, z axis is sloped by b
+
+   return glm::normalize(glm::vec3(a, -1.0f, b));
 }

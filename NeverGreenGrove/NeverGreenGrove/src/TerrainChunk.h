@@ -38,10 +38,10 @@ class TerrainChunk
       static constexpr GLuint CHUNK_LENGTH = 128;
       std::vector<std::vector<glm::vec3>> grid_2d;
       std::vector<std::vector<glm::vec3>> color_2d;
-	  std::vector<std::vector<glm::vec3>> normals_2d;
-	  std::vector<glm::vec2> UVs;
-	  std::vector<glm::vec3> normals;
-	  std::vector<glm::vec3> grid;
+      std::vector<std::vector<glm::vec3>> normals_2d;
+      std::vector<glm::vec2> UVs;
+      std::vector<glm::vec3> normals;
+      std::vector<glm::vec3> grid;
       std::vector<glm::vec3> color;
       std::vector<GLuint> indices;
 
@@ -50,7 +50,6 @@ class TerrainChunk
       void flatTerrain();
       static std::vector<glm::vec3> flatten(const std::vector<std::vector<glm::vec3>>& vector2d);
       static std::vector<GLuint> createEBO(const std::vector<std::vector<GLuint>>& index2d);
-	  
 
       struct Hill
       {
@@ -62,5 +61,5 @@ class TerrainChunk
          float z;
       };
 
-	  glm::vec3 calcNormal(Hill hill, float distance,int posx, int posy);
+     glm::vec3 calcNormal(Hill hill, float distance, int posx, int posy);
 };
