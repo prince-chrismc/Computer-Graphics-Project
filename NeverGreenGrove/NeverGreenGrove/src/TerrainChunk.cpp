@@ -206,22 +206,35 @@ std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::
    return new_vector;
 }
 
+///Calculate normals of 3D cos based hill
 glm::vec3 TerrainChunk::calcNormal(Hill hill, float distance, int i, int j)
 {
-	//is simply the derivative of A*cos(nx) + k
+	//To find a 3D vector, the we need a tangent plane of A*cos(sqrt(i^2+j^2)) + k
+	//I pretty much re-learned Calculus III to do this
+	
+	//using the center of a hill as the new (0,0) coordinate, convert (i,j) to that
+	float x = i - hill.x;
+	float z = j - hill.z;
+	float n = PI / hill.radius;
 
-	//becomes -A*n*sin(nx)
-	//A = half of height
-	//n = PI/radius
-	//x = distance from center
-	//k = half of height
-	float derivative = (hill.height * -0.5) * (PI / hill.radius) * sin((PI / hill.radius) * distance);
-	//the normal is the inverse of the slope
-	float normal_slope = -1 / derivative;
+	//Step 1: Get partial derivatives
+	//used wolfram alpha to simplify, https://www.wolframalpha.com/input/?i=differentiate+5*cos(((x%5E2%2Bz%5E2)%5E0.5)+*+8)%2B5
+		//in respect to x axis
+		//-(5 x sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
+	float a = -(hill.height*0.5 *n* x * sin(n*sqrt(x*x + z*z))) / sqrt(x*x + z*z);
+		
+		//in respect to z axis
+		//-(5 z sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
+	float b = -(hill.height*0.5 *n* z * sin(n*sqrt(x*x + z*z))) / sqrt(x*x + z*z);
 
+	//Step 2: Tangent plane formula
+	//With our plane being y = a(x - x0) + b(z - z0) + y0
+		//simplified we get	y = ax - c1 + bz - c2 +c3
+						  //C = ax - y + bz
+	//where x0, y0, z0 are the current point against which we are testing
+	//means our normal vector to that plane is made of the slope of each of the axis. 
+	//x axis is sloped by a, y axis is -1, z axis is sloped by b
 
-	glm::vec3 position = glm::vec3(i,j,0);
-	glm::vec3 correctPlane = glm::vec3(i, j, 0) - glm::vec3(hill.x, 0, hill.z);
+	return glm::normalize(glm::vec3(a,-1.0f,b));
 
-	return glm::normalize(glm::vec3(1.0f, normal_slope, 0.0f));
 }
