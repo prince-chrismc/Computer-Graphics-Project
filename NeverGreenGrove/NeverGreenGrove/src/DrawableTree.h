@@ -67,6 +67,7 @@ class TreeA : public DrawableTree
 
          const GLuint GetVAO() const { return m_VAO; }
          const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+         const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
       private:
          TreeObj();
@@ -116,6 +117,7 @@ class TreeB : public DrawableTree
 
          const GLuint GetVAO() const { return m_VAO; }
          const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+         const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
       private:
          TreeObj();

@@ -83,7 +83,6 @@ TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(textureIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
    glEnableVertexAttribArray(textureIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -149,7 +148,6 @@ TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(textureIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
    glEnableVertexAttribArray(textureIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -172,7 +170,9 @@ void TreeA::Draw() const
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
+   glBindTexture(GL_TEXTURE_2D, 0);
    glBindVertexArray(0);
 }
 
@@ -182,7 +182,9 @@ void TreeB::Draw() const
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
+   glBindTexture(GL_TEXTURE_2D, 0);
    glBindVertexArray(0);
 }
 
