@@ -62,6 +62,9 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
 //------------for textures------------------
 DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const char *texturePath, const std::vector<GLuint> indicies)
 {
+	Texture temp("assets/wall.jpg");
+	texture = temp;
+
 	auto shaderProgram = ShaderLinker::GetInstance();
 	GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
 	GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
@@ -83,8 +86,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const cha
 
 	glVertexAttribPointer(textureIndex, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(textureIndex);
-
-	m_Texture.createTexture(texturePath);
+	glBindTexture(GL_TEXTURE_2D, texture.getTexture());
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -130,4 +132,4 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
    }
 }
 
-unsigned int DrawableObject::getTexture() { return m_Texture.getTexture(); }
+unsigned int DrawableObject::getTexture() { return texture.getTexture(); }

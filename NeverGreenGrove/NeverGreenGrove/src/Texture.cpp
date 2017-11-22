@@ -30,6 +30,12 @@ SOFTWARE.
 #include "stb_image.h"
 #include <iostream>
 
+Texture::Texture(const char* imagePath)
+{
+	createTexture(imagePath);
+}
+
+
 void Texture::createTexture(const char* image_path)
 {
    // modified from https://learnopengl.com/#!Getting-started/Textures

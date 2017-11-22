@@ -36,6 +36,9 @@ std::shared_ptr<TreeB::TreeObj> TreeB::TreeObj::s_Instance;
 
 TreeA::TreeObj::TreeObj()
 {
+	Texture temp("assets/wall.jpg");
+	m_Texture = temp;
+
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
@@ -55,8 +58,6 @@ TreeA::TreeObj::TreeObj()
    {
       (vert.y > 2.10) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
    }
-
-   m_Texture.createTexture("assets/wall.jpg");
 
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
@@ -103,6 +104,9 @@ TreeA::TreeObj::~TreeObj()
 
 TreeB::TreeObj::TreeObj()
 {
+	Texture temp("assets/wall.jpg");
+	m_Texture = temp;
+
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
@@ -122,8 +126,6 @@ TreeB::TreeObj::TreeObj()
    {
       (vert.y > 2.00) ? colors.emplace_back(0.075, 0.545, 0.271) : colors.emplace_back(0.545, 0.271, 0.075);
    }
-
-   m_Texture.createTexture("assets/wall.jpg");
 
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
