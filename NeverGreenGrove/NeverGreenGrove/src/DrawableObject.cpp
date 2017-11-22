@@ -60,20 +60,11 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
 }
 
 //------------for textures------------------
-DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const char *texturePath, const std::vector<GLuint> indicies) : m_Texture("assets/wall.jpg")
+DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies) : m_Texture("assets/wall.jpg")
 {
-
 	auto shaderProgram = ShaderLinker::GetInstance();
 	GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
 	GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
-
-	//temporary until i fix the getter in the texture class + need to generate it for each vertice
-	float textureCoord[] = {// texture coords
-		1.0f, 1.0f,   // top right
-		1.0f, 0.0f,   // bottom right
-		0.0f, 0.0f,   // bottom left
-		0.0f, 1.0f    // top left
-	};
 
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_Verticies);
@@ -89,7 +80,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const cha
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_Textures);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(textureCoord), textureCoord, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
 	glVertexAttribPointer(textureIndex, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(textureIndex);
 
