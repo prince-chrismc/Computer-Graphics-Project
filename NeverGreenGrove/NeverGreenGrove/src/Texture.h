@@ -30,8 +30,8 @@ class Texture
 {
 public:
    Texture() {}
-   void createTexture(const char* image_path);
-   //float getCoordinates() { return textureCoord[1]; }
+   Texture::Texture(const char* imagePath);
+
    unsigned int getTexture() const { return texture; }
 
 private:
@@ -41,11 +41,5 @@ private:
    int height;
    int channel;
 
-   //float textureCoord[] = // texture coords
-   //{
-   //   1.0f, 1.0f,           // top right
-   //   1.0f, 0.0f,           // bottom right
-   //   0.0f, 0.0f,           // bottom left
-   //   0.0f, 1.0f            // top left
-   //}
+   void createTexture(const char* image_path);
 };
