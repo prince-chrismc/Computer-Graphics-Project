@@ -60,7 +60,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
 }
 
 //------------for textures------------------
-DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies) : m_Texture("assets/wall.jpg")
+DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies) : m_Texture(texturePath)
 {
 	auto shaderProgram = ShaderLinker::GetInstance();
 	GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
