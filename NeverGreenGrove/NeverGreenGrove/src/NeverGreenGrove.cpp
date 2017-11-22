@@ -89,7 +89,7 @@ int main()
       tree2->Draw();
       tree3->Draw();
 
-	  glBindTexture(GL_TEXTURE_2D, terrain.getTexture());
+      glBindTexture(GL_TEXTURE_2D, terrain.getTexture());
       terrain.Draw(RenderMode::LINES);
       /// Render
 

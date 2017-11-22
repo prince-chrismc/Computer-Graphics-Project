@@ -84,7 +84,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const cha
 	glVertexAttribPointer(textureIndex, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(textureIndex);
 
-	texture.createTexture(texturePath);
+	m_Texture.createTexture(texturePath);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -130,4 +130,4 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
    }
 }
 
-unsigned int DrawableObject::getTexture() { return texture.getTexture(); }
+unsigned int DrawableObject::getTexture() { return m_Texture.getTexture(); }

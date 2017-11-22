@@ -71,7 +71,7 @@ class TreeA : public DrawableTree
       private:
          TreeObj();
 
-		 Texture texture;
+         Texture m_Texture;
 
          GLuint m_VAO;
          GLuint m_Verticies;
@@ -120,7 +120,7 @@ class TreeB : public DrawableTree
       private:
          TreeObj();
 
-		 Texture texture;
+         Texture m_Texture;
 
          GLuint m_VAO;
          GLuint m_Verticies;
