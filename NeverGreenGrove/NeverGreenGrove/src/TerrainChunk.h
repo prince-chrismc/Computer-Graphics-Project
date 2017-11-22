@@ -38,7 +38,8 @@ class TerrainChunk
       static constexpr GLuint CHUNK_LENGTH = 128;
       std::vector<std::vector<glm::vec3>> grid_2d;
       std::vector<std::vector<glm::vec3>> color_2d;
-      std::vector<glm::vec3> grid;
+	  std::vector<glm::vec2> UV;
+	  std::vector<glm::vec3> grid;
       std::vector<glm::vec3> color;
       std::vector<GLuint> indices;
 
