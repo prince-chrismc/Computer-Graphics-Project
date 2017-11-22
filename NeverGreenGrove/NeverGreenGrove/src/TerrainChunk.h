@@ -25,6 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "DrawableObject.h"
+#include "MultiDim_Grid.hpp"                    // https://github.com/coin-au-carre/MultiDimGrid/blob/master/example/01-basic.cpp
 
 class TerrainChunk
 {
@@ -36,11 +37,14 @@ class TerrainChunk
       DrawableObject m_terrain;
 
       static constexpr GLuint CHUNK_LENGTH = 128;
-      std::vector<std::vector<glm::vec3>> grid_2d;
-      std::vector<std::vector<glm::vec3>> color_2d;
+      multidim::Grid<float, CHUNK_LENGTH, CHUNK_LENGTH> terrain;
+      multidim::Grid<glm::vec3, CHUNK_LENGTH, CHUNK_LENGTH> grid_color;
+      multidim::Grid<GLuint, CHUNK_LENGTH, CHUNK_LENGTH> indices;
+      //std::vector<std::vector<glm::vec3>> grid_2d;
+      //std::vector<std::vector<glm::vec3>> color_2d;
       std::vector<glm::vec3> grid;
       std::vector<glm::vec3> color;
-      std::vector<GLuint> indices;
+      //std::vector<GLuint> indices;
 
       //functions
       void generateVertices();
@@ -50,11 +54,11 @@ class TerrainChunk
 
       struct Hill
       {
-         Hill(float h, float r, float x_pos, float z_pos) : height(h), radius(r), x(x_pos), z(z_pos) {}
+         Hill(float h, float r, size_t x_pos, size_t z_pos) : height(h), radius(r), x(x_pos), z(z_pos) {}
 
          float height;
          float radius;
-         float x;
-         float z;
+         size_t x;
+         size_t z;
       };
 };
