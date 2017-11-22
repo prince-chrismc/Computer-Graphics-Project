@@ -65,7 +65,6 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
 	auto shaderProgram = ShaderLinker::GetInstance();
 	GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
 	GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
-	GLuint shaderSampler = shaderProgram->GetAttributeLocation("gSampler");
 
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_Verticies);
@@ -108,6 +107,7 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
 	Texture text2("assets/wall.jpg");
 	auto shaderProgram = ShaderLinker::GetInstance();
 	GLuint objectLOC = shaderProgram->GetAttributeLocation("object");
+	std::vector<Texture> allTextures = { m_Texture, text2 };
 
    switch (render_mode)
    {
@@ -120,12 +120,20 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
 
    case RenderMode::TRIANGLES:
-	  glUniform1i(objectLOC, 0);
+	  glUniform1i(objectLOC, 2); //to draw more than 1 texture
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+	  
+	  //to activate and bind both texture
+	  glActiveTextureARB(GL_TEXTURE0_ARB);
 	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
+	  glEnable(GL_TEXTURE_2D);
+	  glActiveTextureARB(GL_TEXTURE1_ARB);
 	  glBindTexture(GL_TEXTURE_2D, text2.getTexture());
+	  glEnable(GL_TEXTURE_2D);
+
       glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
+	  glBindTexture(GL_TEXTURE_2D, 0);
 	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);

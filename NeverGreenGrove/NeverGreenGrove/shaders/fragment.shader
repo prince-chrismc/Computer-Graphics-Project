@@ -5,6 +5,7 @@
 
 in vec4 vertex_color;
 in vec2 textureCoord;
+in vec3 pos;
 uniform int object;
 in vec3 fragPosition;
 
@@ -19,8 +20,12 @@ void main()
 	//will add a variable to chose when to use the texture eventually
    //color = vertex_color;
 	
-	if (object == 1) {
-		color = texture(texture1, textureCoord);
+	if (object == 1){ color = texture(texture2, textureCoord); }
+	else if (object == 2) {
+		if (pos.z <= 0) {
+			color = texture(texture1, textureCoord);
+		}
+		else { color = texture(texture2, textureCoord); }
 	}
 	else { color = texture(texture2, textureCoord); }
 }

@@ -14,12 +14,12 @@ uniform mat4 projection_matrix;
 
 out vec4 vertex_color;
 out vec2 textureCoord;
-out vec3 outNormal;
+out vec3 pos;
 out vec3 fragPosition;
 
 void main()
 {
-	outNormal = vec3(model_matrix * vec4(normal, 0.0f)); //rotate our normals -- from the TA
+	pos = position;
 	fragPosition = vec3(model_matrix * vec4(position, 1.0f));
 
    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(position, 1.0);
