@@ -34,11 +34,8 @@ std::shared_ptr<TreeA::TreeObj> TreeA::TreeObj::s_Instance;
 std::once_flag TreeB::TreeObj::s_Flag;
 std::shared_ptr<TreeB::TreeObj> TreeB::TreeObj::s_Instance;
 
-TreeA::TreeObj::TreeObj()
+TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
 {
-	Texture temp("assets/wall.jpg");
-	m_Texture = temp;
-
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
@@ -103,11 +100,8 @@ TreeA::TreeObj::~TreeObj()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-TreeB::TreeObj::TreeObj()
+TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
 {
-	Texture temp("assets/wall.jpg");
-	m_Texture = temp;
-
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
@@ -157,7 +151,7 @@ TreeB::TreeObj::TreeObj()
    glVertexAttribPointer(textureIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
    glEnableVertexAttribArray(textureIndex);
- 
+
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
    glBindVertexArray(0);
