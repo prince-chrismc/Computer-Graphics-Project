@@ -31,6 +31,7 @@ SOFTWARE.
 #include "glm\gtx\transform2.hpp"
 #include "gl\glew.h"
 #include <mutex>
+#include "Texture.h"
 
 class DrawableTree abstract
 {
@@ -66,15 +67,18 @@ class TreeA : public DrawableTree
 
          const GLuint GetVAO() const { return m_VAO; }
          const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+         const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
       private:
          TreeObj();
 
+         Texture m_Texture;
+
          GLuint m_VAO;
          GLuint m_Verticies;
          GLuint m_Colors;
-         //GLuint m_Normals;
-         //GLuint m_Uvs;
+         GLuint m_Normals;
+         GLuint m_Uvs;
 
          GLsizei m_NumVertices;
 
@@ -113,15 +117,18 @@ class TreeB : public DrawableTree
 
          const GLuint GetVAO() const { return m_VAO; }
          const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+         const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
       private:
          TreeObj();
 
+         Texture m_Texture;
+
          GLuint m_VAO;
          GLuint m_Verticies;
          GLuint m_Colors;
-         //GLuint m_Normals;
-         //GLuint m_Uvs;
+         GLuint m_Normals;
+         GLuint m_Uvs;
 
          GLsizei m_NumVertices;
 

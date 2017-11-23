@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+                     Daniel P, privorotskyd(at)gmail(dot)com
+                     Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +26,20 @@ SOFTWARE.
 
 #pragma once
 
-#include "RenderMode.h"
-#include "Texture.h"
-#include "glm\vec3.hpp"
-#include <vector>
-
-class DrawableObject
+class Texture
 {
-   public:
-   DrawableObject() {}
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies);
-   DrawableObject(const std::vector<glm::vec3> verticies, const char *texturePath, const std::vector<GLuint> indicies);
-   virtual void Draw(const RenderMode& render_mode) const;
-   void Delete();
-   unsigned int getTexture();
+public:
+   Texture() {}
+   Texture(const char* imagePath);
 
-   protected:
-      GLuint m_VAO;
-      GLuint m_Verticies;
-      GLuint m_Colors;
-      GLuint m_Indicies;
+   unsigned int getTexture() const { return texture; }
 
-      GLsizei m_NumVertices;
-      GLsizei m_NumIndicies;
+private:
+   unsigned int texture;
 
-	  Texture m_Texture;
+   int width;
+   int height;
+   int channel;
+
+   void createTexture(const char* image_path);
 };

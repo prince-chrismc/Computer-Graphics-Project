@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include "TerrainChunk.h"
 #include "Shader.h"
-#include <random>                               //mt19937
+#include <random>                               // mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
 #include <glm\common.hpp>                       // clamp
@@ -39,7 +39,9 @@ TerrainChunk::TerrainChunk()
 
    generateVertices();
 
-   m_terrain = DrawableObject(grid, color, indices);
+   //DrawableObject test(grid, color, indices);
+   DrawableObject test(grid, "assets/wall.jpg", indices);
+   m_terrain = test;
 }
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const
