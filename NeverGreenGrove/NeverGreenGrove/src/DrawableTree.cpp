@@ -39,7 +39,7 @@ TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
-   //GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
+   GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
    //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
    GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
 
@@ -59,7 +59,7 @@ TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
    glGenBuffers(1, &m_Colors);
-   //glGenBuffers(1, &m_Normals);
+   glGenBuffers(1, &m_Normals);
    glGenBuffers(1, &m_Uvs);
 
    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
@@ -75,10 +75,10 @@ TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glVertexAttribPointer(ColorIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(ColorIndex);
 
-   //glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
-   //glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
-   //glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   //glEnableVertexAttribArray(NormalIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
+   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(NormalIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
@@ -104,7 +104,7 @@ TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
-   //GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
+   GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
    //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
    GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
 
@@ -124,7 +124,7 @@ TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
    glGenBuffers(1, &m_Colors);
-   //glGenBuffers(1, &m_Normals);
+   glGenBuffers(1, &m_Normals);
    glGenBuffers(1, &m_Uvs);
 
    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
@@ -140,10 +140,10 @@ TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glVertexAttribPointer(ColorIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(ColorIndex);
 
-   //glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
-   //glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
-   //glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   //glEnableVertexAttribArray(NormalIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
+   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(NormalIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
