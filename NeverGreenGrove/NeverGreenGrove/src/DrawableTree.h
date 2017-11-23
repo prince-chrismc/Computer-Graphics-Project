@@ -77,7 +77,7 @@ class TreeA : public DrawableTree
          GLuint m_VAO;
          GLuint m_Verticies;
          GLuint m_Colors;
-         //GLuint m_Normals;
+         GLuint m_Normals;
          GLuint m_Uvs;
 
          GLsizei m_NumVertices;
@@ -127,7 +127,7 @@ class TreeB : public DrawableTree
          GLuint m_VAO;
          GLuint m_Verticies;
          GLuint m_Colors;
-         //GLuint m_Normals;
+         GLuint m_Normals;
          GLuint m_Uvs;
 
          GLsizei m_NumVertices;
