@@ -14,7 +14,7 @@ uniform mat4 projection_matrix;
 
 out vec4 vertex_color;
 out vec2 textureCoord;
-out vec3 outNormals;
+out vec3 outNormal;
 out vec3 fragPosition;
 
 void main()

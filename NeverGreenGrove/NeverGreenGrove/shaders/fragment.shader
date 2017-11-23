@@ -20,7 +20,7 @@ void main()
 	//folllowing from ta
 	//ambient lighting
 	float ambientStrength = 0.35f;
-	vec3 ambient_contribution = ambientStrength * lightColour;
+	vec3 ambient_contribution = ambientStrength * lightColor;
 
 	//diffuse lighting
 	vec3 light_position = vec3(1.0f, 1.0f, 1.0f); //world coords
@@ -29,7 +29,7 @@ void main()
 
 	vec3 light_direction = normalize(light_position - fragPosition);
 	float incident_degree = max(dot(norm, light_direction), 0.0f);
-	vec3 diffuse_contribution = incident_degree * lightColour;
+	vec3 diffuse_contribution = incident_degree * lightColor;
 
 	vec3 resultantColour = (ambient_contribution + diffuse_contribution) * objColor;
 	color = vec4(resultantColour, 1.0f);
