@@ -174,6 +174,8 @@ std::vector <GLuint> TerrainChunk::createEBO(const std::vector<std::vector<GLuin
 {
 	https://stackoverflow.com/questions/5915753/generate-a-plane-with-triangle-strips
    std::vector<GLuint> EBO_indices;
+
+   ///TRIANGLE_STRIP EBO
    for (int row = 0; row< CHUNK_LENGTH - 1; row++) {
 	   if ((row & 1) == 0) { // even rows
 		   for (int col = 0; col< CHUNK_LENGTH; col++) {
@@ -189,8 +191,7 @@ std::vector <GLuint> TerrainChunk::createEBO(const std::vector<std::vector<GLuin
 	   }
    }
 
-
-   return EBO_indices;
+   ///TRIANGLE EBO
    //for (int i = 0; i < index2d.size() - 1; i++)
    //{
    //   for (int j = 0; j < index2d.front().size() - 1; j++)
@@ -206,6 +207,9 @@ std::vector <GLuint> TerrainChunk::createEBO(const std::vector<std::vector<GLuin
    //      EBO_indices.emplace_back(index2d.at(i + 1).at(j));
    //   }
    //}
+
+
+   return EBO_indices;
    
 }
 
