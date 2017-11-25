@@ -89,8 +89,11 @@ int main()
       tree2->Draw();
       tree3->Draw();
 
-      terrain.Draw(RenderMode::LINES);
+	  
+      terrain.Draw(RenderMode::TRIANGLE_STRIPS);
       /// Render
+	  //For wireframe (comment this out unless needed)
+	  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
       window->NextBuffer(); // swap buffers
    }
