@@ -63,6 +63,12 @@ int main()
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_GREATER);
 
+#ifdef _DEBUG
+   //For wireframe (comment this out unless needed)
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#endif // _DEBUG
+
+
    // Terrain
    TerrainChunk terrain;
 
@@ -89,11 +95,8 @@ int main()
       tree2->Draw();
       tree3->Draw();
 
-	  
       terrain.Draw(RenderMode::TRIANGLE_STRIPS);
       /// Render
-	  //For wireframe (comment this out unless needed)
-	  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
       window->NextBuffer(); // swap buffers
    }

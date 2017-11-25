@@ -64,7 +64,7 @@ void DrawableObject::Delete()
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
    glDeleteBuffers(1, &m_Indicies);
-   glDeleteVertexArrays(1 ,&m_VAO);
+   glDeleteVertexArrays(1, &m_VAO);
 }
 
 void DrawableObject::Draw(const RenderMode& render_mode) const
@@ -94,11 +94,11 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
 
    case RenderMode::TRIANGLE_STRIPS:
-	   glBindVertexArray(m_VAO);
-	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
-	   glDrawElements(GL_TRIANGLE_STRIP, m_NumVertices * (GLsizei)2 -(GLsizei)382, GL_UNSIGNED_INT, 0);
-	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	   glBindVertexArray(0);
-	   break;
+      glBindVertexArray(m_VAO);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+      glDrawElements(GL_TRIANGLE_STRIP, m_NumVertices * (GLsizei)2 - (GLsizei)382, GL_UNSIGNED_INT, 0);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+      glBindVertexArray(0);
+      break;
    }
 }
