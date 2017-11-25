@@ -172,23 +172,23 @@ void TerrainChunk::flatTerrain()
 
 std::vector <GLuint> TerrainChunk::createEBO(const std::vector<std::vector<GLuint>>& index2d)
 {
-	https://stackoverflow.com/questions/5915753/generate-a-plane-with-triangle-strips
+   https://stackoverflow.com/questions/5915753/generate-a-plane-with-triangle-strips
    std::vector<GLuint> EBO_indices;
 
    ///TRIANGLE_STRIP EBO
    for (int row = 0; row< CHUNK_LENGTH - 1; row++) {
-	   if ((row & 1) == 0) { // even rows
-		   for (int col = 0; col< CHUNK_LENGTH; col++) {
-			   EBO_indices.emplace_back(col + row * CHUNK_LENGTH);
-			   EBO_indices.emplace_back(col + (row + 1) * CHUNK_LENGTH);
-		   }
-	   }
-	   else { // odd rows
-		   for (int col = CHUNK_LENGTH - 1; col>0; col--) {
-			   EBO_indices.emplace_back( col + (row + 1) * CHUNK_LENGTH);
-			   EBO_indices.emplace_back( col - 1 + +row * CHUNK_LENGTH);
-		   }
-	   }
+      if ((row & 1) == 0) { // even rows
+         for (int col = 0; col< CHUNK_LENGTH; col++) {
+            EBO_indices.emplace_back(col + row * CHUNK_LENGTH);
+            EBO_indices.emplace_back(col + (row + 1) * CHUNK_LENGTH);
+         }
+      }
+      else { // odd rows
+         for (int col = CHUNK_LENGTH - 1; col>0; col--) {
+            EBO_indices.emplace_back( col + (row + 1) * CHUNK_LENGTH);
+            EBO_indices.emplace_back( col - 1 + +row * CHUNK_LENGTH);
+         }
+      }
    }
 
    ///TRIANGLE EBO
@@ -207,10 +207,7 @@ std::vector <GLuint> TerrainChunk::createEBO(const std::vector<std::vector<GLuin
    //      EBO_indices.emplace_back(index2d.at(i + 1).at(j));
    //   }
    //}
-
-
    return EBO_indices;
-   
 }
 
 std::vector<glm::vec3> TerrainChunk::flatten(const std::vector<std::vector<glm::vec3>>& vector2d)
