@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "DrawableTree.h"
+#include "Forest.h"
 #include "ObjLoader.h"
 #include "Shader.h"
 #include <random>                               //std::mt19937

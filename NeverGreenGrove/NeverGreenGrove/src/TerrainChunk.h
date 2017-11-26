@@ -25,7 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "DrawableObject.h"
-#include "DrawableTree.h"
+#include "Forest.h"
 
 class TerrainChunk
 {
