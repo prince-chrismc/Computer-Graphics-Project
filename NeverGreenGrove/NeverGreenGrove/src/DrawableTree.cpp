@@ -207,48 +207,15 @@ std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
    }
 }
 
-//Forest::Builder::Builder(const std::vector<std::vector<glm::vec3>>& grid_2d)
-//{
-//   auto future_forest = std::async(std::launch::async, [] {
-//      return  std::vector<std::shared_ptr<DrawableTree>>(256, TreeFactory::GetNewTree());
-//   });
-//   std::async(std::launch::async, [this] {
-//      std::generate(m_ObjectSpace.begin(), m_ObjectSpace.end(), [] { return true; });
-//   });
-//   std::generate(m_HeightMap.begin(), m_HeightMap.end(), [grid_2d] {
-//      static size_t x = 0, y = 0;
-//      float retval = grid_2d.at(x).at(y).y;
-//      if(++y == 128) { x++; y = 0; }
-//      return retval;
-//   });
-//
-//   auto GenCoord = []{
-//      static std::random_device rd;
-//      static std::mt19937 g(rd());
-//      return g() % 128;
-//   };
-//
-//   auto tree_vec = future_forest.get();
-//
-//   while (!tree_vec.empty())
-//   {
-//      size_t x = GenCoord();
-//      size_t y = GenCoord();
-//
-//      auto tree = tree_vec.back();
-//      tree->Translate(glm::vec3{x,y, m_HeightMap[{x,y}]});
-//      m_Map.emplace(Point{x,y}, tree);
-//      tree_vec.pop_back();
-//   }
-//}
-
 Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
 {
    //m_Map = Builder(grid_2d).GetMap();
 
-   //auto future_forest = std::async(std::launch::async, [] {
-   //   return  std::vector<std::shared_ptr<DrawableTree>>(256, TreeFactory::GetNewTree());
-   //});
+   auto future_forest = std::async(std::launch::async, [] {
+       std::vector<std::shared_ptr<DrawableTree>> retval(256);
+       std::generate(retval.begin(), retval.end(), TreeFactory::GetNewTree);
+       return retval;
+   });
    //std::async(std::launch::async, [this] {
    //   std::generate(m_ObjectSpace.begin(), m_ObjectSpace.end(), [] { return true; });
    //});
@@ -265,11 +232,9 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       return g() % 128;
    };
 
-   constexpr double rw_proj = 1.0 / 128.0 * 50.0;
+   constexpr double rw_proj = 1.0 / 128.0 * 49.95;
 
-   auto tree_vec = std::vector<std::shared_ptr<DrawableTree>>(256); //future_forest.get();
-   std::generate(tree_vec.begin(), tree_vec.end(), TreeFactory::GetNewTree);
-
+   auto tree_vec = future_forest.get();
 
    while (!tree_vec.empty())
    {

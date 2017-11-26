@@ -152,7 +152,7 @@ class Forest
 private:
    struct Point { std::size_t x, y; };
 
-   //Compare the x-coordinates of two Point pointers
+   //Compare the coordinates of two Points
    struct PointCmp
    {
       bool operator()(const Point &lhs, const Point &rhs) const
@@ -170,19 +170,5 @@ public:
    ~Forest() = default;
    Forest(const std::vector<std::vector<glm::vec3>>& grid_2d);
 
-   void Draw() const { for(auto tree : m_Map){tree.second->Draw();} }
-
-   //class Builder
-   //{
-   //   public:
-   //      Builder(const std::vector<std::vector<glm::vec3>>& grid_2d);
-   //      auto GetMap() { return m_Map; }
-
-   //   private:
-   //      multidim::Grid<bool, 128, 128, 128> m_ObjectSpace; // https://github.com/coin-au-carre/MultiDimGrid/blob/master/example/01-basic.cpp
-   //      multidim::Grid<float, 128, 128> m_HeightMap;
-
-   //      std::map<Point, std::shared_ptr<DrawableTree>, PointCmp> m_Map;
-
-   //};
+   void Draw() const { for(auto tree : m_Map){ tree.second->Draw(); } }
 };
