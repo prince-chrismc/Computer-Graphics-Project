@@ -69,12 +69,8 @@ int main()
    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif // _DEBUG
 
-
    // Terrain
    TerrainChunk terrain;
-
-   // Tree -----------------------------------------------------------------------------------------------------------------------------------
-   Forest m_forest(std::vector<std::vector<glm::vec3>>(128, std::vector<glm::vec3>(128, glm::vec3())));
 
    // Game loop
    while (!window->ShouldClose())
@@ -87,8 +83,6 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      m_forest.Draw();
-
       terrain.Draw(RenderMode::TRIANGLE_STRIPS);
       /// Render
 

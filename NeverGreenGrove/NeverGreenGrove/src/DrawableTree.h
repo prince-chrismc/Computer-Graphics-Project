@@ -29,7 +29,7 @@ SOFTWARE.
 
 #include "MultiDimGrid.hpp"
 #include "glm\matrix.hpp"
-#include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
+#include "glm\gtc\matrix_transform.hpp"         //glm::lookAt
 #include "glm\gtx\transform2.hpp"
 #include "gl\glew.h"
 #include <mutex>
@@ -39,7 +39,7 @@ SOFTWARE.
 class DrawableTree abstract
 {
    public:
-      DrawableTree() = default;
+      DrawableTree() : m_ModelMatrix(1.0f) {}
 
       virtual void Draw() const = 0;
       void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
@@ -90,7 +90,7 @@ class TreeA : public DrawableTree
 class TreeA2 : public TreeA
 {
 public:
-   TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); Rotate(90.f); }
+   TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); /*Rotate(90.f);*/ }
 };
 
 class TreeA3 : public TreeA
@@ -137,7 +137,7 @@ class TreeB : public DrawableTree
 class TreeB2 : public TreeB
 {
 public:
-   TreeB2() { Scale(glm::vec3(1.1, 1.25, 0.9)); Rotate(75.0f); }
+   TreeB2() { Scale(glm::vec3(1.1, 1.25, 0.9)); /*Rotate(75.0f);*/ }
 };
 
 class TreeFactory
@@ -152,7 +152,6 @@ class Forest
 private:
    struct Point { std::size_t x, y; };
 
-   typedef Point* PointPtr;
    //Compare the x-coordinates of two Point pointers
    struct PointCmp
    {
