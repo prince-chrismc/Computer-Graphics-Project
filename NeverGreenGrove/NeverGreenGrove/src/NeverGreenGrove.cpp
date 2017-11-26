@@ -35,6 +35,7 @@ SOFTWARE.
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 // Function Declarations
 bool SetupGlew();
@@ -73,12 +74,7 @@ int main()
    TerrainChunk terrain;
 
    // Tree -----------------------------------------------------------------------------------------------------------------------------------
-   auto tree1 = TreeFactory::GetNewTree();
-   auto tree2 = TreeFactory::GetNewTree();
-   auto tree3 = TreeFactory::GetNewTree();
-   tree1->Translate(glm::vec3(5.5f, 0.0f, 1.0f));
-   tree2->Translate(glm::vec3(2.5f, 0.0f, 3.0f));
-   tree3->Translate(glm::vec3(4.0f, 0.0f, 5.0f));
+   Forest m_forest(std::vector<std::vector<glm::vec3>>(128, std::vector<glm::vec3>(128, glm::vec3())));
 
    // Game loop
    while (!window->ShouldClose())
@@ -91,9 +87,7 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      tree1->Draw();
-      tree2->Draw();
-      tree3->Draw();
+      m_forest.Draw();
 
       terrain.Draw(RenderMode::TRIANGLE_STRIPS);
       /// Render

@@ -187,8 +187,8 @@ void TreeB::Draw() const
 
 std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
 {
-   static std::random_device rd;
-   static std::mt19937 g(rd());
+   std::random_device rd;
+   std::mt19937 g(rd());
 
    switch (g() % 5 + 1)
    {
@@ -196,8 +196,8 @@ std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
       return std::make_shared<TreeA>();
    case 2:
       return std::make_shared<TreeA2>();
-   case 3:
-      return std::make_shared<TreeA3>();
+   //case 3:
+     // return std::make_shared<TreeA3>();
    case 4:
       return std::make_shared<TreeB>();
    case 5:
@@ -207,28 +207,67 @@ std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
    }
 }
 
-Forest::Builder::Builder(const std::vector<std::vector<glm::vec3>>& grid_2d)
+//Forest::Builder::Builder(const std::vector<std::vector<glm::vec3>>& grid_2d)
+//{
+//   auto future_forest = std::async(std::launch::async, [] {
+//      return  std::vector<std::shared_ptr<DrawableTree>>(256, TreeFactory::GetNewTree());
+//   });
+//   std::async(std::launch::async, [this] {
+//      std::generate(m_ObjectSpace.begin(), m_ObjectSpace.end(), [] { return true; });
+//   });
+//   std::generate(m_HeightMap.begin(), m_HeightMap.end(), [grid_2d] {
+//      static size_t x = 0, y = 0;
+//      float retval = grid_2d.at(x).at(y).y;
+//      if(++y == 128) { x++; y = 0; }
+//      return retval;
+//   });
+//
+//   auto GenCoord = []{
+//      static std::random_device rd;
+//      static std::mt19937 g(rd());
+//      return g() % 128;
+//   };
+//
+//   auto tree_vec = future_forest.get();
+//
+//   while (!tree_vec.empty())
+//   {
+//      size_t x = GenCoord();
+//      size_t y = GenCoord();
+//
+//      auto tree = tree_vec.back();
+//      tree->Translate(glm::vec3{x,y, m_HeightMap[{x,y}]});
+//      m_Map.emplace(Point{x,y}, tree);
+//      tree_vec.pop_back();
+//   }
+//}
+
+Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
 {
-   auto future_forest = std::async(std::launch::async, [] {
-      return  std::vector<std::shared_ptr<DrawableTree>>(256, TreeFactory::GetNewTree());
-   });
-   std::async(std::launch::async, [this] {
-      std::generate(m_ObjectSpace.begin(), m_ObjectSpace.end(), [] { return true; });
-   });
+   //m_Map = Builder(grid_2d).GetMap();
+
+   //auto future_forest = std::async(std::launch::async, [] {
+   //   return  std::vector<std::shared_ptr<DrawableTree>>(256, TreeFactory::GetNewTree());
+   //});
+   //std::async(std::launch::async, [this] {
+   //   std::generate(m_ObjectSpace.begin(), m_ObjectSpace.end(), [] { return true; });
+   //});
    std::generate(m_HeightMap.begin(), m_HeightMap.end(), [grid_2d] {
       static size_t x = 0, y = 0;
       float retval = grid_2d.at(x).at(y).y;
-      if(++y == 128) { x++; y = 0; }
+      if (++y == 128) { x++; y = 0; }
       return retval;
    });
 
-   auto GenCoord = []{
+   auto GenCoord = [] {
       static std::random_device rd;
       static std::mt19937 g(rd());
-      return g() % 128;
+      return g() % 64;
    };
 
-   auto tree_vec = future_forest.get();
+   auto tree_vec = std::vector<std::shared_ptr<DrawableTree>>(128); //future_forest.get();
+   std::generate(tree_vec.begin(), tree_vec.end(), TreeFactory::GetNewTree);
+
 
    while (!tree_vec.empty())
    {
@@ -236,13 +275,8 @@ Forest::Builder::Builder(const std::vector<std::vector<glm::vec3>>& grid_2d)
       size_t y = GenCoord();
 
       auto tree = tree_vec.back();
-      tree->Translate(glm::vec3{x,y, m_HeightMap[{x,y}]});
-      m_Map.emplace(Point{x,y}, tree);
+      tree->Translate(glm::vec3{ x, m_HeightMap[{x,y}], y });
+      m_Map.emplace(Point{ x,y }, tree);
       tree_vec.pop_back();
    }
-}
-
-Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
-{
-   m_Map = Builder(grid_2d).GetMap();
 }
