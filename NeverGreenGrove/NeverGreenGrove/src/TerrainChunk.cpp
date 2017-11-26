@@ -39,14 +39,14 @@ TerrainChunk::TerrainChunk()
    generateVertices();
 
    m_terrain = DrawableObject(grid, color, indices);
-   m_forest = Forest(grid_2d);
+   //m_forest = Forest(grid_2d);
 }
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const
 {
    ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(1.0f));
    m_terrain.Draw(render_mode);
-   m_forest.Draw();
+   //m_forest.Draw();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
