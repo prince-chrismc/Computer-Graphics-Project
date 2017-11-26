@@ -24,12 +24,11 @@ SOFTWARE.
 
 #include "TerrainChunk.h"
 #include "Shader.h"
-#include <random>                               //mt19937
+#include "glm\common.hpp"                       // clamp
+#include <random>                               // mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
-#include <glm\common.hpp>                       // clamp
-
-#define PI 3.14159265358979
+#include <corecrt_math_defines.h>
 
 /// generates random terrain
 TerrainChunk::TerrainChunk()
@@ -40,12 +39,14 @@ TerrainChunk::TerrainChunk()
    generateVertices();
 
    m_terrain = DrawableObject(grid, color, indices);
+   m_forest = Forest(grid_2d);
 }
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const
 {
    ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(1.0f));
    m_terrain.Draw(render_mode);
+   m_forest.Draw();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +122,7 @@ void TerrainChunk::generateVertices() {
                   //n = PI/radius
                   //x = distance from center
                   //k = half of height
-               float new_height = hill.height*0.5 * std::cos(PI / hill.radius * distance) + hill.height*0.5;
+               float new_height = hill.height*0.5 * std::cos(M_PI / hill.radius * distance) + hill.height*0.5;
 
                if (new_height > grid_2d.at(i).at(j).y)
                {
@@ -232,7 +233,7 @@ glm::vec3 TerrainChunk::calcNormal(Hill hill, float distance, int i, int j)
    // using the center of a hill as the new (0,0) coordinate, convert (i,j) to that
    const float x = i - hill.x;
    const float z = j - hill.z;
-   const float n = PI / hill.radius;
+   const float n = M_PI / hill.radius;
 
    // Step 1: Get partial derivatives
    // used wolfram alpha to simplify, https://www.wolframalpha.com/input/?i=differentiate+5*cos(((x%5E2%2Bz%5E2)%5E0.5)+*+8)%2B5

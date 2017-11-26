@@ -28,6 +28,9 @@ SOFTWARE.
 #include "ObjLoader.h"
 #include "Shader.h"
 #include <random>                               //std::mt19937
+#include <algorithm>
+#include <future>
+
 
 std::once_flag TreeA::TreeObj::s_Flag;
 std::shared_ptr<TreeA::TreeObj> TreeA::TreeObj::s_Instance;
@@ -182,24 +185,64 @@ void TreeB::Draw() const
    glBindVertexArray(0);
 }
 
-std::unique_ptr<DrawableTree> TreeFactory::GetNewTree() {
-
-   std::random_device rd;
-   std::mt19937 g(rd());
+std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
+{
+   static std::random_device rd;
+   static std::mt19937 g(rd());
 
    switch (g() % 5 + 1)
    {
    case 1:
-      return std::make_unique<TreeA>();
+      return std::make_shared<TreeA>();
    case 2:
-      return std::make_unique<TreeA2>();
+      return std::make_shared<TreeA2>();
    case 3:
-      return std::make_unique<TreeA3>();
+      return std::make_shared<TreeA3>();
    case 4:
-      return std::make_unique<TreeB>();
+      return std::make_shared<TreeB>();
    case 5:
-      return std::make_unique<TreeB2>();
+      return std::make_shared<TreeB2>();
    default:
-      return std::make_unique<TreeA>();
+      return std::make_shared<TreeA>();
    }
+}
+
+Forest::Builder::Builder(const std::vector<std::vector<glm::vec3>>& grid_2d)
+{
+   auto future_forest = std::async(std::launch::async, [] {
+      return  std::vector<std::shared_ptr<DrawableTree>>(256, TreeFactory::GetNewTree());
+   });
+   std::async(std::launch::async, [this] {
+      std::generate(m_ObjectSpace.begin(), m_ObjectSpace.end(), [] { return true; });
+   });
+   std::generate(m_HeightMap.begin(), m_HeightMap.end(), [grid_2d] {
+      static size_t x = 0, y = 0;
+      float retval = grid_2d.at(x).at(y).y;
+      if(++y == 128) { x++; y = 0; }
+      return retval;
+   });
+
+   auto GenCoord = []{
+      static std::random_device rd;
+      static std::mt19937 g(rd());
+      return g() % 128;
+   };
+
+   auto tree_vec = future_forest.get();
+
+   while (!tree_vec.empty())
+   {
+      size_t x = GenCoord();
+      size_t y = GenCoord();
+
+      auto tree = tree_vec.back();
+      tree->Translate(glm::vec3{x,y, m_HeightMap[{x,y}]});
+      m_Map.emplace(Point{x,y}, tree);
+      tree_vec.pop_back();
+   }
+}
+
+Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
+{
+   m_Map = Builder(grid_2d).GetMap();
 }
