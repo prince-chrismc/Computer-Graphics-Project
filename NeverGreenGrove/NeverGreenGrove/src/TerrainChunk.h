@@ -25,6 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "DrawableObject.h"
+#include "DrawableTree.h"
 
 class TerrainChunk
 {
@@ -34,6 +35,7 @@ class TerrainChunk
 
    private:
       DrawableObject m_terrain;
+      Forest m_forest;
 
       static constexpr GLuint CHUNK_LENGTH = 128;
       std::vector<std::vector<glm::vec3>> grid_2d;

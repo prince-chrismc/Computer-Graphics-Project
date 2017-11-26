@@ -26,11 +26,15 @@ SOFTWARE.
 
 #pragma once
 
+
+#include "MultiDimGrid.hpp"
 #include "glm\matrix.hpp"
 #include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
 #include "glm\gtx\transform2.hpp"
 #include "gl\glew.h"
 #include <mutex>
+#include <map>
+#include <vector>
 
 class DrawableTree abstract
 {
@@ -140,5 +144,44 @@ class TreeFactory
 {
    public:
       TreeFactory() = delete;
-      static std::unique_ptr<DrawableTree> GetNewTree();
+      static std::shared_ptr<DrawableTree> GetNewTree();
+};
+
+class Forest
+{
+private:
+   struct Point { std::size_t x, y; };
+
+   typedef Point* PointPtr;
+   //Compare the x-coordinates of two Point pointers
+   struct PointCmp
+   {
+      bool operator()(const Point &lhs, const Point &rhs) const
+      {
+         return (lhs.x < rhs.x) ? true : (lhs.x == rhs.x && lhs.y < rhs.y) ? true : false;
+      }
+   };
+
+   std::map<Point, std::shared_ptr<DrawableTree>, PointCmp> m_Map;
+
+public:
+   Forest() = default;
+   ~Forest() = default;
+   Forest(const std::vector<std::vector<glm::vec3>>& grid_2d);
+
+   void Draw() const { for(auto tree : m_Map){tree.second->Draw();} }
+
+   class Builder
+   {
+      public:
+         Builder(const std::vector<std::vector<glm::vec3>>& grid_2d);
+         auto GetMap() { return m_Map; }
+
+      private:
+         multidim::Grid<bool, 128, 128, 128> m_ObjectSpace; // https://github.com/coin-au-carre/MultiDimGrid/blob/master/example/01-basic.cpp
+         multidim::Grid<float, 128, 128> m_HeightMap;
+
+         std::map<Point, std::shared_ptr<DrawableTree>, PointCmp> m_Map;
+
+   };
 };
