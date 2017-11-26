@@ -70,5 +70,13 @@ void GlfwWindow::UpdateFromResize(const int& width, const int& height)
 {
    // notify GL and calc projection matrix using new size
    glViewport(0, 0, width, height);
-   m_Projection = glm::perspective(45.0f, (GLfloat)width / (GLfloat)height, 0.0f, 100.0f);
+   m_Projection = glm::perspective(45.0f, (GLfloat)width / (GLfloat)height, 0.01f, 1.0f);
+
+   constexpr GLdouble pi = 3.1415926535897932384626433832795;
+   GLdouble fW, fH;
+
+   fH = tan(45.0 / 360.0 * pi) * 0.01;
+   fW = fH * ((GLfloat)width / (GLfloat)height);
+
+   glFrustum(-fW, fW, -fH, fH, 0.01, 1.0);
 }

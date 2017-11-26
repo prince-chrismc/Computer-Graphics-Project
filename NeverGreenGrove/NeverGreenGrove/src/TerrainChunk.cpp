@@ -44,7 +44,7 @@ TerrainChunk::TerrainChunk()
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const
 {
-   ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(1.0f));
+   ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(0.010f));
    m_terrain.Draw(render_mode);
 }
 

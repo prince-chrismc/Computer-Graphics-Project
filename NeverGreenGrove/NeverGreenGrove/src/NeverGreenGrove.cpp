@@ -62,10 +62,12 @@ int main()
 
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_GREATER);
+   //glEnable(GL_CULL_FACE);
+   //glCullFace(GL_FRONT);
 
 #ifdef _DEBUG
    //For wireframe (comment this out unless needed)
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif // _DEBUG
 
 
@@ -91,11 +93,11 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
+      terrain.Draw(RenderMode::TRIANGLE_STRIPS);
+
       tree1->Draw();
       tree2->Draw();
       tree3->Draw();
-
-      terrain.Draw(RenderMode::TRIANGLE_STRIPS);
       /// Render
 
       window->NextBuffer(); // swap buffers
