@@ -4,9 +4,6 @@
     <ClCompile Include="src\DrawableObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DrawableTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GlfwWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -19,12 +16,12 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Forest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DrawableTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DrawableObject.h">
@@ -49,6 +46,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MultiDimGrid.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Forest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
