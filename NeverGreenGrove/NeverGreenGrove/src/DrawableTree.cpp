@@ -195,13 +195,13 @@ std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
    case 1:
       return std::make_shared<TreeA>();
    case 2:
-      return std::make_shared<TreeA2>();
-   //case 3:
-     // return std::make_shared<TreeA3>();
+      //return std::make_shared<TreeA2>();
+   case 3:
+     return std::make_shared<TreeA3>();
    case 4:
       return std::make_shared<TreeB>();
    case 5:
-      return std::make_shared<TreeB2>();
+      //return std::make_shared<TreeB2>();
    default:
       return std::make_shared<TreeA>();
    }
@@ -262,10 +262,12 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
    auto GenCoord = [] {
       static std::random_device rd;
       static std::mt19937 g(rd());
-      return g() % 64;
+      return g() % 128;
    };
 
-   auto tree_vec = std::vector<std::shared_ptr<DrawableTree>>(128); //future_forest.get();
+   constexpr double rw_proj = 1.0 / 128.0 * 50.0;
+
+   auto tree_vec = std::vector<std::shared_ptr<DrawableTree>>(256); //future_forest.get();
    std::generate(tree_vec.begin(), tree_vec.end(), TreeFactory::GetNewTree);
 
 
@@ -275,8 +277,8 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       size_t y = GenCoord();
 
       auto tree = tree_vec.back();
-      tree->Translate(glm::vec3{ x, m_HeightMap[{x,y}], y });
-      m_Map.emplace(Point{ x,y }, tree);
+      tree->Translate(glm::vec3(x*rw_proj, m_HeightMap[{x, y}]*rw_proj - 0.05, y*rw_proj));
+      m_Map.emplace(Point{ x, y }, tree);
       tree_vec.pop_back();
    }
 }
