@@ -18,6 +18,13 @@ void main()
    vec3 objColor = vec3(texture(textures, textureCoord));
    if (object_type == 1){ objColor = vertex_color; }
 
+   float fogCoordinate = abs(fragPosition.z / fragPosition.y);
+   vec4 fogColour = { 1.0f, 1.0f, 1.0f, 1.0f };
+   float startFog = 10.0f;
+   float endFog = 75.0f;
+
+   float fogIntensity = 1.0 - clamp((endFog - fogCoordinate) / (endFog - startFog), 0.0, 1.0);
+
    //folllowing from ta
    //ambient lighting
    float ambientStrength = 0.85f;
@@ -34,4 +41,6 @@ void main()
 
    vec3 resultantColour = (ambient_contribution + diffuse_contribution) * objColor;
    color = vec4(resultantColour, 1.0f);
+
+   color = mix(color, fogColour, fogIntensity);
 }
