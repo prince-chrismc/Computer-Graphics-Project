@@ -1,3 +1,5 @@
+//fog referenced: http://in2gpu.com/2014/07/22/create-fog-shader/
+
 #version 330 core
 
 in vec3 vertex_color;
