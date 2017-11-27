@@ -42,6 +42,7 @@ TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
    //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
    GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
+   GLuint object_type_loc = shaderProgram->GetUniformLocation("object_type");
 
    std::vector<glm::vec3> vertices;
    std::vector<glm::vec3> colors;
@@ -87,6 +88,8 @@ TreeA::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+   glUniform1i(object_type_loc, 0);
+
    glBindVertexArray(0);
 }
 
@@ -107,6 +110,7 @@ TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
    //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
    GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
+   GLuint object_type_loc = shaderProgram->GetUniformLocation("object_type");
 
    std::vector<glm::vec3> vertices;
    std::vector<glm::vec3> colors;
@@ -151,6 +155,8 @@ TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    glEnableVertexAttribArray(textureIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+   glUniform1i(object_type_loc, 0);
 
    glBindVertexArray(0);
 }
