@@ -61,7 +61,7 @@ int main()
    auto shaderProgram = ShaderLinker::GetInstance();
 
    glEnable(GL_DEPTH_TEST);
-   glDepthFunc(GL_GREATER);
+   //glDepthFunc(GL_GREATER);
 
 #ifdef _DEBUG
    // For wireframe (comment this out unless needed)
@@ -156,9 +156,9 @@ int ExitOnEnter()
 void ClearFrame()
 {
    glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
-   glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
-   glClearDepth(0.0);
-   glClear(GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
+   //glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
+   //glClearDepth(0.0);
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
 }
 
 bool SetupGlew()
