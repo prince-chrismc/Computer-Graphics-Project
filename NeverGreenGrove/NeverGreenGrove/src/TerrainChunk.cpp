@@ -28,7 +28,8 @@ SOFTWARE.
 #include <random>                               // mt19937
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
-#include <corecrt_math_defines.h>
+
+#define PI       3.14159265358979323846f   // pi
 
 TerrainChunk::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies)
 {
@@ -182,14 +183,14 @@ void TerrainChunk::Builder::GenerateVertices()
    // Saturate their info, create peaks
    for (int i = 0; i < hill_qty; i++)
    {
-      const int max_r = std::min({ (float)horizontal_peaks.at(i), (float)depth_peaks.at(i), (float)CHUNK_LENGTH - horizontal_peaks.at(i), (float)CHUNK_LENGTH - depth_peaks.at(i), (float)MAX_RADIUS });
-      const float temp_radius = (max_r <= MIN_RADIUS) ? max_r : MIN_RADIUS + (gen() % (max_r - MIN_RADIUS));
+      const int max_r = (int)std::min({ (float)horizontal_peaks.at(i), (float)depth_peaks.at(i), (float)CHUNK_LENGTH - horizontal_peaks.at(i), (float)CHUNK_LENGTH - depth_peaks.at(i), (float)MAX_RADIUS });
+      const float temp_radius = float(max_r <= MIN_RADIUS) ? float(max_r) : float(MIN_RADIUS + (gen() % (max_r - MIN_RADIUS)));
       const float temp_height = (MIN_HEIGHT + gen() % (int)(temp_radius - MIN_HEIGHT));
 
       grid_2d.at(horizontal_peaks.at(i)).at(depth_peaks.at(i)).y = temp_height;
-      Hill new_hill(temp_height, temp_radius, horizontal_peaks.at(i), depth_peaks.at(i));
+      Hill new_hill(temp_height, temp_radius, (float)horizontal_peaks.at(i), (float)depth_peaks.at(i));
       hills.emplace_back(new_hill);
-      color_2d.at(new_hill.x).at(new_hill.z) = glm::vec3(0.4f + 0.6*(temp_height / MAX_HEIGHT), 0.2f + 0.8*(temp_height / MAX_HEIGHT), 0.04f + 0.96*(temp_height / MAX_HEIGHT));
+      color_2d.at((size_t)new_hill.x).at((size_t)new_hill.z) = glm::vec3(0.4f + 0.6*(temp_height / MAX_HEIGHT), 0.2f + 0.8*(temp_height / MAX_HEIGHT), 0.04f + 0.96*(temp_height / MAX_HEIGHT));
    }
 
    // Change all points inside their radius
@@ -210,7 +211,7 @@ void TerrainChunk::Builder::GenerateVertices()
                //n = PI/radius
                //x = distance from center
                //k = half of height
-               float new_height = hill.height*0.5 * std::cos(M_PI / hill.radius * distance) + hill.height*0.5;
+               float new_height = hill.height*0.5f * std::cos(PI / hill.radius * distance) + hill.height*0.5f;
 
                if (new_height > grid_2d.at(i).at(j).y)
                {
@@ -250,17 +251,17 @@ glm::vec3 TerrainChunk::Builder::calcNormal(Hill hill, float distance, int i, in
    // using the center of a hill as the new (0,0) coordinate, convert (i,j) to that
    const float x = i - hill.x;
    const float z = j - hill.z;
-   const float n = M_PI / hill.radius;
+   const float n = PI / hill.radius;
 
    // Step 1: Get partial derivatives
    // used wolfram alpha to simplify, https://www.wolframalpha.com/input/?i=differentiate+5*cos(((x%5E2%2Bz%5E2)%5E0.5)+*+8)%2B5
    // in respect to x axis
    // -(5 x sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
-   const float a = -(hill.height * 0.5 * n * x * std::sin(n * sqrt(x * x + z * z))) / std::sqrt(x * x + z * z);
+   const float a = -(hill.height * 0.5f * n * x * std::sin(n * sqrt(x * x + z * z))) / std::sqrt(x * x + z * z);
 
    // in respect to z axis
    // -(5 z sin(sqrt(x^2 + z^2)))/sqrt(x^2 + z^2)
-   const float b = -(hill.height * 0.5 * n * z * std::sin(n * sqrt(x * x + z * z))) / std::sqrt(x * x + z * z);
+   const float b = -(hill.height * 0.5f * n * z * std::sin(n * sqrt(x * x + z * z))) / std::sqrt(x * x + z * z);
 
    // Step 2: Tangent plane formula
    // With our plane being y = a(x - x0) + b(z - z0) + y0

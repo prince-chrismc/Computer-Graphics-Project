@@ -98,5 +98,4 @@ class TerrainChunk
 
       Builder m_Builder;
       DrawableTerrain m_Terrain;
-
 };
