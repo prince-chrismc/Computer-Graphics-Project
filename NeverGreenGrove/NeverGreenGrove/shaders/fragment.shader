@@ -4,6 +4,7 @@ in vec3 vertex_color;
 in vec2 textureCoord;
 in vec3 outNormal;
 in vec3 fragPosition;
+in vec4 eyeSpace;
 
 out vec4 color;
 
@@ -13,15 +14,15 @@ uniform sampler2D textures;
 
 void main()
 {
-   vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
+   vec3 lightColor = vec3(0.7f, 0.7f, 0.7f);
 
    vec3 objColor = vec3(texture(textures, textureCoord));
    if (object_type == 1){ objColor = vertex_color; }
 
-   float fogCoordinate = abs(fragPosition.z / fragPosition.y);
-   vec4 fogColour = { 1.0f, 1.0f, 1.0f, 1.0f };
-   float startFog = 10.0f;
-   float endFog = 75.0f;
+   float fogCoordinate = abs(eyeSpace.z / eyeSpace.w);
+   vec4 fogColour = { 0.5f, 0.5f, 0.5f, 1.0f };
+   float startFog = 0.0f;
+   float endFog = 250.0f;
 
    float fogIntensity = 1.0 - clamp((endFog - fogCoordinate) / (endFog - startFog), 0.0, 1.0);
 
