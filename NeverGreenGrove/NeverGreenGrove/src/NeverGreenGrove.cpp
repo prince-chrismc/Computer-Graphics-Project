@@ -62,6 +62,9 @@ int main()
 
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_GREATER);
+   glFrontFace(GL_CCW);
+   glEnable(GL_CULL_FACE);
+   glCullFace(GL_BACK);
 
 #ifdef _DEBUG
    // For wireframe (comment this out unless needed)
