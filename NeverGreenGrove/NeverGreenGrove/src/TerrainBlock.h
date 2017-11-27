@@ -38,7 +38,7 @@ friend class Chunk;
    public:
       TerrainBlock::TerrainBlock() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
       void Draw(const RenderMode& render_mode) const;
-      void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
+      void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, 2.505f*vec); }
 
       std::vector<std::vector<glm::vec3>> Get2DGrid() { return m_Builder.Get2DGrid(); }
       static constexpr GLuint CHUNK_LENGTH = 128;
