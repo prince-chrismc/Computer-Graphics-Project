@@ -17,7 +17,6 @@ void main()
 
 	vec3 objColor = vec3(texture(textures, textureCoord));
 	if (object_type == 1){ objColor = vertex_color; }
-	else if (object_type == 2) { objColor = vertex_color; }
 
 	//folllowing from ta
 	//ambient lighting
