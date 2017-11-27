@@ -34,7 +34,7 @@ void main()
    float incident_degree = max(dot(norm, light_direction), 0.0f);
    vec3 diffuse_contribution = incident_degree * lightColor;
 
-   //specular
+   //specular -- referenced to learnOpenGL
    float specularStrength = 0.5;
 
    vec3 viewDir = normalize(viewPos - fragPosition);
