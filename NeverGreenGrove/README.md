@@ -9,6 +9,8 @@ Never Green Grove is a procedrually generate forest set in a post-apocolypse wor
 ## Controls
 **Action** | **Effect**
 :---:| ---
+L_KEY | Lines (RenderMode)
+T_KEY | Triangles (RenderMode)
 W_KEY | Forward (Relative)
 A_KEY | Left (Relative)
 S_KEY | Backwards (Relative)
