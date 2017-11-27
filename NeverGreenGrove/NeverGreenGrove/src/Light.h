@@ -5,7 +5,7 @@
 class Light
 {
 public:
-	Light() {}
+	Light();
 
 	void Draw();
 

@@ -4,7 +4,7 @@
 Light::Light()
 {
 	//set the initial position 
-	position = { 100.0f,0.0f, 100.0f };
+	position = { 100.0f,100.0f, 100.0f };
 }
 
 void Light::newPosition()
@@ -14,7 +14,6 @@ void Light::newPosition()
 
 void Light::Draw()
 {
-	GLuint lightPositionIndex = ShaderLinker::GetInstance()->GetAttributeLocation("light_pos");
-
+	ShaderLinker::GetInstance()->SetUniformVec3("light_pos", position);
 }
 

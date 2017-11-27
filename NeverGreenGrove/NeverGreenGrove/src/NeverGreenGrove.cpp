@@ -29,6 +29,7 @@ SOFTWARE.
 #include "Shader.h"
 #include "ObjLoader.h"
 #include "Chunk.h"
+#include "Light.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
@@ -78,6 +79,9 @@ int main()
    terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
    terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
 
+   //Light
+   Light light;
+
    // Game loop
    while (!window->ShouldClose())
    {
@@ -93,6 +97,7 @@ int main()
       terrain2.Draw();
       terrain3.Draw();
       terrain4.Draw();
+	  light.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
