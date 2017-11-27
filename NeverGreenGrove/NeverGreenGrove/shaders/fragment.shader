@@ -20,7 +20,7 @@ void main()
 
    //folllowing from ta
    //ambient lighting
-   float ambientStrength = 0.35f;
+   float ambientStrength = 0.85f;
    vec3 ambient_contribution = ambientStrength * lightColor;
 
    //diffuse lighting

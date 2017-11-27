@@ -28,7 +28,7 @@ SOFTWARE.
 #include "GlfwWindow.h"
 #include "Shader.h"
 #include "ObjLoader.h"
-#include "TerrainChunk.h"
+#include "Chunk.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
@@ -61,7 +61,7 @@ int main()
    auto shaderProgram = ShaderLinker::GetInstance();
 
    glEnable(GL_DEPTH_TEST);
-   glDepthFunc(GL_GREATER);
+   //glDepthFunc(GL_GREATER);
 
 #ifdef _DEBUG
    // For wireframe (comment this out unless needed)
@@ -69,7 +69,14 @@ int main()
 #endif // _DEBUG
 
    // Terrain
-   TerrainChunk terrain;
+   Chunk terrain1;
+   Chunk terrain2;
+   Chunk terrain3;
+   Chunk terrain4;
+   //terrain1.Translate(glm::vec3(50, 0, 0));
+   terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
+   terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
+   terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
 
    // Game loop
    while (!window->ShouldClose())
@@ -82,7 +89,10 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      terrain.Draw(RenderMode::TRIANGLE_STRIPS);
+      terrain1.Draw();
+      terrain2.Draw();
+      terrain3.Draw();
+      terrain4.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
@@ -146,9 +156,9 @@ int ExitOnEnter()
 void ClearFrame()
 {
    glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
-   glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
-   glClearDepth(0.0);
-   glClear(GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
+   //glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
+   //glClearDepth(0.0);
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
 }
 
 bool SetupGlew()
@@ -201,12 +211,12 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       g_camera.goDown = true;
    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
       g_camera.goDown = false;
+
    if (key == GLFW_KEY_T && action == GLFW_PRESS)
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    if (key == GLFW_KEY_L && action == GLFW_PRESS)
-	  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
-
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {

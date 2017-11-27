@@ -29,7 +29,6 @@ SOFTWARE.
 class Texture
 {
 public:
-   Texture() {}
    Texture(const char* imagePath);
 
    unsigned int getTexture() const { return texture; }

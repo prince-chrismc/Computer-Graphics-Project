@@ -324,6 +324,7 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
    //});
    std::generate(m_HeightMap.begin(), m_HeightMap.end(), [grid_2d] {
       static size_t x = 0, y = 0;
+      if(x == 128) return 0.0f;
       float retval = grid_2d.at(x).at(y).y;
       if (++y == 128) { x++; y = 0; }
       return retval;
@@ -332,10 +333,8 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
    auto GenCoord = [] {
       static std::random_device rd;
       static std::mt19937 g(rd());
-      return g() % 128;
+      return 1 + (g() % 126);
    };
-
-   constexpr double rw_proj = 1.0 / 128.0 * 49.95;
 
    auto tree_vec = future_forest.get();
 
@@ -345,7 +344,7 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       size_t y = GenCoord();
 
       auto tree = tree_vec.back();
-      tree->Translate(glm::vec3(x*rw_proj, m_HeightMap[{x, y}]*rw_proj - 0.05, y*rw_proj));
+      tree->Translate(glm::vec3(x*OBJECTSPACE_TO_REALWORLD, m_HeightMap[{x, y}]*OBJECTSPACE_TO_REALWORLD - 0.05, y*OBJECTSPACE_TO_REALWORLD));
       m_Map.emplace(Point{ x, y }, tree);
       tree_vec.pop_back();
    }

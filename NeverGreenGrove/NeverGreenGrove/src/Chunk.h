@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+                     Daniel P, privorotskyd(at)gmail(dot)com
+                     Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,30 +25,21 @@ SOFTWARE.
 */
 
 #pragma once
+#include "TerrainBlock.h"
+#include "Forest.h"
 
-#include "RenderMode.h"
-#include "Texture.h"
-#include "glm\vec3.hpp"
-#include <vector>
-
-class DrawableObject
+class Chunk
 {
-   public:
-   DrawableObject() {}
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies);
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies);
-   virtual void Draw(const RenderMode& render_mode) const;
-   void Delete();
+public:
+   Chunk() : m_Terrain(), m_Forest(m_Terrain.Get2DGrid()) {}
+   ~Chunk() = default;
 
-   protected:
-      GLuint m_VAO;
-      GLuint m_Verticies;
-      GLuint m_Colors;
-      GLuint m_Indicies;
-      GLuint m_Textures;
+   static constexpr double ONE_TRANS_UNIT = 128.0 * OBJECTSPACE_TO_REALWORLD;
 
-      GLsizei m_NumVertices;
-      GLsizei m_NumIndicies;
+   void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLE_STRIPS); m_Forest.Draw(); }
+   void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate(vec); }
 
-      Texture m_Texture;
+   private:
+      TerrainBlock m_Terrain;
+      Forest m_Forest;
 };
