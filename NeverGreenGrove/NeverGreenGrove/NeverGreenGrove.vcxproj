@@ -166,8 +166,8 @@
     <ClInclude Include="src\RenderMode.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\stb_image.h" />
-    <ClInclude Include="src\TerrainChunk.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\TerrainBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Chunk.cpp" />
@@ -176,8 +176,8 @@
     <ClCompile Include="src\ObjLoader.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\NeverGreenGrove.cpp" />
-    <ClCompile Include="src\TerrainChunk.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TerrainBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fragment.shader" />

@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "TerrainChunk.h"
+#include "TerrainBlock.h"
 #include "Shader.h"
 #include "glm\common.hpp"                       // clamp
 #include <random>                               // mt19937
