@@ -14,6 +14,7 @@ void Light::newPosition()
 
 void Light::Draw()
 {
-	GLuint PositonIndex = ShaderLinker::GetInstance()->GetAttributeLocation("position");
+	GLuint lightPositionIndex = ShaderLinker::GetInstance()->GetAttributeLocation("light_pos");
+
 }
 
