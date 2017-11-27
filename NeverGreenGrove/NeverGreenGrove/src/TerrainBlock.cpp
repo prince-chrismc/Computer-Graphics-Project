@@ -202,8 +202,8 @@ void TerrainBlock::Builder::GenerateVertices()
       for (int j = 0; j < TerrainBlock::CHUNK_LENGTH; j++)
       {
          //check every hills
-         for (const auto hill : hills) {
-
+         for (const auto hill : hills)
+         {
             //check if in mountain
             const float distance = std::sqrt((i - hill.x)*(i - hill.x) + (j - hill.z)*(j - hill.z));
             if (distance <= hill.radius)
@@ -279,40 +279,27 @@ glm::vec3 TerrainBlock::Builder::calcNormal(Hill hill, float distance, int i, in
 std::vector <GLuint> TerrainBlock::Builder::createEBO(const std::vector<std::vector<GLuint>>& index2d)
 {
    // https://stackoverflow.com/questions/5915753/generate-a-plane-with-triangle-strips
-   std::vector<GLuint> EBO_indices;
+   std::vector<GLuint> EBO_indices; // TRIANGLE_STRIP EBO
 
-   /// TRIANGLE_STRIP EBO
-   for (int row = 0; row< TerrainBlock::CHUNK_LENGTH - 1; row++) {
-      if ((row & 1) == 0) { // even rows
-         for (int col = 0; col< TerrainBlock::CHUNK_LENGTH; col++) {
+   for (int row = 0; row < TerrainBlock::CHUNK_LENGTH - 1; row++)
+   {
+      if ((row & 1) == 0) // even rows
+      {
+         for (int col = 0; col < TerrainBlock::CHUNK_LENGTH; col++)
+         {
             EBO_indices.emplace_back(col + row * TerrainBlock::CHUNK_LENGTH);
             EBO_indices.emplace_back(col + (row + 1) * TerrainBlock::CHUNK_LENGTH);
          }
       }
-      else { // odd rows
-         for (int col = TerrainBlock::CHUNK_LENGTH - 1; col>0; col--) {
+      else // odd rows
+      {
+         for (int col = TerrainBlock::CHUNK_LENGTH - 1; col > 0; col--)
+         {
             EBO_indices.emplace_back(col + (row + 1) * TerrainBlock::CHUNK_LENGTH);
             EBO_indices.emplace_back(col - 1 + +row * TerrainBlock::CHUNK_LENGTH);
          }
       }
    }
-
-   /// TRIANGLE EBO
-   //for (int i = 0; i < index2d.size() - 1; i++)
-   //{
-   //   for (int j = 0; j < index2d.front().size() - 1; j++)
-   //   {
-   //      //triangle 1
-   //      EBO_indices.emplace_back(index2d.at(i + 1).at(j));
-   //      EBO_indices.emplace_back(index2d.at(i).at(j));
-   //      EBO_indices.emplace_back(index2d.at(i).at(j + 1));
-
-   //      //triangle 2
-   //      EBO_indices.emplace_back(index2d.at(i).at(j + 1));
-   //      EBO_indices.emplace_back(index2d.at(i + 1).at(j + 1));
-   //      EBO_indices.emplace_back(index2d.at(i + 1).at(j));
-   //   }
-   //}
    return EBO_indices;
 }
 
