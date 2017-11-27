@@ -69,7 +69,9 @@ int main()
 #endif // _DEBUG
 
    // Terrain
-   Chunk terrain;
+   Chunk terrain1;
+   Chunk terrain2;
+   terrain2.Translate(glm::vec3(50,0,0));
 
    // Game loop
    while (!window->ShouldClose())
@@ -82,7 +84,8 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      terrain.Draw();
+      //terrain1.Draw();
+      terrain2.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
