@@ -74,9 +74,9 @@ int main()
    Chunk terrain3;
    Chunk terrain4;
    //terrain1.Translate(glm::vec3(50, 0, 0));
-   terrain2.Translate(glm::vec3(128 * OBJECTSPACE_TO_REALWORLD, 0, 0));
-   terrain3.Translate(glm::vec3(0, 0, 128 * OBJECTSPACE_TO_REALWORLD));
-   terrain4.Translate(glm::vec3(128 * OBJECTSPACE_TO_REALWORLD, 0, 128 * OBJECTSPACE_TO_REALWORLD));
+   terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
+   terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
+   terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
 
    // Game loop
    while (!window->ShouldClose())

@@ -27,10 +27,9 @@ SOFTWARE.
 #pragma once
 
 #include "MultiDimGrid.hpp"
-#include "glm\matrix.hpp"
+#include "glm\matrix.hpp"                       //glm::mat4
 #include "glm\gtc\matrix_transform.hpp"         //glm::lookAt
-#include "glm\gtx\transform2.hpp"
-#include "gl\glew.h"
+#include "glm\gtx\transform2.hpp"               //glm::shear
 #include <mutex>
 #include <map>
 #include <vector>
@@ -39,6 +38,13 @@ constexpr double OBJECTSPACE_TO_REALWORLD = 1.0 / 128.0 * 50.7;
 
 class Forest
 {
+public:
+   Forest(const std::vector<std::vector<glm::vec3>>& grid_2d);
+   ~Forest() = default;
+
+   void Draw() const { for (auto tree : m_Map) { tree.second->Draw(); } }
+   void Translate(const glm::vec3& vec) { for (auto tree : m_Map) { tree.second->Translate(vec); } }
+
 private:
    class DrawableTree abstract
    {
@@ -77,11 +83,4 @@ private:
    std::map<Point, std::shared_ptr<DrawableTree>, PointCmp> m_Map;
    //multidim::Grid<bool, 128, 128, 128> m_ObjectSpace; // https://github.com/coin-au-carre/MultiDimGrid/blob/master/example/01-basic.cpp
    multidim::Grid<float, 128, 128> m_HeightMap;
-
-public:
-   Forest(const std::vector<std::vector<glm::vec3>>& grid_2d);
-   ~Forest() = default;
-
-   void Draw() const { for(auto tree : m_Map){ tree.second->Draw(); } }
-   void Translate(const glm::vec3& vec) { for (auto tree : m_Map) { tree.second->Translate(vec); } }
 };
