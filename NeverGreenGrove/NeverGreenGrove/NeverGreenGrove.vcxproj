@@ -157,9 +157,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\DrawableObject.h" />
     <ClInclude Include="src\Forest.h" />
