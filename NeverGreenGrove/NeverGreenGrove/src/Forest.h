@@ -44,7 +44,7 @@ private:
          DrawableTree() : m_ModelMatrix(1.0f) {}
 
          virtual void Draw() const = 0;
-         void Translate(glm::vec3 vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
+         void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
 
       protected:
          void Scale(glm::vec3 vec) { m_ModelMatrix = glm::scale(m_ModelMatrix, vec); }
@@ -77,9 +77,9 @@ private:
    multidim::Grid<float, 128, 128> m_HeightMap;
 
 public:
-   Forest() = default;
-   ~Forest() = default;
    Forest(const std::vector<std::vector<glm::vec3>>& grid_2d);
+   ~Forest() = default;
 
    void Draw() const { for(auto tree : m_Map){ tree.second->Draw(); } }
+   void Translate(const glm::vec3& vec) { for (auto tree : m_Map) { tree.second->Translate(vec); } }
 };

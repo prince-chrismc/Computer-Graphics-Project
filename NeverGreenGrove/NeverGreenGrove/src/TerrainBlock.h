@@ -32,9 +32,11 @@ SOFTWARE.
 
 class TerrainBlock
 {
+friend class Chunk;
    public:
       TerrainChunk::TerrainChunk() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
       void Draw(const RenderMode& render_mode) const;
+      void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
 
       static constexpr GLuint CHUNK_LENGTH = 128;
 

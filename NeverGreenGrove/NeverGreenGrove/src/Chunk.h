@@ -25,10 +25,19 @@ SOFTWARE.
 */
 
 #pragma once
+#include "TerrainBlock.h"
+#include "Forest.h"
 
 class Chunk
 {
 public:
-   Chunk();
-   ~Chunk();
+   Chunk() : m_Terrain(), m_Forest(m_Terrain.grid_2d) {}
+   ~Chunk() = default;
+
+   void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLE_STRIPS); m_Forest.Draw(); }
+   void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate(vec); }
+
+   private:
+      TerrainBlock m_Terrain;
+      Forest m_Forest;
 };

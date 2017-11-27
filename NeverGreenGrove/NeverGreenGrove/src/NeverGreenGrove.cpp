@@ -28,7 +28,7 @@ SOFTWARE.
 #include "GlfwWindow.h"
 #include "Shader.h"
 #include "ObjLoader.h"
-#include "TerrainBlock.h"
+#include "Chunk.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
@@ -69,7 +69,7 @@ int main()
 #endif // _DEBUG
 
    // Terrain
-   TerrainBlock terrain;
+   Chunk terrain;
 
    // Game loop
    while (!window->ShouldClose())
@@ -82,7 +82,7 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      terrain.Draw(RenderMode::TRIANGLE_STRIPS);
+      terrain.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
