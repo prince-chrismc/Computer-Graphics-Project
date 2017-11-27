@@ -20,7 +20,7 @@ out vec3 fragPosition;
 void main()
 {
    outNormal = vec3(model_matrix * vec4(normal, 0.0f)); //rotate our normals -- from the TA
-   fragPosition = vec3(model_matrix * vec4(position, 1.0f));
+   fragPosition = vec3(model_matrix * vec4(position, 1.0f)); //changes to eye space
 
    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(position, 1.0);
    vertex_color = color;
