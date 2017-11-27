@@ -40,6 +40,7 @@ TerrainChunk::TerrainChunk()
 
    m_terrain = DrawableObject(grid, color, indices);
    m_forest = Forest(grid_2d);
+   //DrawableObject test(grid, UVs, "assets/grass.jpg", indices);
 }
 
 void TerrainChunk::Draw(const RenderMode& render_mode) const

@@ -64,8 +64,8 @@ int main()
    glDepthFunc(GL_GREATER);
 
 #ifdef _DEBUG
-   //For wireframe (comment this out unless needed)
-  // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   // For wireframe (comment this out unless needed)
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif // _DEBUG
 
    // Terrain

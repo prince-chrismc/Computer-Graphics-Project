@@ -62,36 +62,36 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
 //------------for textures------------------
 DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies) : m_Texture(texturePath)
 {
-	auto shaderProgram = ShaderLinker::GetInstance();
-	GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
-	GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
+   auto shaderProgram = ShaderLinker::GetInstance();
+   GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
+   GLuint textureIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
 
-	glGenVertexArrays(1, &m_VAO);
-	glGenBuffers(1, &m_Verticies);
-	glGenBuffers(1, &m_Textures);
-	glGenBuffers(1, &m_Indicies);
+   glGenVertexArrays(1, &m_VAO);
+   glGenBuffers(1, &m_Verticies);
+   glGenBuffers(1, &m_Textures);
+   glGenBuffers(1, &m_Indicies);
 
-	glBindVertexArray(m_VAO);
+   glBindVertexArray(m_VAO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_Verticies);
-	glBufferData(GL_ARRAY_BUFFER, verticies.size() * sizeof(glm::vec3), &verticies.front(), GL_STATIC_DRAW);
-	glVertexAttribPointer(PositonIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(PositonIndex);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Verticies);
+   glBufferData(GL_ARRAY_BUFFER, verticies.size() * sizeof(glm::vec3), &verticies.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(PositonIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(PositonIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_Textures);
-	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
-	glVertexAttribPointer(textureIndex, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(textureIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Textures);
+   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(textureIndex, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(textureIndex);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(GLuint), &indicies.front(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(GLuint), &indicies.front(), GL_STATIC_DRAW);
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	glBindVertexArray(0);
+   glBindVertexArray(0);
 
-	m_NumVertices = (GLsizei)verticies.size();
-	m_NumIndicies = (GLsizei)indicies.size();
+   m_NumVertices = (GLsizei)verticies.size();
+   m_NumIndicies = (GLsizei)indicies.size();
 }
 
 void DrawableObject::Delete()
@@ -104,24 +104,24 @@ void DrawableObject::Delete()
 
 void DrawableObject::Draw(const RenderMode& render_mode) const
 {
-	ShaderLinker::GetInstance()->SetUniformInt("object_type", 1);
+   ShaderLinker::GetInstance()->SetUniformInt("object_type", 1);
 
    switch (render_mode)
    {
    case RenderMode::POINTS:
       glBindVertexArray(m_VAO);
-	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
+      glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
       glDrawArrays(GL_POINTS, 0, m_NumVertices);
-	  glBindTexture(GL_TEXTURE_2D, 0);
+      glBindTexture(GL_TEXTURE_2D, 0);
       glBindVertexArray(0);
       break;
 
    case RenderMode::TRIANGLES:
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
-	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
+      glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
       glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
-	  glBindTexture(GL_TEXTURE_2D, 0);
+      glBindTexture(GL_TEXTURE_2D, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);
       break;
@@ -129,9 +129,9 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
    case RenderMode::LINES:
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
-	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
+      glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
       glDrawElements(GL_LINES, m_NumIndicies, GL_UNSIGNED_INT, NULL);
-	  glBindTexture(GL_TEXTURE_2D, 0);
+      glBindTexture(GL_TEXTURE_2D, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);
       break;
@@ -145,5 +145,3 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
    }
 }
-
-unsigned int DrawableObject::getTexture() { return m_Texture.getTexture(); }
