@@ -30,7 +30,6 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
-   GLuint object_type_loc = shaderProgram->GetUniformLocation("object_type");
 
    glGenVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
@@ -55,8 +54,6 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
    glBindVertexArray(0);
-
-   glUniform1i(object_type_loc, 1);
 
    m_NumVertices = (GLsizei)verticies.size();
    m_NumIndicies = (GLsizei)indicies.size();
@@ -107,6 +104,8 @@ void DrawableObject::Delete()
 
 void DrawableObject::Draw(const RenderMode& render_mode) const
 {
+	ShaderLinker::GetInstance()->SetUniformInt("object_type", 1);
+
    switch (render_mode)
    {
    case RenderMode::POINTS:
