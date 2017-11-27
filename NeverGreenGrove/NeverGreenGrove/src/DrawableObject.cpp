@@ -30,6 +30,7 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
+   object_type_loc = shaderProgram->GetAttributeLocation("object_type");
 
    glGenVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
@@ -115,6 +116,7 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
 
    case RenderMode::TRIANGLES:
+	  glUniform1i(object_type_loc, 2);
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
 	  glBindTexture(GL_TEXTURE_2D, m_Texture.getTexture());
@@ -135,6 +137,7 @@ void DrawableObject::Draw(const RenderMode& render_mode) const
       break;
 
    case RenderMode::TRIANGLE_STRIPS:
+	  glUniform1i(object_type_loc, 2);
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
       glDrawElements(GL_TRIANGLE_STRIP, m_NumIndicies, GL_UNSIGNED_INT, 0);

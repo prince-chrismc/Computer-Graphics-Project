@@ -12,7 +12,7 @@ uniform mat4 model_matrix;
 uniform mat4 view_matrix;
 uniform mat4 projection_matrix;
 
-out vec4 vertex_color;
+out vec3 vertex_color;
 out vec2 textureCoord;
 out vec3 outNormal;
 out vec3 fragPosition;
@@ -23,6 +23,6 @@ void main()
 	fragPosition = vec3(model_matrix * vec4(position, 1.0f));
 
    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(position, 1.0);
-   vertex_color = vec4(color, 1.0f);
+   vertex_color = color;
    textureCoord = vec2(textureCoordinate.x, textureCoordinate.y);
 }
