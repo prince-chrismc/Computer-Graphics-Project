@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec4 vertex_color;
+in vec3 vertex_color;
 in vec2 textureCoord;
 in vec3 outNormal;
 in vec3 fragPosition;
@@ -14,8 +14,10 @@ uniform sampler2D textures;
 void main()
 {
 	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
-	if (object_type == 1){ vec3 objColor = vertex_color; }
-	else { vec3 objColor = vec3(texture(textures, textureCoord)); }
+
+	vec3 objColor = vec3(texture(textures, textureCoord));
+	if (object_type == 1){ objColor = vertex_color; }
+	else if (object_type == 2) { objColor = vertex_color; }
 
 	//folllowing from ta
 	//ambient lighting

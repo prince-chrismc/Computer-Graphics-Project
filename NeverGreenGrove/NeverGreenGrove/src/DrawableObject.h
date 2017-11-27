@@ -46,6 +46,8 @@ class DrawableObject
       GLuint m_Indicies;
 	  GLuint m_Textures;
 
+	  GLuint object_type_loc;
+
       GLsizei m_NumVertices;
       GLsizei m_NumIndicies;
 
