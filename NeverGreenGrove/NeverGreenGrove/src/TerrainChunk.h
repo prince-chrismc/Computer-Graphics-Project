@@ -24,8 +24,9 @@ SOFTWARE.
 
 #pragma once
 
-#include "DrawableObject.h"
-#include "Forest.h"
+#include "RenderMode.h"
+#include "glm\vec3.hpp"
+#include <vector>
 
 class TerrainChunk
 {
