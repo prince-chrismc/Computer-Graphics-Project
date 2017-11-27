@@ -324,7 +324,7 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
    //});
    std::generate(m_HeightMap.begin(), m_HeightMap.end(), [grid_2d] {
       static size_t x = 0, y = 0;
-      if(x == 128) return 0.0f;
+      if(x == 128) x = 0;
       float retval = grid_2d.at(x).at(y).y;
       if (++y == 128) { x++; y = 0; }
       return retval;
