@@ -92,13 +92,14 @@ int main()
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 	  shaderProgram->SetUniformVec3("viewPos", g_camera.getCameraPosition());
+	  //shaderProgram->SetUniformVec3("light_position", { 100.0f, 100.0f + counter, 100.0f });
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
       terrain2.Draw();
       terrain3.Draw();
       terrain4.Draw();
-	  light.Draw(counter++);
+	  light.Draw(counter++); //light position isn't changing. Read something saying its because its uniform...
       /// Render
 
       window->NextBuffer(); // swap buffers
