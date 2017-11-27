@@ -201,12 +201,12 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
       g_camera.goDown = true;
    if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
       g_camera.goDown = false;
+
    if (key == GLFW_KEY_T && action == GLFW_PRESS)
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
    if (key == GLFW_KEY_L && action == GLFW_PRESS)
-	  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
-
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
