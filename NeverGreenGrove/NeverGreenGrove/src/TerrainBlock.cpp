@@ -31,7 +31,7 @@ SOFTWARE.
 #include <algorithm>                            // std::random_shuffle
 #include <cmath>
 
-#define PI       3.14159265358979323846f   // pi
+constexpr float PI = 3.14159265358979323846f;
 
 TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies)
 {
