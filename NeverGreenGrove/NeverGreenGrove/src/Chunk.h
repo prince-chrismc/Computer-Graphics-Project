@@ -31,7 +31,7 @@ SOFTWARE.
 class Chunk
 {
 public:
-   Chunk() : m_Terrain(), m_Forest(m_Terrain.grid_2d) {}
+   Chunk() : m_Terrain(), m_Forest(m_Terrain.Get2DGrid()) {}
    ~Chunk() = default;
 
    void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLE_STRIPS); m_Forest.Draw(); }

@@ -28,16 +28,19 @@ SOFTWARE.
 
 #include "RenderMode.h"
 #include "glm\vec3.hpp"
+#include "glm\matrix.hpp"
+#include "glm\gtc\matrix_transform.hpp"
 #include <vector>
 
 class TerrainBlock
 {
 friend class Chunk;
    public:
-      TerrainChunk::TerrainChunk() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
+      TerrainBlock::TerrainBlock() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
       void Draw(const RenderMode& render_mode) const;
       void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
 
+      std::vector<std::vector<glm::vec3>> Get2DGrid() { return m_Builder.Get2DGrid(); }
       static constexpr GLuint CHUNK_LENGTH = 128;
 
    private:
@@ -102,4 +105,5 @@ friend class Chunk;
 
       Builder m_Builder;
       DrawableTerrain m_Terrain;
+      glm::mat4 m_ModelMatrix;
 };

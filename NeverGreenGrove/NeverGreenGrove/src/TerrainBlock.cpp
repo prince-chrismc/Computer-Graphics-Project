@@ -33,7 +33,7 @@ SOFTWARE.
 
 #define PI       3.14159265358979323846f   // pi
 
-TerrainChunk::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies)
+TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies)
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -75,7 +75,7 @@ TerrainChunk::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> vert
    m_NumIndicies = (GLsizei)indicies.size();
 }
 
-TerrainChunk::DrawableTerrain::~DrawableTerrain()
+TerrainBlock::DrawableTerrain::~DrawableTerrain()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
@@ -84,7 +84,7 @@ TerrainChunk::DrawableTerrain::~DrawableTerrain()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void TerrainChunk::DrawableTerrain::Draw(const RenderMode& render_mode) const
+void TerrainBlock::DrawableTerrain::Draw(const RenderMode& render_mode) const
 {
    ShaderLinker::GetInstance()->SetUniformInt("object_type", 1);
 
@@ -114,7 +114,7 @@ void TerrainChunk::DrawableTerrain::Draw(const RenderMode& render_mode) const
 //                                       BUILDER FUNCTIONS                                          //
 // ------------------------------------------------------------------------------------------------ //
 
-void TerrainChunk::Builder::BuildFlatTerrain() // create a simple flat terrain
+void TerrainBlock::Builder::BuildFlatTerrain() // create a simple flat terrain
 {
    GLuint counter = 0;
    std::vector<std::vector<GLuint>> indices_2d;
@@ -142,7 +142,7 @@ void TerrainChunk::Builder::BuildFlatTerrain() // create a simple flat terrain
    indices = createEBO(indices_2d);
 }
 
-void TerrainChunk::Builder::GenerateVertices()
+void TerrainBlock::Builder::GenerateVertices()
 {
    // Remember: points are (x,y,z) with
    // x = width
@@ -152,9 +152,9 @@ void TerrainChunk::Builder::GenerateVertices()
    // create a simple flat terrain to start
    BuildFlatTerrain();
 
-   constexpr int MIN_RADIUS = TerrainChunk::CHUNK_LENGTH / 8;
-   constexpr int MAX_RADIUS = TerrainChunk::CHUNK_LENGTH / 4;
-   constexpr int INNER_LENGTH = TerrainChunk::CHUNK_LENGTH - 2 * MIN_RADIUS;
+   constexpr int MIN_RADIUS = TerrainBlock::CHUNK_LENGTH / 8;
+   constexpr int MAX_RADIUS = TerrainBlock::CHUNK_LENGTH / 4;
+   constexpr int INNER_LENGTH = TerrainBlock::CHUNK_LENGTH - 2 * MIN_RADIUS;
 
    constexpr float MIN_HEIGHT = MIN_RADIUS / 2.0f;
    constexpr float MAX_HEIGHT = 48.0f;
@@ -197,9 +197,9 @@ void TerrainChunk::Builder::GenerateVertices()
 
    // Change all points inside their radius
    // to find wether a point is in a circle, use https://math.stackexchange.com/questions/198764/how-to-know-if-a-point-is-inside-a-circle
-   for (int i = 0; i < TerrainChunk::CHUNK_LENGTH; i++)
+   for (int i = 0; i < TerrainBlock::CHUNK_LENGTH; i++)
    {
-      for (int j = 0; j < TerrainChunk::CHUNK_LENGTH; j++)
+      for (int j = 0; j < TerrainBlock::CHUNK_LENGTH; j++)
       {
          //check every hills
          for (const auto hill : hills) {
@@ -231,7 +231,7 @@ void TerrainChunk::Builder::GenerateVertices()
    normals = flatten(normals_2d);
 }
 
-std::vector<glm::vec3> TerrainChunk::Builder::flatten(const std::vector<std::vector<glm::vec3>>& vector2d)
+std::vector<glm::vec3> TerrainBlock::Builder::flatten(const std::vector<std::vector<glm::vec3>>& vector2d)
 {
    std::vector<glm::vec3> new_vector;
    for (int i = 0; i < vector2d.size(); i++)
@@ -245,7 +245,7 @@ std::vector<glm::vec3> TerrainChunk::Builder::flatten(const std::vector<std::vec
 }
 
 ///Calculate normals of 3D cos based hill
-glm::vec3 TerrainChunk::Builder::calcNormal(Hill hill, float distance, int i, int j)
+glm::vec3 TerrainBlock::Builder::calcNormal(Hill hill, float distance, int i, int j)
 {
    // To find a 3D vector, the we need a tangent plane of A*cos(sqrt(i^2+j^2)) + k
    // I pretty much re-learned Calculus III to do this
@@ -276,23 +276,23 @@ glm::vec3 TerrainChunk::Builder::calcNormal(Hill hill, float distance, int i, in
    return glm::normalize(glm::vec3(a, -1.0f, b));
 }
 
-std::vector <GLuint> TerrainChunk::Builder::createEBO(const std::vector<std::vector<GLuint>>& index2d)
+std::vector <GLuint> TerrainBlock::Builder::createEBO(const std::vector<std::vector<GLuint>>& index2d)
 {
    // https://stackoverflow.com/questions/5915753/generate-a-plane-with-triangle-strips
    std::vector<GLuint> EBO_indices;
 
    /// TRIANGLE_STRIP EBO
-   for (int row = 0; row< TerrainChunk::CHUNK_LENGTH - 1; row++) {
+   for (int row = 0; row< TerrainBlock::CHUNK_LENGTH - 1; row++) {
       if ((row & 1) == 0) { // even rows
-         for (int col = 0; col< TerrainChunk::CHUNK_LENGTH; col++) {
-            EBO_indices.emplace_back(col + row * TerrainChunk::CHUNK_LENGTH);
-            EBO_indices.emplace_back(col + (row + 1) * TerrainChunk::CHUNK_LENGTH);
+         for (int col = 0; col< TerrainBlock::CHUNK_LENGTH; col++) {
+            EBO_indices.emplace_back(col + row * TerrainBlock::CHUNK_LENGTH);
+            EBO_indices.emplace_back(col + (row + 1) * TerrainBlock::CHUNK_LENGTH);
          }
       }
       else { // odd rows
-         for (int col = TerrainChunk::CHUNK_LENGTH - 1; col>0; col--) {
-            EBO_indices.emplace_back(col + (row + 1) * TerrainChunk::CHUNK_LENGTH);
-            EBO_indices.emplace_back(col - 1 + +row * TerrainChunk::CHUNK_LENGTH);
+         for (int col = TerrainBlock::CHUNK_LENGTH - 1; col>0; col--) {
+            EBO_indices.emplace_back(col + (row + 1) * TerrainBlock::CHUNK_LENGTH);
+            EBO_indices.emplace_back(col - 1 + +row * TerrainBlock::CHUNK_LENGTH);
          }
       }
    }
@@ -320,9 +320,8 @@ std::vector <GLuint> TerrainChunk::Builder::createEBO(const std::vector<std::vec
 //                                       TERRAIN FUNCTIONS                                          //
 // ------------------------------------------------------------------------------------------------ //
 
-void TerrainChunk::Draw(const RenderMode& render_mode) const
+void TerrainBlock::Draw(const RenderMode& render_mode) const
 {
-   ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", glm::mat4(1.0f));
+   ShaderLinker::GetInstance()->SetUniformMat4("model_matrix", m_ModelMatrix);
    m_Terrain.Draw(render_mode);
-   //m_forest.Draw();
 }
