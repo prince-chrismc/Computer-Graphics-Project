@@ -28,7 +28,7 @@ SOFTWARE.
 #include "GlfwWindow.h"
 #include "Shader.h"
 #include "ObjLoader.h"
-#include "TerrainChunk.h"
+#include "TerrainBlock.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
