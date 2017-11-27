@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Chunk.h" />
     <ClInclude Include="src\Forest.h" />
     <ClInclude Include="src\GlfwWindow.h" />
     <ClInclude Include="src\MultiDimGrid.hpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Chunk.cpp" />
     <ClCompile Include="src\Forest.cpp" />
     <ClCompile Include="src\GlfwWindow.cpp" />
     <ClCompile Include="src\ObjLoader.cpp" />

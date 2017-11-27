@@ -26,7 +26,6 @@ SOFTWARE.
 
 #pragma once
 
-
 #include "MultiDimGrid.hpp"
 #include "glm\matrix.hpp"
 #include "glm\gtc\matrix_transform.hpp"         //glm::lookAt
