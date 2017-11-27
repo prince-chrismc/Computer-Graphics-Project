@@ -16,11 +16,13 @@ out vec3 vertex_color;
 out vec2 textureCoord;
 out vec3 outNormal;
 out vec3 fragPosition;
+out vec4 eyeSpace;
 
 void main()
 {
    outNormal = vec3(model_matrix * vec4(normal, 0.0f)); //rotate our normals -- from the TA
-   fragPosition = vec3(model_matrix * vec4(position, 1.0f)); //changes to eye space
+   fragPosition = vec3(model_matrix * vec4(position, 1.0f)); 
+   eyeSpace = view_matrix * vec4(position, 1.0f);
 
    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(position, 1.0);
    vertex_color = color;
