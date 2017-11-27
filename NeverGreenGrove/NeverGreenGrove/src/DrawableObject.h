@@ -43,10 +43,10 @@ class DrawableObject
       GLuint m_Verticies;
       GLuint m_Colors;
       GLuint m_Indicies;
-     GLuint m_Textures;
+      GLuint m_Textures;
 
       GLsizei m_NumVertices;
       GLsizei m_NumIndicies;
 
-     Texture m_Texture;
+      Texture m_Texture;
 };

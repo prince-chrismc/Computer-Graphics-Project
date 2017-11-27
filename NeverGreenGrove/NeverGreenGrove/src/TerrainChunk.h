@@ -30,28 +30,30 @@ SOFTWARE.
 class TerrainChunk
 {
    public:
-      TerrainChunk();
+      TerrainChunk::TerrainChunk() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
       void Draw(const RenderMode& render_mode) const;
 
-   private:
-      DrawableObject m_terrain;
-      Forest m_forest;
-
       static constexpr GLuint CHUNK_LENGTH = 128;
-      std::vector<std::vector<glm::vec3>> grid_2d;
-      std::vector<std::vector<glm::vec3>> color_2d;
-      std::vector<std::vector<glm::vec3>> normals_2d;
-      std::vector<glm::vec2> UVs;
-      std::vector<glm::vec3> normals;
-      std::vector<glm::vec3> grid;
-      std::vector<glm::vec3> color;
-      std::vector<GLuint> indices;
 
-      //functions
-      void generateVertices();
-      void flatTerrain();
-      static std::vector<glm::vec3> flatten(const std::vector<std::vector<glm::vec3>>& vector2d);
-      static std::vector<GLuint> createEBO(const std::vector<std::vector<GLuint>>& index2d);
+   private:
+      class DrawableTerrain
+      {
+         public:
+            DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies);
+            ~DrawableTerrain();
+
+            void Draw(const RenderMode& render_mode) const;
+
+         private:
+            GLuint m_VAO;
+            GLuint m_Verticies;
+            GLuint m_Colors;
+            GLuint m_Indicies;
+            GLuint m_Normals;
+
+            GLsizei m_NumVertices;
+            GLsizei m_NumIndicies;
+      };
 
       struct Hill
       {
@@ -63,5 +65,37 @@ class TerrainChunk
          float z;
       };
 
-     glm::vec3 calcNormal(Hill hill, float distance, int posx, int posy);
+      class Builder
+      {
+      public:
+         Builder() { GenerateVertices(); }
+         ~Builder() = default;
+
+         std::vector<std::vector<glm::vec3>> Get2DGrid() { return grid_2d; }
+         std::vector<glm::vec3> GetVerticies() { return grid; }
+         std::vector<glm::vec3> GetColors() { return color; }
+         std::vector<glm::vec3> GetNormals() { return normals; }
+         std::vector<GLuint> GetIndices() { return indices; }
+
+      private:
+         void BuildFlatTerrain();
+         void GenerateVertices();
+
+         static std::vector<glm::vec3> flatten(const std::vector<std::vector<glm::vec3>>& vector2d);
+         static glm::vec3 calcNormal(Hill hill, float distance, int i, int j);
+         static std::vector <GLuint> createEBO(const std::vector<std::vector<GLuint>>& index2d);
+
+         std::vector<std::vector<glm::vec3>> grid_2d;
+         std::vector<std::vector<glm::vec3>> color_2d;
+         std::vector<std::vector<glm::vec3>> normals_2d;
+         std::vector<glm::vec2> UVs;
+         std::vector<glm::vec3> normals;
+         std::vector<glm::vec3> grid;
+         std::vector<glm::vec3> color;
+         std::vector<GLuint> indices;
+      };
+
+      Builder m_Builder;
+      DrawableTerrain m_Terrain;
+
 };
