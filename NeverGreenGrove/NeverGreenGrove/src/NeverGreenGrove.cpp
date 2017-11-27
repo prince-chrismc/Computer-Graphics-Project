@@ -71,7 +71,12 @@ int main()
    // Terrain
    Chunk terrain1;
    Chunk terrain2;
-   terrain2.Translate(glm::vec3(50,0,0));
+   Chunk terrain3;
+   Chunk terrain4;
+   //terrain1.Translate(glm::vec3(50, 0, 0));
+   terrain2.Translate(glm::vec3(128 * OBJECTSPACE_TO_REALWORLD, 0, 0));
+   terrain3.Translate(glm::vec3(0, 0, 128 * OBJECTSPACE_TO_REALWORLD));
+   terrain4.Translate(glm::vec3(128 * OBJECTSPACE_TO_REALWORLD, 0, 128 * OBJECTSPACE_TO_REALWORLD));
 
    // Game loop
    while (!window->ShouldClose())
@@ -84,8 +89,10 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      //terrain1.Draw();
+      terrain1.Draw();
       terrain2.Draw();
+      terrain3.Draw();
+      terrain4.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers

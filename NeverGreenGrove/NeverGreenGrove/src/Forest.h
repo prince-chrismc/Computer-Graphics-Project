@@ -35,6 +35,8 @@ SOFTWARE.
 #include <map>
 #include <vector>
 
+constexpr double OBJECTSPACE_TO_REALWORLD = 1.0 / 128.0 * 50.7;
+
 class Forest
 {
 private:
