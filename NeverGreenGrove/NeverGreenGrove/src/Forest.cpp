@@ -27,6 +27,7 @@ SOFTWARE.
 #include "Forest.h"
 #include "ObjLoader.h"
 #include "Shader.h"
+#include "Texture.h"
 #include <random>                               //std::mt19937
 #include <algorithm>
 #include <future>
@@ -49,15 +50,17 @@ private:
 
       const GLuint GetVAO() const { return m_VAO; }
       const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+      const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
    private:
       TreeObj();
 
+      Texture m_Texture;
       GLuint m_VAO;
       GLuint m_Verticies;
       GLuint m_Colors;
-      //GLuint m_Normals;
-      //GLuint m_Uvs;
+      GLuint m_Normals;
+      GLuint m_Uvs;
 
       GLsizei m_NumVertices;
 
@@ -96,15 +99,17 @@ private:
 
       const GLuint GetVAO() const { return m_VAO; }
       const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+      const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
    private:
       TreeObj();
 
+      Texture m_Texture;
       GLuint m_VAO;
       GLuint m_Verticies;
       GLuint m_Colors;
-      //GLuint m_Normals;
-      //GLuint m_Uvs;
+      GLuint m_Normals;
+      GLuint m_Uvs;
 
       GLsizei m_NumVertices;
 
@@ -131,13 +136,13 @@ std::shared_ptr<Forest::TreeA::TreeObj> Forest::TreeA::TreeObj::s_Instance;
 std::once_flag Forest::TreeB::TreeObj::s_Flag;
 std::shared_ptr<Forest::TreeB::TreeObj> Forest::TreeB::TreeObj::s_Instance;
 
-Forest::TreeA::TreeObj::TreeObj()
+Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/grass.jpg")
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
-   //GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
-   //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
+   GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
+   GLuint UvIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
 
    std::vector<glm::vec3> vertices;
    std::vector<glm::vec3> colors;
@@ -155,8 +160,8 @@ Forest::TreeA::TreeObj::TreeObj()
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
    glGenBuffers(1, &m_Colors);
-   //glGenBuffers(1, &m_Normals);
-   //glGenBuffers(1, &m_Uvs);
+   glGenBuffers(1, &m_Normals);
+   glGenBuffers(1, &m_Uvs);
 
    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
    glBindVertexArray(m_VAO);
@@ -171,15 +176,15 @@ Forest::TreeA::TreeObj::TreeObj()
    glVertexAttribPointer(ColorIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(ColorIndex);
 
-   //glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
-   //glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
-   //glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   //glEnableVertexAttribArray(NormalIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
+   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(NormalIndex);
 
-   //glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
-   //glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
-   //glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   //glEnableVertexAttribArray(UvIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
+   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(UvIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -190,18 +195,18 @@ Forest::TreeA::TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
-   //glDeleteBuffers(1, &m_Normals);
-   //glDeleteBuffers(1, &m_Uvs);
+   glDeleteBuffers(1, &m_Normals);
+   glDeleteBuffers(1, &m_Uvs);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-Forest::TreeB::TreeObj::TreeObj()
+Forest::TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
-   //GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
-   //GLuint UvIndex = shaderProgram->GetAttributeLocation("uv");
+   GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
+   GLuint UvIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
 
    std::vector<glm::vec3> vertices;
    std::vector<glm::vec3> colors;
@@ -219,8 +224,8 @@ Forest::TreeB::TreeObj::TreeObj()
    glGenVertexArrays(1, &m_VAO);
    glGenBuffers(1, &m_Verticies);
    glGenBuffers(1, &m_Colors);
-   //glGenBuffers(1, &m_Normals);
-   //glGenBuffers(1, &m_Uvs);
+   glGenBuffers(1, &m_Normals);
+   glGenBuffers(1, &m_Uvs);
 
    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
    glBindVertexArray(m_VAO);
@@ -235,15 +240,15 @@ Forest::TreeB::TreeObj::TreeObj()
    glVertexAttribPointer(ColorIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(ColorIndex);
 
-   //glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
-   //glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
-   //glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   //glEnableVertexAttribArray(NormalIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
+   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(NormalIndex);
 
-   //glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
-   //glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
-   //glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-   //glEnableVertexAttribArray(UvIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
+   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(UvIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -254,8 +259,8 @@ Forest::TreeB::TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
-   //glDeleteBuffers(1, &m_Normals);
-   //glDeleteBuffers(1, &m_Uvs);
+   glDeleteBuffers(1, &m_Normals);
+   glDeleteBuffers(1, &m_Uvs);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
@@ -263,9 +268,12 @@ void Forest::TreeA::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
+   shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
+   glBindTexture(GL_TEXTURE_2D, 0);
    glBindVertexArray(0);
 }
 
@@ -273,9 +281,12 @@ void Forest::TreeB::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
+   shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
+   glBindTexture(GL_TEXTURE_2D, 0);
    glBindVertexArray(0);
 }
 
@@ -303,8 +314,6 @@ std::shared_ptr<Forest::DrawableTree> Forest::TreeFactory::GetNewTree()
 
 Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
 {
-   //m_Map = Builder(grid_2d).GetMap();
-
    auto future_forest = std::async(std::launch::async, [] {
        std::vector<std::shared_ptr<DrawableTree>> retval(256);
        std::generate(retval.begin(), retval.end(), TreeFactory::GetNewTree);
