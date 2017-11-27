@@ -15,6 +15,6 @@ void Light::newPosition(float time)
 void Light::Draw(float time)
 {
 	newPosition(time);
-	ShaderLinker::GetInstance()->SetUniformVec3("light_pos", position);
+	ShaderLinker::GetInstance()->SetUniformVec3("light_position", position);
 }
 

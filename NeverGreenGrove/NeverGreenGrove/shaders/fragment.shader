@@ -4,10 +4,11 @@ in vec3 vertex_color;
 in vec2 textureCoord;
 in vec3 outNormal;
 in vec3 fragPosition;
-in vec3 light_position;
 
 out vec4 color;
 
+uniform vec3 viewPos;
+uniform vec3 light_position;
 uniform int object_type;
 uniform int object_color;
 uniform sampler2D textures;
@@ -33,6 +34,15 @@ void main()
    float incident_degree = max(dot(norm, light_direction), 0.0f);
    vec3 diffuse_contribution = incident_degree * lightColor;
 
-   vec3 resultantColour = (ambient_contribution + diffuse_contribution) * objColor;
+   //specular
+   float specularStrength = 0.5;
+
+   vec3 viewDir = normalize(viewPos - fragPosition);
+   vec3 reflectDir = reflect(-light_direction, norm);
+
+   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+   vec3 specular = specularStrength * spec * lightColor;
+
+   vec3 resultantColour = (ambient_contribution + diffuse_contribution + specular) * objColor;
    color = vec4(resultantColour, 1.0f);
 }
