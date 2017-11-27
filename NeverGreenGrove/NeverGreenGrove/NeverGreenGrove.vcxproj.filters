@@ -78,9 +78,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Header Files">
       <UniqueIdentifier>{c38911e7-964e-4f33-ae9f-12ea9ae87ef5}</UniqueIdentifier>
     </Filter>
