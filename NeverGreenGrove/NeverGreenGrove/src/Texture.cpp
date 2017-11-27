@@ -29,10 +29,11 @@ SOFTWARE.
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <iostream>
+#include <string>
 
 Texture::Texture(const char* imagePath)
 {
-	createTexture(imagePath);
+   createTexture(imagePath);
 }
 
 
@@ -48,13 +49,15 @@ void Texture::createTexture(const char* image_path)
    //float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
    unsigned char* texture_buffer = stbi_load(image_path, &width, &height, &channel, 0);
    if (!texture_buffer)
    {
       std::cout << "Texture loading failed. Try again!" << std::endl;
+      std::cout << "Press 'enter' to exit." << std::endl;
+      std::getline(std::cin, std::string());
    }
    else
    {

@@ -27,7 +27,7 @@ SOFTWARE.
 #include "DrawableTree.h"
 #include "ObjLoader.h"
 #include "Shader.h"
-#include <random>                               //std::mt19937
+#include <random>                               // std::mt19937
 
 std::once_flag TreeA::TreeObj::s_Flag;
 std::shared_ptr<TreeA::TreeObj> TreeA::TreeObj::s_Instance;
