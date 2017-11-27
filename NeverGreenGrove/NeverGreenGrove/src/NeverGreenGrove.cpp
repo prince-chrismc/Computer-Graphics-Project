@@ -81,7 +81,7 @@ int main()
 
    //Light
    Light light;
-
+   float counter = 0.0f;
    // Game loop
    while (!window->ShouldClose())
    {
@@ -97,7 +97,7 @@ int main()
       terrain2.Draw();
       terrain3.Draw();
       terrain4.Draw();
-	  light.Draw();
+	  light.Draw(counter++);
       /// Render
 
       window->NextBuffer(); // swap buffers

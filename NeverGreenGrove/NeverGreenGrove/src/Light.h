@@ -7,10 +7,10 @@ class Light
 public:
 	Light();
 
-	void Draw();
+	void Draw(float time);
 
 private:
 	glm::vec3 position;
 
-	void newPosition();
+	void newPosition(float time);
 };

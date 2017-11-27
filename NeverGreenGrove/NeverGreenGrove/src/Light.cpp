@@ -7,13 +7,14 @@ Light::Light()
 	position = { 100.0f,100.0f, 100.0f };
 }
 
-void Light::newPosition()
+void Light::newPosition(float time)
 {
-	//calculate new position using time
+	position = { 100.0f + (time * 100), 100.0f + (time*100), 100.0f + (time * 100) };
 }
 
-void Light::Draw()
+void Light::Draw(float time)
 {
+	newPosition(time);
 	ShaderLinker::GetInstance()->SetUniformVec3("light_pos", position);
 }
 
