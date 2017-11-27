@@ -333,10 +333,10 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
    auto GenCoord = [] {
       static std::random_device rd;
       static std::mt19937 g(rd());
-      return g() % 128;
+      return 1 + (g() % 126);
    };
 
-   constexpr double rw_proj = 1.0 / 128.0 * 49.95;
+   constexpr double rw_proj = 1.0 / 128.0 * 50.7;
 
    auto tree_vec = future_forest.get();
 
