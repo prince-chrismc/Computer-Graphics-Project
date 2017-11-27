@@ -7,15 +7,15 @@ in vec3 fragPosition;
 
 out vec4 color;
 
+uniform int object_type;
 uniform int object_color;
 uniform sampler2D textures;
 
 void main()
 {
-	//will add a variable to chose when to use the texture eventually
-   //color = vertex_color;
 	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
-	vec3 objColor = vec3(texture(textures, textureCoord));
+	if (object_type == 1){ vec3 objColor = vertex_color; }
+	else { vec3 objColor = vec3(texture(textures, textureCoord)); }
 
 	//folllowing from ta
 	//ambient lighting
