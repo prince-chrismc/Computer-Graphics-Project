@@ -69,7 +69,7 @@ int main()
 #endif // _DEBUG
 
    // Terrain
-   TerrainChunk terrain;
+   TerrainBlock terrain;
 
    // Game loop
    while (!window->ShouldClose())

@@ -28,7 +28,7 @@ SOFTWARE.
 #include "glm\vec3.hpp"
 #include <vector>
 
-class TerrainChunk
+class TerrainBlock
 {
    public:
       TerrainChunk::TerrainChunk() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
