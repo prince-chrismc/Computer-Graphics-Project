@@ -7,6 +7,7 @@ layout(location = 1) in vec3 color;
 layout(location = 2) in vec3 normal;
 layout(location = 3) in vec2 uv;
 layout(location = 4) in vec2 textureCoordinate;
+layout(location = 5) in vec3 light_pos;
 
 uniform mat4 model_matrix;
 uniform mat4 view_matrix;
@@ -16,6 +17,7 @@ out vec3 vertex_color;
 out vec2 textureCoord;
 out vec3 outNormal;
 out vec3 fragPosition;
+out vec3 light_position;
 
 void main()
 {
@@ -25,4 +27,6 @@ void main()
    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(position, 1.0);
    vertex_color = color;
    textureCoord = vec2(textureCoordinate.x, textureCoordinate.y);
+
+   light_position = light_pos;
 }

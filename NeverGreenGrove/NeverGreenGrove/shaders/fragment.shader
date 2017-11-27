@@ -4,6 +4,7 @@ in vec3 vertex_color;
 in vec2 textureCoord;
 in vec3 outNormal;
 in vec3 fragPosition;
+in vec3 light_position;
 
 out vec4 color;
 
@@ -24,7 +25,7 @@ void main()
    vec3 ambient_contribution = ambientStrength * lightColor;
 
    //diffuse lighting
-   vec3 light_position = vec3(1.0f, 1.0f, 1.0f); //world coords
+   //vec3 light_position = vec3(2.0f, 10.0f, 2.0f);
 
    vec3 norm = normalize(outNormal);
 
