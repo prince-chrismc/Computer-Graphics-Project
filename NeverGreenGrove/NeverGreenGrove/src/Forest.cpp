@@ -31,13 +31,107 @@ SOFTWARE.
 #include <algorithm>
 #include <future>
 
+class Forest::TreeA : public Forest::DrawableTree
+{
+public:
+   TreeA() { Scale(glm::vec3(2.5)); }
+   void Draw() const;
 
-std::once_flag TreeA::TreeObj::s_Flag;
-std::shared_ptr<TreeA::TreeObj> TreeA::TreeObj::s_Instance;
-std::once_flag TreeB::TreeObj::s_Flag;
-std::shared_ptr<TreeB::TreeObj> TreeB::TreeObj::s_Instance;
+private:
+   class TreeObj
+   {
+   public:
+      ~TreeObj();
+      TreeObj(const TreeObj&) = delete;
+      TreeObj& operator=(const TreeObj&) = delete;
 
-TreeA::TreeObj::TreeObj()
+      static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
+
+      const GLuint GetVAO() const { return m_VAO; }
+      const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+
+   private:
+      TreeObj();
+
+      GLuint m_VAO;
+      GLuint m_Verticies;
+      GLuint m_Colors;
+      //GLuint m_Normals;
+      //GLuint m_Uvs;
+
+      GLsizei m_NumVertices;
+
+      static std::once_flag s_Flag;
+      static std::shared_ptr<TreeObj> s_Instance;
+   };
+};
+
+class Forest::TreeA2 : public Forest::TreeA
+{
+public:
+   TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); /*Rotate(90.f);*/ }
+};
+
+class Forest::TreeA3 : public Forest::TreeA
+{
+public:
+   TreeA3() { Shear(-0.25f, 0.1f); }
+};
+
+class Forest::TreeB : public Forest::DrawableTree
+{
+public:
+   TreeB() { Scale(glm::vec3(2.5)); }
+   void Draw() const;
+
+private:
+   class TreeObj
+   {
+   public:
+      ~TreeObj();
+      TreeObj(const TreeObj&) = delete;
+      TreeObj& operator=(const TreeObj&) = delete;
+
+      static std::shared_ptr<TreeObj> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TreeObj()); }); return s_Instance; }
+
+      const GLuint GetVAO() const { return m_VAO; }
+      const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
+
+   private:
+      TreeObj();
+
+      GLuint m_VAO;
+      GLuint m_Verticies;
+      GLuint m_Colors;
+      //GLuint m_Normals;
+      //GLuint m_Uvs;
+
+      GLsizei m_NumVertices;
+
+      static std::once_flag s_Flag;
+      static std::shared_ptr<TreeObj> s_Instance;
+   };
+};
+
+class Forest::TreeB2 : public Forest::TreeB
+{
+public:
+   TreeB2() { Scale(glm::vec3(1.1, 1.25, 0.9)); /*Rotate(75.0f);*/ }
+};
+
+class Forest::TreeFactory
+{
+public:
+   TreeFactory() = delete;
+   static std::shared_ptr<Forest::DrawableTree> GetNewTree();
+};
+
+std::once_flag Forest::TreeA::TreeObj::s_Flag;
+std::shared_ptr<Forest::TreeA::TreeObj> Forest::TreeA::TreeObj::s_Instance;
+std::once_flag Forest::TreeB::TreeObj::s_Flag;
+std::shared_ptr<Forest::TreeB::TreeObj> Forest::TreeB::TreeObj::s_Instance;
+
+Forest::TreeA::TreeObj::TreeObj()
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -92,7 +186,7 @@ TreeA::TreeObj::TreeObj()
    glBindVertexArray(0);
 }
 
-TreeA::TreeObj::~TreeObj()
+Forest::TreeA::TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
@@ -101,7 +195,7 @@ TreeA::TreeObj::~TreeObj()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-TreeB::TreeObj::TreeObj()
+Forest::TreeB::TreeObj::TreeObj()
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -156,7 +250,7 @@ TreeB::TreeObj::TreeObj()
    glBindVertexArray(0);
 }
 
-TreeB::TreeObj::~TreeObj()
+Forest::TreeB::TreeObj::~TreeObj()
 {
    glDeleteBuffers(1, &m_Verticies);
    glDeleteBuffers(1, &m_Colors);
@@ -165,7 +259,7 @@ TreeB::TreeObj::~TreeObj()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-void TreeA::Draw() const
+void Forest::TreeA::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
@@ -175,7 +269,7 @@ void TreeA::Draw() const
    glBindVertexArray(0);
 }
 
-void TreeB::Draw() const
+void Forest::TreeB::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
@@ -185,7 +279,7 @@ void TreeB::Draw() const
    glBindVertexArray(0);
 }
 
-std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
+std::shared_ptr<Forest::DrawableTree> Forest::TreeFactory::GetNewTree()
 {
    std::random_device rd;
    std::mt19937 g(rd());
@@ -193,17 +287,17 @@ std::shared_ptr<DrawableTree> TreeFactory::GetNewTree()
    switch (g() % 5 + 1)
    {
    case 1:
-      return std::make_shared<TreeA>();
+      return std::make_shared<Forest::TreeA>();
    case 2:
       //return std::make_shared<TreeA2>();
    case 3:
-     return std::make_shared<TreeA3>();
+     return std::make_shared<Forest::TreeA3>();
    case 4:
-      return std::make_shared<TreeB>();
+      return std::make_shared<Forest::TreeB>();
    case 5:
-      //return std::make_shared<TreeB2>();
+      //return std::make_shared<Forest::TreeB2>();
    default:
-      return std::make_shared<TreeA>();
+      return std::make_shared<Forest::TreeA>();
    }
 }
 
