@@ -29,16 +29,10 @@ SOFTWARE.
 class Texture
 {
 public:
-   Texture(const char* imagePath);
+   Texture(const char* image_path);
 
    unsigned int getTexture() const { return texture; }
 
 private:
    unsigned int texture;
-
-   int width;
-   int height;
-   int channel;
-
-   void createTexture(const char* image_path);
 };
