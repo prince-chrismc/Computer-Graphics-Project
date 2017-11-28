@@ -28,7 +28,7 @@ SOFTWARE.
 #include "GlfwWindow.h"
 #include "Shader.h"
 #include "ObjLoader.h"
-#include "Chunk.h"
+#include "World.h"
 #include "irrKlang/irrKlang.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
@@ -50,6 +50,7 @@ void PerFrameCalc();
 
 // Gloabal objects
 Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
+std::shared_ptr<World> g_World;
 
 ISoundEngine* engine;
 
@@ -70,8 +71,8 @@ int main()
 
    if (!engine)
    {
-	   printf("Could not startup engine\n");
-	   return 0; // error starting up the engine
+      printf("Could not startup engine\n");
+      return 0; // error starting up the engine
    }
 
    ISound* snd = engine->play2D("assets/apocalypse.mp3", true, true); //reference https://www.youtube.com/watch?v=OMoTcNxpUVg
@@ -83,24 +84,19 @@ int main()
 
    glEnable(GL_DEPTH_TEST);
 
+   //auto chunk1 = std::make_shared<Chunk>();
+   //auto chunk2 = std::make_shared<Chunk>();
+   //chunk1->Translate(glm::vec3(-128, 0, -128));
+   //chunk1->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+   g_World = std::make_shared<World>();
    // Terrain
-   Chunk terrain1;
-   Chunk terrain2;
-   Chunk terrain3;
-   Chunk terrain4;
-   Chunk terrain5;
-   Chunk terrain6;
-   Chunk terrain7;
-   Chunk terrain8;
-   Chunk terrain9;
-   terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
-   terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
-   terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
-   terrain5.Translate(glm::vec3(-1*Chunk::ONE_TRANS_UNIT, 0, 0));
-   terrain6.Translate(glm::vec3(-1*Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
-   terrain7.Translate(glm::vec3(-1 * Chunk::ONE_TRANS_UNIT, 0,-1*Chunk::ONE_TRANS_UNIT));
-   terrain8.Translate(glm::vec3(0, 0, -1*Chunk::ONE_TRANS_UNIT));
-   terrain9.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, -1*Chunk::ONE_TRANS_UNIT));
+   //Chunk terrain1;
+   //Chunk terrain2;
+   //Chunk terrain3;
+   //Chunk terrain4;
+   //terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
+   //terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
+   //terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
    size_t counter = 0;
 
    // Game loop
@@ -122,15 +118,14 @@ int main()
 	  }
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      terrain1.Draw();
-      terrain2.Draw();
-      terrain3.Draw();
-      terrain4.Draw();
-	  terrain5.Draw();
-	  terrain6.Draw();
-	  terrain7.Draw();
-	  terrain8.Draw();
-	  terrain9.Draw();
+      //terrain1.Draw();
+      //terrain2.Draw();
+      //terrain3.Draw();
+      //terrain4.Draw();
+      g_World->Draw();
+      g_World->Update(g_camera.GetPos());
+      //chunk1->Draw();
+      //chunk2->Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
@@ -316,9 +311,4 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
    g_camera.ProcessMouseScroll((float)yoffset);
-}
-
-void playSong(ISoundEngine* engine)
-{
-	
 }

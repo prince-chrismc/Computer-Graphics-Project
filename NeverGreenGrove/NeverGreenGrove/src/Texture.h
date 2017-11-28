@@ -39,6 +39,8 @@ public:
 	   else { return texture1; }
    }
 
+   unsigned int getTexture() const { return texture1; }
+
 private:
    unsigned int texture1, texture2, texture3;
 };
