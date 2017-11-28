@@ -45,7 +45,7 @@ void main()
    float startFog = 0.0f;
    float endFog = 100.0f;
 
-   float fogIntensity = 0.0;//1.0 - clamp((endFog - fogCoordinate) / (endFog - startFog), 0.0, 1.0);
+   float fogIntensity = 1.0 - clamp((endFog - fogCoordinate) / (endFog - startFog), 0.0, 1.0);
 
    //folllowing from ta
    //ambient lighting

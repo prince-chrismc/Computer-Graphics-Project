@@ -41,6 +41,10 @@ public:
    void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate((1.0f/ OBJECTSPACE_TO_REALWORLD)*vec); }
    float MinDistanceToAnyTree(float from_x, float from_y);
 
+   float GetHeight(float x, float y) {
+	   return m_Terrain.Get2DGrid().at(x).at(y).y;
+   }
+
    private:
       TerrainBlock m_Terrain;
       Forest m_Forest;

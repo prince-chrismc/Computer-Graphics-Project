@@ -168,7 +168,7 @@ void PerFrameCalc()
    g_deltaTime = currentFrame - g_lastFrame;
    g_lastFrame = currentFrame;
 
-   g_camera.moveCamera(g_deltaTime, 3.0f);
+   g_camera.moveCamera(g_deltaTime, /*g_World->GetHeight(g_camera.GetPos()) +*/ 3.0f);
 }
 
 // Callback declarations for camera ---------------------------------------------------------------

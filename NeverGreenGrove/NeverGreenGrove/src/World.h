@@ -38,6 +38,19 @@ public:
    void Update(glm::vec3 cam_pos);
    bool TreeToClose(glm::vec3 cam_pos);
 
+   float GetHeight(glm::vec3 cam_pos) {
+	   try
+	   {
+		   Point my_chunk{ cam_pos.x / 128, cam_pos.z / 128 };
+
+		   return m_Map.at(my_chunk)->GetHeight((int)cam_pos.x % 128, (int)cam_pos.z % 128);
+	   }
+	   catch (const std::exception&)
+	   {
+		   return 0.0f;
+	   }
+   }
+
    private:
 
       struct Point {long long x, y; };
