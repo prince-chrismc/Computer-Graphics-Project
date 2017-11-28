@@ -309,7 +309,7 @@ public:
 
         auto stencil_indices = array<int,2*Order*num_dims>{};
 
-        
+
         auto get_neighbor = [](size_t idx) 
         { 
             if (idx >= 0 and idx < prod_dims) 

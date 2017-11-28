@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 #pragma once
+
 #include "TerrainBlock.h"
 #include "Forest.h"
 
@@ -38,6 +39,7 @@ public:
 
    void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLES); m_Forest.Draw(); }
    void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate((1.0f/ OBJECTSPACE_TO_REALWORLD)*vec); }
+   float MinDistanceToAnyTree(float from_x, float from_y);
 
    private:
       TerrainBlock m_Terrain;

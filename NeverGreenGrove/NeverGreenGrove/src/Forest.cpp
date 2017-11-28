@@ -50,7 +50,7 @@ private:
 
       const GLuint GetVAO() const { return m_VAO; }
       const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
-      const GLuint GetTexture() const { return m_Texture.getTexture(1); }
+      const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
    private:
       TreeObj();
@@ -99,7 +99,7 @@ private:
 
       const GLuint GetVAO() const { return m_VAO; }
       const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
-      const GLuint GetTexture() const { return m_Texture.getTexture(1); }
+      const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
    private:
       TreeObj();
@@ -272,7 +272,6 @@ void Forest::TreeA::Draw() const
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
-   glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindTexture(GL_TEXTURE_2D, 0);
@@ -287,7 +286,6 @@ void Forest::TreeB::Draw() const
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
-   glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindTexture(GL_TEXTURE_2D, 0);
@@ -361,4 +359,16 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       m_Map.emplace(Point{ x, y }, tree);
       tree_vec.pop_back();
    }
+}
+
+float Forest::MinDistanceToAnyTree(float from_x, float from_y)
+{
+   float min_dist = 128.0f;
+   for (auto tree : m_Map)
+   {
+      Point tree_coord = tree.first;
+
+      min_dist = std::min(min_dist, std::sqrt(std::pow(from_x - tree_coord.x, 2.0f) + std::pow(from_y - tree_coord.y, 2.0f)));
+   }
+   return min_dist;
 }

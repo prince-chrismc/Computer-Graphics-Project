@@ -169,6 +169,7 @@
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\TerrainBlock.h" />
+    <ClInclude Include="src\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Chunk.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="src\NeverGreenGrove.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TerrainBlock.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fragment.shader" />
