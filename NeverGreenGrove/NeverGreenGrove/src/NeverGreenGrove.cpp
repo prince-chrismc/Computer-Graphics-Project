@@ -155,7 +155,7 @@ int ExitOnEnter()
 
 void ClearFrame()
 {
-   glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
+   glClearColor(0.75f, 0.75f, 0.75f, 1.0f);
    //glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
    //glClearDepth(0.0);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
