@@ -44,21 +44,39 @@ World::~World()
 
 void World::Update(glm::vec3 cam_pos)
 {
-static std::once_flag block;
-   if (cam_pos.x > 128.0f && cam_pos.z > 128.0f) {
- 
-   std::call_once(block, [this]{
-      auto chunk7 = std::make_shared<Chunk>();
-      auto chunk8 = std::make_shared<Chunk>();
-      auto chunk9 = std::make_shared<Chunk>();
+   static std::once_flag blockTL;
+   if (cam_pos.x > 64.0f && cam_pos.z > 64.0f)
+   {
+      std::call_once(blockTL, [this]{
+         auto chunk7 = std::make_shared<Chunk>();
+         auto chunk8 = std::make_shared<Chunk>();
+         auto chunk9 = std::make_shared<Chunk>();
 
-      chunk7->Translate(glm::vec3(2*Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
-      chunk8->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, 2*Chunk::ONE_TRANS_UNIT));
-      chunk9->Translate( glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 2*Chunk::ONE_TRANS_UNIT));
+         chunk7->Translate(glm::vec3(2*Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+         chunk8->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, 2*Chunk::ONE_TRANS_UNIT));
+         chunk9->Translate( glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 2*Chunk::ONE_TRANS_UNIT));
 
-      m_Map.emplace(Point{2, 1}, chunk7);
-      m_Map.emplace(Point{ 2, 2 }, chunk8);
-      m_Map.emplace(Point{ 1, 2 }, chunk8);
+         m_Map.emplace(Point{2, 1}, chunk7);
+         m_Map.emplace(Point{ 2, 2 }, chunk8);
+         m_Map.emplace(Point{ 1, 2 }, chunk9);
       });
- }
+   }
+
+   static std::once_flag blockTL;
+   if (cam_pos.x > 64.0f && cam_pos.z > 64.0f)
+   {
+      std::call_once(blockTL, [this] {
+         auto chunk7 = std::make_shared<Chunk>();
+         auto chunk8 = std::make_shared<Chunk>();
+         auto chunk9 = std::make_shared<Chunk>();
+
+         chunk7->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+         chunk8->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, 2 * Chunk::ONE_TRANS_UNIT));
+         chunk9->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 2 * Chunk::ONE_TRANS_UNIT));
+
+         m_Map.emplace(Point{ 2, 1 }, chunk7);
+         m_Map.emplace(Point{ 2, 2 }, chunk8);
+         m_Map.emplace(Point{ 1, 2 }, chunk9);
+      });
+   }
 }

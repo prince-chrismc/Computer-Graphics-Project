@@ -110,6 +110,7 @@ int main()
       //terrain3.Draw();
       //terrain4.Draw();
       g_World->Draw();
+      g_World->Update(g_camera.GetPos());
       //chunk1->Draw();
       //chunk2->Draw();
       /// Render
