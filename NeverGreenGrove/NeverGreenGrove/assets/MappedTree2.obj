@@ -1,6 +1,6 @@
 # Blender v2.79 (sub 0) OBJ File: 'uvmapping.blend'
 # www.blender.org
-mtllib MappedTree.mtl
+mtllib MappedTree2.mtl
 o Cylinder002
 v -0.115383 3.419319 -0.189795
 v 0.311914 4.010724 0.137641
