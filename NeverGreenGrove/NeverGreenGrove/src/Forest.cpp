@@ -247,7 +247,7 @@ Forest::TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
 
    glBindBuffer(GL_ARRAY_BUFFER, m_Uvs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
-   glVertexAttribPointer(UvIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glVertexAttribPointer(UvIndex, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(UvIndex);
 
    glBindBuffer(GL_ARRAY_BUFFER, 0);
