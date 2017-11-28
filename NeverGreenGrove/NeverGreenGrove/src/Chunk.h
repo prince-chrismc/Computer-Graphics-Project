@@ -36,7 +36,7 @@ public:
 
    static constexpr double ONE_TRANS_UNIT = 128.0 * OBJECTSPACE_TO_REALWORLD;
 
-   void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLE_STRIPS); m_Forest.Draw(); }
+   void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLES); m_Forest.Draw(); }
    void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate((1.0f/ OBJECTSPACE_TO_REALWORLD)*vec); }
 
    private:
