@@ -136,7 +136,7 @@ std::shared_ptr<Forest::TreeA::TreeObj> Forest::TreeA::TreeObj::s_Instance;
 std::once_flag Forest::TreeB::TreeObj::s_Flag;
 std::shared_ptr<Forest::TreeB::TreeObj> Forest::TreeB::TreeObj::s_Instance;
 
-Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/treeBark.jpg")
+Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/mapped.jpg")
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -148,7 +148,7 @@ Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/treeBark.jpg")
    std::vector<glm::vec3> colors;
    std::vector<glm::vec3> normals;
    std::vector<glm::vec2> uvs;
-   LoadObjFile("assets/tree_xs.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
+   LoadObjFile("assets/tree_xs_mapped2.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
 
    m_NumVertices = (GLsizei)vertices.size();
 
@@ -200,7 +200,7 @@ Forest::TreeA::TreeObj::~TreeObj()
    glDeleteVertexArrays(1, &m_VAO);
 }
 
-Forest::TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
+Forest::TreeB::TreeObj::TreeObj() : m_Texture("assets/tree2_xsmapping.jpg")
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -212,7 +212,7 @@ Forest::TreeB::TreeObj::TreeObj() : m_Texture("assets/wall.jpg")
    std::vector<glm::vec3> colors;
    std::vector<glm::vec3> normals;
    std::vector<glm::vec2> uvs;
-   LoadObjFile("assets/tree2_xs.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
+   LoadObjFile("assets/tree2_xs_mapped.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
 
    m_NumVertices = (GLsizei)vertices.size();
 
