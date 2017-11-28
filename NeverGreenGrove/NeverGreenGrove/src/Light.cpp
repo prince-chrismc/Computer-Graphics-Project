@@ -29,6 +29,6 @@ SOFTWARE.
 
 void Light::Draw(float time)
 {
-   position += glm::vec3( std::sin(time * 0.1f), 0.0f, std::cos(time * 0.1f) );
+	position += glm::vec3(std::cos(time * 0.1f) * 10.0f, 0.0f, std::cos(time * 0.1f) );
    ShaderLinker::GetInstance()->SetUniformVec3("light_position", position);
 }
