@@ -28,7 +28,7 @@ SOFTWARE.
 #include "GlfwWindow.h"
 #include "Shader.h"
 #include "ObjLoader.h"
-#include "Chunk.h"
+#include "World.h"
 #include "irrKlang/irrKlang.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
@@ -50,6 +50,7 @@ void PerFrameCalc();
 
 // Gloabal objects
 Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
+World g_World;
 
 int main()
 {
@@ -77,14 +78,15 @@ int main()
    glEnable(GL_DEPTH_TEST);
 
    // Terrain
-   Chunk terrain1;
-   Chunk terrain2;
-   Chunk terrain3;
-   Chunk terrain4;
-   terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
-   terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
-   terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+   //Chunk terrain1;
+   //Chunk terrain2;
+   //Chunk terrain3;
+   //Chunk terrain4;
+   //terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
+   //terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
+   //terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
    size_t counter = 0;
+
    // Game loop
    while (!window->ShouldClose())
    {
@@ -98,10 +100,11 @@ int main()
       if (counter % 1500 == 0) engine->play2D("assets/zombie.mp3"); //referenced https://www.youtube.com/watch?v=9ounTccHNsw
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
-      terrain1.Draw();
-      terrain2.Draw();
-      terrain3.Draw();
-      terrain4.Draw();
+      //terrain1.Draw();
+      //terrain2.Draw();
+      //terrain3.Draw();
+      //terrain4.Draw();
+      g_World.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers

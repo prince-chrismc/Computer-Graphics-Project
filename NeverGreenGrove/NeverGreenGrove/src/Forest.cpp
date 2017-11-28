@@ -50,7 +50,7 @@ private:
 
       const GLuint GetVAO() const { return m_VAO; }
       const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
-      const GLuint GetTexture() const { return m_Texture.getTexture(1); }
+      const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
    private:
       TreeObj();
@@ -99,7 +99,7 @@ private:
 
       const GLuint GetVAO() const { return m_VAO; }
       const GLsizei GetNumberOfVertices() const { return m_NumVertices; }
-      const GLuint GetTexture() const { return m_Texture.getTexture(1); }
+      const GLuint GetTexture() const { return m_Texture.getTexture(); }
 
    private:
       TreeObj();
@@ -272,7 +272,6 @@ void Forest::TreeA::Draw() const
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
-   glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindTexture(GL_TEXTURE_2D, 0);
@@ -287,7 +286,6 @@ void Forest::TreeB::Draw() const
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
-   glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindTexture(GL_TEXTURE_2D, 0);

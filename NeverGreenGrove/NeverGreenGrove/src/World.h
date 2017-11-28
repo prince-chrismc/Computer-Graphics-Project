@@ -2,8 +2,8 @@
 MIT License
 
 Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
-                     Daniel P, privorotskyd(at)gmail(dot)com
-                     Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
+Daniel P, privorotskyd(at)gmail(dot)com
+Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,21 +26,30 @@ SOFTWARE.
 
 #pragma once
 
-#include "TerrainBlock.h"
-#include "Forest.h"
+#include "Chunk.h"
 
-class Chunk
+class World
 {
 public:
-   Chunk() : m_Terrain(), m_Forest(m_Terrain.Get2DGrid()) {}
-   ~Chunk() = default;
-
-   static constexpr double ONE_TRANS_UNIT = 128.0 * OBJECTSPACE_TO_REALWORLD;
-
-   void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLES); m_Forest.Draw(); }
-   void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate((1.0f/ OBJECTSPACE_TO_REALWORLD)*vec); }
+   World();
+   ~World();
+   void Draw() const { for (auto tree : m_Map) { tree.second->Draw(); } }
 
    private:
-      TerrainBlock m_Terrain;
-      Forest m_Forest;
+
+      struct Point {long long x, y; };
+
+      //Compare the coordinates of two Points
+      struct PointCmp
+      {
+         bool operator()(const Point &lhs, const Point &rhs) const
+         {
+            return (lhs.x < rhs.x) ? true : (lhs.x == rhs.x && lhs.y < rhs.y) ? true : false;
+         }
+      };
+
+
+   std::map<Point, std::shared_ptr<Chunk>, PointCmp> m_Map;
+
 };
+
