@@ -30,6 +30,7 @@ SOFTWARE.
 #include "ObjLoader.h"
 #include "Chunk.h"
 #include "irrKlang/irrKlang.h"
+#include "Light.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
@@ -103,6 +104,8 @@ int main()
    terrain9.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, -1*Chunk::ONE_TRANS_UNIT));
    size_t counter = 0;
 
+   Light light;
+
    // Game loop
    while (!window->ShouldClose())
    {
@@ -120,6 +123,8 @@ int main()
 		  snd->setIsPaused(false);
 		  snd->drop();
 	  }
+
+	  light.Draw(counter++);
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
