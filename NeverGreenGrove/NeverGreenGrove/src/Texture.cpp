@@ -30,6 +30,7 @@ SOFTWARE.
 #include "stb_image.h"
 #include <iostream>
 #include <string>
+#include "Shader.h"
 
 Texture::Texture(const char* image_path)
 {
@@ -108,7 +109,7 @@ Texture::Texture(const char* image_path1, const char* image_path2)
 
 	int width2, height2, channel2;
 	unsigned char* texture_buffer2 = stbi_load(image_path2, &width2, &height2, &channel2, 0);
-	if (!texture_buffer)
+	if (!texture_buffer2)
 	{
 		std::cout << "Texture loading failed. Try again!" << std::endl;
 		std::cout << "Press 'enter' to exit." << std::endl;
@@ -121,4 +122,8 @@ Texture::Texture(const char* image_path1, const char* image_path2)
 	}
 
 	stbi_image_free(texture_buffer2);
+
+	
+	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture1"), 0);
+	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture2"), 1);
 }

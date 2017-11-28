@@ -19,8 +19,8 @@ void main()
 {
    vec3 lightColor = vec3(0.7f, 0.7f, 0.7f);
 
-   vec3 objColor = vec3(texture(texture2, textureCoord));
-   if (object_type == 1){ objColor = vertex_color; }
+   vec3 objColor = vec3(texture(texture1, textureCoord));
+   if (object_type == 1){ objColor = vec3(mix(texture(texture1, textureCoord), texture(texture2, textureCoord), 0.2)); }
 
    float fogCoordinate = abs(eyeSpace.z / eyeSpace.w); //ranged based
    //float fogCoordinate = abs(eyeSpace.z); //plane based
