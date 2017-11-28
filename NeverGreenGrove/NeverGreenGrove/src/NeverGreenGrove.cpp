@@ -51,6 +51,8 @@ void PerFrameCalc();
 // Gloabal objects
 Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
+ISoundEngine* engine;
+
 int main()
 {
    std::cout << "Welcome to Never Green Grove!" << std::endl;
@@ -64,12 +66,12 @@ int main()
    if (!SetupShaders()) return ExitOnEnter();
    auto shaderProgram = ShaderLinker::GetInstance();
 
-   ISoundEngine* engine = createIrrKlangDevice();
+  engine = createIrrKlangDevice();
 
    if (!engine)
    {
-      printf("Could not startup engine\n");
-      return 0; // error starting up the engine
+	   printf("Could not startup engine\n");
+	   return 0; // error starting up the engine
    }
 
    engine->play2D("assets/apocalypse.mp3", true); //reference https://www.youtube.com/watch?v=OMoTcNxpUVg
@@ -106,6 +108,7 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       if (counter % 1500 == 0) engine->play2D("assets/zombie.mp3"); //referenced https://www.youtube.com/watch?v=9ounTccHNsw
+	  else if (counter % 750 == 0) engine->play2D("assets/dramaticSound.mp3", false);
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
@@ -250,7 +253,10 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 	   }
    }
 	   if (key == GLFW_KEY_G && action == GLFW_PRESS) {
-		   (g_camera.godMode) ? g_camera.godMode = false : g_camera.godMode = true;
+		   if (g_camera.godMode) {
+			   g_camera.godMode = false; engine->play2D("assets/powerUp.mp3", false);
+		   }
+		   else { g_camera.godMode = true; engine->play2D("assets/powerDown.mp3", false); }
 	   }
    
 
@@ -295,4 +301,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
    g_camera.ProcessMouseScroll((float)yoffset);
+}
+
+void playSong(ISoundEngine* engine)
+{
+	
 }
