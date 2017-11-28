@@ -150,7 +150,7 @@ void TerrainBlock::Builder::BuildFlatTerrain() // create a simple flat terrain
       {
          temp_builder.emplace_back(i, 0, j);
          temp_indices.emplace_back(counter++);
-         UVs.emplace_back(glm::vec2(i, j));
+         UVs.emplace_back(glm::vec2(i/(CHUNK_LENGTH*0.25f), j/(CHUNK_LENGTH*0.25f)));
          temp_normals.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f)); // directly up
          temp_color.emplace_back(glm::vec3(0.4f, 0.2f, 0.04f)); // brownish color
       }
