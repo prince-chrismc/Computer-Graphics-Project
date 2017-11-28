@@ -31,7 +31,7 @@ SOFTWARE.
 class Light
 {
    public:
-      Light() : position(100.0f, 100.0f, 100.0f) {}
+      Light() : position(10.0f, 10.0f, 10.0f) {}
 
       void Draw(float time);
 
