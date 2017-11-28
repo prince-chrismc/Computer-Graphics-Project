@@ -11,6 +11,7 @@
 #include "glm\vec3.hpp"
 #include "glm\mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"         //glm::lookAt
+#include <iostream>
 
 // Default camera values
 const float YAW        = -90.0f;
@@ -59,7 +60,11 @@ public:
       return glm::lookAt(Position, Position + Front, Up);
    }
 
-   void moveCamera(float deltaTime, float height)
+   glm::vec3 GetPos() {
+      return Position;
+   }
+
+   void moveCamera(float deltaTime)
    {
 	   float velocity = MovementSpeed * deltaTime;
 	   if (sprint) { velocity *= 2.0f; }
@@ -154,7 +159,7 @@ private:
       // Also re-calculate the Right and Up vector
       Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
       Up = glm::normalize(glm::cross(Right, Front));
-		//std::cout << "\r" << std::flush << "Camera yaw: " << Yaw << "\tCamera Pitch: " << Pitch << "\tPosition(x,y,z): " << Position.x << ", " << Position.y << ", " << Position.z;
+		std::cout << "\r" << std::flush << /*"Camera yaw: " << Yaw << "\tCamera Pitch: " << Pitch <<*/ "\tPosition(x,y,z): " << Position.x << ", " << Position.y << ", " << Position.z;
 	
    }
 };

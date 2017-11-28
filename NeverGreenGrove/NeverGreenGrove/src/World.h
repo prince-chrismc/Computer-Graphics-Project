@@ -24,9 +24,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#pragma once
+
 #include "Chunk.h"
 
-float Chunk::MinDistanceToAnyTree(float from_x, float from_y)
+class World
 {
-   return m_Forest.MinDistanceToAnyTree(from_x, from_y);
-}
+public:
+   World();
+   ~World();
+   void Draw() const { for (auto chunk : m_Map) { chunk.second->Draw(); } }
+
+   void Update(glm::vec3 cam_pos);
+   bool TreeToClose(glm::vec3 cam_pos);
+
+   private:
+
+      struct Point {long long x, y; };
+
+      //Compare the coordinates of two Points
+      struct PointCmp
+      {
+         bool operator()(const Point &lhs, const Point &rhs) const
+         {
+            return (lhs.x < rhs.x) ? true : (lhs.x == rhs.x && lhs.y < rhs.y) ? true : false;
+         }
+      };
+
+
+   std::map<Point, std::shared_ptr<Chunk>, PointCmp> m_Map;
+   glm::vec3 m_LastCamPos;
+};
+

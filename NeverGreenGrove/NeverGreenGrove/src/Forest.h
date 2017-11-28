@@ -45,6 +45,9 @@ public:
    void Draw() const { for (auto tree : m_Map) { tree.second->Draw(); } }
    void Translate(const glm::vec3& vec) { for (auto tree : m_Map) { tree.second->Translate(vec); } }
 
+   float MinDistanceToAnyTree(float from_x, float from_y);
+
+
 private:
    class DrawableTree abstract
    {
