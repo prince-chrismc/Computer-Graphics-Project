@@ -36,7 +36,7 @@ class TerrainBlock
 {
 friend class Chunk;
    public:
-      TerrainBlock::TerrainBlock() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices()) {}
+      TerrainBlock::TerrainBlock() : m_Builder(), m_Terrain(m_Builder.GetVerticies(), m_Builder.GetColors(), m_Builder.GetNormals(), m_Builder.GetIndices(), m_Builder.GetUVs()) {}
       void Draw(const RenderMode& render_mode) const;
       void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, 2.505f*vec); }
 
@@ -47,7 +47,7 @@ friend class Chunk;
       class DrawableTerrain
       {
          public:
-            DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies);
+            DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs);
             ~DrawableTerrain();
 
             void Draw(const RenderMode& render_mode) const;
@@ -58,6 +58,7 @@ friend class Chunk;
             GLuint m_Colors;
             GLuint m_Indicies;
             GLuint m_Normals;
+			GLuint m_UVs;
 
             GLsizei m_NumVertices;
             GLsizei m_NumIndicies;
@@ -83,6 +84,7 @@ friend class Chunk;
          std::vector<glm::vec3> GetVerticies() { return grid; }
          std::vector<glm::vec3> GetColors() { return color; }
          std::vector<glm::vec3> GetNormals() { return normals; }
+		 std::vector<glm::vec2> GetUVs() { return normals; }
          std::vector<GLuint> GetIndices() { return indices; }
 
       private:

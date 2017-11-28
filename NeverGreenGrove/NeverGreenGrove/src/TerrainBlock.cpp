@@ -33,7 +33,7 @@ SOFTWARE.
 
 constexpr float PI = 3.14159265358979323846f;
 
-TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies)
+TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs)
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -64,6 +64,13 @@ TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> vert
    glEnableVertexAttribArray(NormalIndex);
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+   glGenBuffers(1, &m_UVs);
+   glBindBuffer(GL_ARRAY_BUFFER, m_UVs);
+   glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(NormalIndex, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(NormalIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
+
    glGenBuffers(1, &m_Indicies);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(GLuint), &indicies.front(), GL_STATIC_DRAW);
@@ -81,6 +88,7 @@ TerrainBlock::DrawableTerrain::~DrawableTerrain()
    glDeleteBuffers(1, &m_Colors);
    glDeleteBuffers(1, &m_Normals);
    glDeleteBuffers(1, &m_Indicies);
+   glDeleteBuffers(1, &m_UVs);
    glDeleteVertexArrays(1, &m_VAO);
 }
 
@@ -97,6 +105,14 @@ void TerrainBlock::DrawableTerrain::Draw(const RenderMode& render_mode) const
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
       glBindVertexArray(0);
       break;
+
+   case RenderMode::TRIANGLES:
+	   glBindVertexArray(m_VAO);
+	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+	   glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, 0);
+	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	   glBindVertexArray(0);
+	   break;
 
    case RenderMode::TRIANGLE_STRIPS:
       glBindVertexArray(m_VAO);
