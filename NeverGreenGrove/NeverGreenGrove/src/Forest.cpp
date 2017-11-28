@@ -72,7 +72,7 @@ private:
 class Forest::TreeA2 : public Forest::TreeA
 {
 public:
-   TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); /*Rotate(90.f);*/ }
+   TreeA2() { Scale(glm::vec3(1.0, 1.1, 1.1)); Rotate(90.f); }
 };
 
 class Forest::TreeA3 : public Forest::TreeA
@@ -121,7 +121,7 @@ private:
 class Forest::TreeB2 : public Forest::TreeB
 {
 public:
-   TreeB2() { Scale(glm::vec3(1.1, 1.25, 0.9)); /*Rotate(75.0f);*/ }
+   TreeB2() { Scale(glm::vec3(1.1, 1.25, 0.9)); Rotate(75.0f); }
 };
 
 class Forest::TreeFactory
@@ -267,7 +267,8 @@ Forest::TreeB::TreeObj::~TreeObj()
 void Forest::TreeA::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
-   shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
+   glm::mat4 myModelMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
+   shaderProgram->SetUniformMat4("model_matrix", myModelMatrix);
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
@@ -280,7 +281,8 @@ void Forest::TreeA::Draw() const
 void Forest::TreeB::Draw() const
 {
    auto shaderProgram = ShaderLinker::GetInstance();
-   shaderProgram->SetUniformMat4("model_matrix", m_ModelMatrix);
+   glm::mat4 myModelMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
+   shaderProgram->SetUniformMat4("model_matrix", myModelMatrix);
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
@@ -300,13 +302,13 @@ std::shared_ptr<Forest::DrawableTree> Forest::TreeFactory::GetNewTree()
    case 1:
       return std::make_shared<Forest::TreeA>();
    case 2:
-      //return std::make_shared<TreeA2>();
+      return std::make_shared<TreeA2>();
    case 3:
      return std::make_shared<Forest::TreeA3>();
    case 4:
       return std::make_shared<Forest::TreeB>();
    case 5:
-      //return std::make_shared<Forest::TreeB2>();
+      return std::make_shared<Forest::TreeB2>();
    default:
       return std::make_shared<Forest::TreeA>();
    }
@@ -330,10 +332,14 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       return retval;
    });
 
+   static std::random_device rd;
+   static std::mt19937 g(rd());
+
    auto GenCoord = [] {
-      static std::random_device rd;
-      static std::mt19937 g(rd());
       return 1 + (g() % 126);
+   };
+   auto GetDegree = [] {
+      return float(g() % 360);
    };
 
    auto tree_vec = future_forest.get();
@@ -344,7 +350,8 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       size_t y = GenCoord();
 
       auto tree = tree_vec.back();
-      tree->Translate(glm::vec3(x*OBJECTSPACE_TO_REALWORLD, m_HeightMap[{x, y}]*OBJECTSPACE_TO_REALWORLD - 0.05, y*OBJECTSPACE_TO_REALWORLD));
+      tree->Translate(glm::vec3(x, m_HeightMap[{x, y}] - 0.05, y));
+      tree->Rotate(GetDegree());
       m_Map.emplace(Point{ x, y }, tree);
       tree_vec.pop_back();
    }
