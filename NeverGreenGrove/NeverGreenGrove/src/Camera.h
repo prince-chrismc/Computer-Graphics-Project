@@ -54,6 +54,10 @@ public:
       return glm::lookAt(Position, Position + Front, Up);
    }
 
+   glm::vec3 GetPos() {
+      return Position;
+   }
+
    void moveCamera(float deltaTime)
    {
       float velocity = MovementSpeed * deltaTime;

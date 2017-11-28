@@ -36,6 +36,8 @@ public:
    void Draw() const { for (auto chunk : m_Map) 
    { chunk.second->Draw(); } }
 
+   void Update(glm::vec3 cam_pos);
+
    private:
 
       struct Point {long long x, y; };

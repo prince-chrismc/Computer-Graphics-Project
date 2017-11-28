@@ -41,3 +41,17 @@ World::World()
 World::~World()
 {
 }
+
+void World::Update(glm::vec3 cam_pos)
+{
+   if (cam_pos.x > 128.0f && cam_pos.z > 128.0f) {
+
+      auto chunk7 = std::make_shared<Chunk>();
+      auto chunk8 = std::make_shared<Chunk>();
+      auto chunk9 = std::make_shared<Chunk>();
+
+      chunk7->Translate(2*Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT);
+
+      m_Map.emplace(Point{2, 1}, chunk7);
+ }
+}
