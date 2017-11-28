@@ -84,7 +84,7 @@ int main()
    terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
    terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
    terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
-
+   int counter = 0;
    // Game loop
    while (!window->ShouldClose())
    {
@@ -95,6 +95,8 @@ int main()
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
+	  if (counter % 1500 == 0){ engine->play2D("assets/zombie.mp3", false); } //referenced https://www.youtube.com/watch?v=9ounTccHNsw
+
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
       terrain2.Draw();
@@ -103,6 +105,8 @@ int main()
       /// Render
 
       window->NextBuffer(); // swap buffers
+
+	  counter++;
    }
 
    engine->drop(); // delete engine
