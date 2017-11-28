@@ -349,8 +349,12 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       size_t x = GenCoord();
       size_t y = GenCoord();
 
+      float min_point = std::min({m_HeightMap[{ x - 1, y - 1  }], m_HeightMap[{ x - 1 , y }], m_HeightMap[{ x - 1, y + 1 }],
+                                 m_HeightMap[{ x, y - 1  }], m_HeightMap[{ x, y }], m_HeightMap[{ x, y + 1 }],
+                                 m_HeightMap[{ x + 1, y - 1  }], m_HeightMap[{ x + 1, y }], m_HeightMap[{ x + 1, y + 1 }]});
+
       auto tree = tree_vec.back();
-      tree->Translate(glm::vec3(x, m_HeightMap[{x, y}] - 0.05, y));
+      tree->Translate(glm::vec3(x, min_point - 0.05, y));
       tree->Rotate(GetDegree());
       m_Map.emplace(Point{ x, y }, tree);
       tree_vec.pop_back();
