@@ -50,6 +50,10 @@ TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> vert
    glEnableVertexAttribArray(PositonIndex);
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+   glBindTexture(GL_TEXTURE_2D, GetTexture());
+   glDrawArrays(GL_TRIANGLES, 0, verticies.size());
+   glBindTexture(GL_TEXTURE_2D, 0);
+
    glGenBuffers(1, &m_Colors);
    glBindBuffer(GL_ARRAY_BUFFER, m_Colors);
    glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), &colors.front(), GL_STATIC_DRAW);
