@@ -59,7 +59,7 @@ public:
       return glm::lookAt(Position, Position + Front, Up);
    }
 
-   void moveCamera(float deltaTime)
+   void moveCamera(float deltaTime, float height)
    {
 	   float velocity = MovementSpeed * deltaTime;
 	   if (sprint) { velocity *= 2.0f; }
@@ -73,6 +73,7 @@ public:
 			  Position -= Right * velocity;
 		  if (goRight)
 		      Position += Right * velocity;
+		  Position.y = height;
 		}
 	  else {
 		  //godmode

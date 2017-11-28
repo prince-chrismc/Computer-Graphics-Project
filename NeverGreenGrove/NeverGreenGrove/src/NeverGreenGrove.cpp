@@ -81,9 +81,19 @@ int main()
    Chunk terrain2;
    Chunk terrain3;
    Chunk terrain4;
+   Chunk terrain5;
+   Chunk terrain6;
+   Chunk terrain7;
+   Chunk terrain8;
+   Chunk terrain9;
    terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
    terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
    terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+   terrain5.Translate(glm::vec3(-1*Chunk::ONE_TRANS_UNIT, 0, 0));
+   terrain6.Translate(glm::vec3(-1*Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+   terrain7.Translate(glm::vec3(-1 * Chunk::ONE_TRANS_UNIT, 0,-1*Chunk::ONE_TRANS_UNIT));
+   terrain8.Translate(glm::vec3(0, 0, -1*Chunk::ONE_TRANS_UNIT));
+   terrain9.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, -1*Chunk::ONE_TRANS_UNIT));
    size_t counter = 0;
    // Game loop
    while (!window->ShouldClose())
@@ -102,6 +112,11 @@ int main()
       terrain2.Draw();
       terrain3.Draw();
       terrain4.Draw();
+	  terrain5.Draw();
+	  terrain6.Draw();
+	  terrain7.Draw();
+	  terrain8.Draw();
+	  terrain9.Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
@@ -139,7 +154,7 @@ void PerFrameCalc()
    g_deltaTime = currentFrame - g_lastFrame;
    g_lastFrame = currentFrame;
 
-   g_camera.moveCamera(g_deltaTime);
+   g_camera.moveCamera(g_deltaTime, 3.0f);
 }
 
 // Callback declarations for camera ---------------------------------------------------------------
