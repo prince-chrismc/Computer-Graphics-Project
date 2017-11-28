@@ -217,10 +217,27 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
       g_camera.goUp = false;
 
-   if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
-      g_camera.goDown = true;
-   if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
-      g_camera.goDown = false;
+   
+   if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
+	   if (g_camera.godMode) {
+		   g_camera.goDown = true;
+	   }
+	   else {
+		   g_camera.sprint = true;
+	   }
+   }
+   if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE) {
+	   if (g_camera.godMode) {
+		   g_camera.goDown = false;
+	   }
+	   else {
+		   g_camera.sprint = false;
+	   }
+   }
+	   if (key == GLFW_KEY_G && action == GLFW_PRESS) {
+		   (g_camera.godMode) ? g_camera.godMode = false : g_camera.godMode = true;
+	   }
+   
 
    if (key == GLFW_KEY_T && action == GLFW_PRESS)
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

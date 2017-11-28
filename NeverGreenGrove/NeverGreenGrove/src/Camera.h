@@ -15,7 +15,7 @@
 // Default camera values
 const float YAW        = -90.0f;
 const float PITCH      =  0.0f;
-const float SPEED      =  75.0f;
+const float SPEED      =  10.0f;
 const float SENSITIVTY =  0.1f;
 const float ZOOM       =  45.0f;
 
@@ -25,7 +25,8 @@ class Camera
 public:
    //public direction booleans
    bool goForward, goBackward, goRight, goLeft, goUp, goDown;
-
+   bool	godMode;
+   bool sprint;
    // Constructor with vectors
    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVTY), Zoom(ZOOM)
    {
@@ -34,7 +35,9 @@ public:
       Yaw = yaw;
       Pitch = pitch;
       goForward = goBackward = goRight = goLeft = goUp = goDown = false;
-      updateCameraVectors();
+	  godMode = false;
+	  sprint = false;
+	  updateCameraVectors();
    }
 
    // Constructor with scalar values
@@ -45,6 +48,8 @@ public:
       Yaw = yaw;
       Pitch = pitch;
       goForward = goBackward = goRight = goLeft = goUp = goDown = false;
+	  godMode = false;
+	  sprint = false;
       updateCameraVectors();
    }
 
@@ -56,19 +61,35 @@ public:
 
    void moveCamera(float deltaTime)
    {
-      float velocity = MovementSpeed * deltaTime;
-      if (goForward)
-         Position += Front * velocity;
-      if (goBackward)
-         Position -= Front * velocity;
-      if (goLeft)
-         Position -= Right * velocity;
-      if (goRight)
-         Position += Right * velocity;
-      if (goUp)
-         Position += Up * velocity;
-      if (goDown)
-         Position -= Up * velocity;
+	   float velocity = MovementSpeed * deltaTime;
+	   if (sprint) { velocity *= 2.0f; }
+      if (!godMode) {
+		  //normal mode
+		  if (goForward)
+			  Position += Front * velocity;
+		  if (goBackward)
+			  Position -= Front * velocity;
+		  if (goLeft)
+			  Position -= Right * velocity;
+		  if (goRight)
+		      Position += Right * velocity;
+		}
+	  else {
+		  //godmode
+		  velocity *= 7.0f;
+		  if (goForward)
+			  Position += Front * velocity;
+		  if (goBackward)
+			  Position -= Front * velocity;
+		  if (goLeft)
+			  Position -= Right * velocity;
+		  if (goRight)
+			  Position += Right * velocity;
+		  if (goUp)
+			  Position += Up * velocity;
+		  if (goDown)
+			  Position -= Up * velocity;
+	  }
    }
 
    // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
