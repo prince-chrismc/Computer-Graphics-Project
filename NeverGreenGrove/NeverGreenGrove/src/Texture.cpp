@@ -31,13 +31,7 @@ SOFTWARE.
 #include <iostream>
 #include <string>
 
-Texture::Texture(const char* imagePath)
-{
-   createTexture(imagePath);
-}
-
-
-void Texture::createTexture(const char* image_path)
+Texture::Texture(const char* image_path)
 {
    // modified from https://learnopengl.com/#!Getting-started/Textures
    glGenTextures(1, &texture);
@@ -52,6 +46,7 @@ void Texture::createTexture(const char* image_path)
    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+   int width, height, channel;
    unsigned char* texture_buffer = stbi_load(image_path, &width, &height, &channel, 0);
    if (!texture_buffer)
    {
