@@ -61,14 +61,15 @@ In conclusion, we have created a Post-Apocalyptic world that is procedurally gen
 - We would like to thank the TAs for answering our questions and help guide us in the right direction. 
 - light: referenced to the TA with practice code provided in tutorial. Additionally, readings of how lighting works were done on LearnOpenGL.com
 - textures: referenced to Learnopengl.com for understanding what's needed to implement textures
+- procedural generation readings: http://pcg.wikidot.com/
 - apocalypse them song: https://www.youtube.com/watch?v=OMoTcNxpUVg
 - zombie song: https://www.youtube.com/watch?v=9ounTccHNsw
 - power up:
 - power down:
 - dramatic sound: 
-- snow jpg:
-- wall jpg:
+- snow jpg:http://www.10ravens.com/files/product/5/41/12006/preview.jpg
+- wall jpg:https://learnopengl.com/img/textures/wall.jpg
 - grass jpg:
-- dirt jpg:
+- dirt jpg:http://maxpixel.freegreatpicture.com/static/photo/1x/Ground-Texture-Dirt-Soil-Land-Earth-2313866.jpg
 
 
