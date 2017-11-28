@@ -32,6 +32,7 @@ SOFTWARE.
 #include "glm\matrix.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include <vector>
+#include <mutex>
 
 class TerrainBlock
 {
@@ -45,23 +46,41 @@ friend class Chunk;
       static constexpr GLuint CHUNK_LENGTH = 128;
 
    private:
+      class TerrainTexture
+      {
+         public:
+            ~TerrainTexture() = default;
+            TerrainTexture(const TerrainTexture&) = delete;
+            TerrainTexture& operator=(const TerrainTexture&) = delete;
+
+            static std::shared_ptr<TerrainTexture> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TerrainTexture()); }); return s_Instance; }
+
+            const GLuint GetTexture() const { return m_Texture.getTexture(); }
+
+         private:
+            TerrainTexture() : m_Texture("assets/grass.jpg") {}
+
+            Texture m_Texture;
+
+            static std::once_flag s_Flag;
+            static std::shared_ptr<TerrainTexture> s_Instance;
+      };
+
       class DrawableTerrain
       {
          public:
             DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs) ;
             ~DrawableTerrain();
 
-			const GLuint GetTexture() const { return m_Texture.getTexture(); }
             void Draw(const RenderMode& render_mode) const;
 
          private:
-			Texture m_Texture;
-            GLuint m_VAO;	
+            GLuint m_VAO;
             GLuint m_Verticies;
             GLuint m_Colors;
             GLuint m_Indicies;
             GLuint m_Normals;
-			GLuint m_UVs;
+            GLuint m_UVs;
 
             GLsizei m_NumVertices;
             GLsizei m_NumIndicies;
@@ -87,7 +106,7 @@ friend class Chunk;
          std::vector<glm::vec3> GetVerticies() { return grid; }
          std::vector<glm::vec3> GetColors() { return color; }
          std::vector<glm::vec3> GetNormals() { return normals; }
-		 std::vector<glm::vec2> GetUVs() { return UVs; }
+         std::vector<glm::vec2> GetUVs() { return UVs; }
          std::vector<GLuint> GetIndices() { return indices; }
 
       private:
