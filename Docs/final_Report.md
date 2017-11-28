@@ -17,7 +17,8 @@ Nicholas Gattuso | `40007087`
 1. [Project Idea](#Project-Idea)
 2. [Accomplishment](#Accomplishment)
 3. [What We Leanred](#What-We-Learned)
-4. [References](#References)
+4. [Conclusion](#Conclusion)
+5. [References](#References)
 
 ## Project Idea
 The goal of the project is to create a procedural generating forest using OpenGL. Upon lauch, a map containing a terrain, trees, and any additional objects should be generated; the catch is that the objects will never spawn in the same location thus, creating a new world with every launch. Additionally, it is required that the user must not be able to travel through objects.
@@ -42,9 +43,32 @@ Lastly, we wanted to enhance the experience of the user by adding some bonus fea
 Note: for procedural generation, it is important that we define constraints. For ours, we made sure that hills would have a max height and that no hill can be generated on another hill. For the trees, we made sure that they are going to be generated on the terrain and that a tree can't be in the same location as another.
 
 ## What We Learned
+There have been many things that we have learned throughout this assignment. To begin, we have improved our knowledge and experience using object oriented programming in c++. Chris had setup a singleton for the project. As a result, it enabled the use of getting instances easily. For Daniel and Nick, it was a newly gained knowledge. Secondly, we had a chance to further our experience of creating Open GL projects in object oriented. 
 
+For Computer Graphics knowledge, this whole project can be seen as a learning tool. Every component and achievement has resulted in something that we have learned. The following are things that we learned:
+- We enhanced our knowledge in loading objs, creating a grid, and generating a camera. 
+- We have also learned how to add a light source and calculate the colour based on the ambient, diffuse, and specular (Phong model). We could've went further with the light by creating an object and using its position to create the light source or by adding shadows (which, unfortunately, we didn't have a chance to do). 
+- Creating textures is something else that we learned. The concept of textures isn't too hard to understand but, being able to map the texture is the advance task. We could've used one simple jpg and map are objects to coordinates from that image. However, creating the image and knowing each point in it is something that we felt wasn't necessary for this project. Instead, we loaded different textures based on the object that we have created. Furthermore, we implemented multi-texturing, which uses texture units. This was an interesting feature to implement as it explains how Open GL uses texture units to have various textures in the program. You can also bind, unbind, load, activate textures during the rendering. 
+- We've also had a chance to learn how audio can be added using irrKland.
+- Linear Fog was a feature that we added. But, we analyzed between exponential vs linear to see which one best represents our needs.
+- Collisions is something that we've studied on. Creating the bounding-axis on an object to simplify our check is something that we saw in class, but much more in practice. 
+- The concept of Procedural Generation is something that we have learned. Even though we haven't completed the addition of this feature, just the basic look into its algorithms (various ways to generate) has been an enlightening experience. 
+
+##Conclusion
+In conclusion, we have created a Post-Apocalyptic world that is procedurally generated. In this world, our vision of the theme is being processed through the use of tree objects, terrain, texture, audio and, fog. 
 
 ## References
-
+- We would like to thank the TAs for answering our questions and help guide us in the right direction. 
+- light: referenced to the TA with practice code provided in tutorial. Additionally, readings of how lighting works were done on LearnOpenGL.com
+- textures: referenced to Learnopengl.com for understanding what's needed to implement textures
+- apocalypse them song: https://www.youtube.com/watch?v=OMoTcNxpUVg
+- zombie song: https://www.youtube.com/watch?v=9ounTccHNsw
+- power up:
+- power down:
+- dramatic sound: 
+- snow jpg:
+- wall jpg:
+- grass jpg:
+- dirt jpg:
 
 
