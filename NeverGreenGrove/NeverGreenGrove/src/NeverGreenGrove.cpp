@@ -49,7 +49,7 @@ void ClearFrame();
 void PerFrameCalc();
 
 // Gloabal objects
-Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera g_camera(glm::vec3(0.0f, 1.0f, 0.0f));
 std::shared_ptr<World> g_World;
 
 int main()
@@ -201,23 +201,24 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 {
 
     glm::vec3 cam_pos = g_camera.GetPos();
+    glm::vec3 cam_front = g_camera.GetFront();
 
 
 
    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
       glfwSetWindowShouldClose(window, true);
 
-   if (key == GLFW_KEY_W && action == GLFW_PRESS && !g_World->HitsAnything(cam_pos))
+   if (key == GLFW_KEY_W && action == GLFW_PRESS && !g_World->HitsAnything(cam_pos, cam_front))
       g_camera.goForward = true;
    if (key == GLFW_KEY_W && action == GLFW_RELEASE)
       g_camera.goForward = false;
 
-   if (key == GLFW_KEY_S && action == GLFW_PRESS)
+   if (key == GLFW_KEY_S && action == GLFW_PRESS && !g_World->HitsAnything(cam_pos, cam_front))
       g_camera.goBackward = true;
    if (key == GLFW_KEY_S && action == GLFW_RELEASE)
       g_camera.goBackward = false;
 
-   if (key == GLFW_KEY_A && action == GLFW_PRESS)
+   if (key == GLFW_KEY_A && action == GLFW_PRESS && !g_World->HitsAnything(cam_pos, cam_front))
       g_camera.goLeft = true;
    if (key == GLFW_KEY_A && action == GLFW_RELEASE)
       g_camera.goLeft = false;

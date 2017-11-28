@@ -35,7 +35,7 @@ public:
    ~World();
    void Draw() const { for (auto chunk : m_Map) { chunk.second->Draw(); } }
 
-   bool HitsAnything(glm::vec3 cam_pos);
+   bool HitsAnything(glm::vec3 cam_pos, glm::vec3 cam_front);
 
    private:
 
