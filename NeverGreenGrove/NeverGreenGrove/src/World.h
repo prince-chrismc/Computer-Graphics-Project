@@ -33,8 +33,7 @@ class World
 public:
    World();
    ~World();
-   void Draw() const { for (auto chunk : m_Map) 
-   { chunk.second->Draw(); } }
+   void Draw() const { for (auto chunk : m_Map) { chunk.second->Draw(); } }
 
    void Update(glm::vec3 cam_pos);
 
@@ -53,6 +52,6 @@ public:
 
 
    std::map<Point, std::shared_ptr<Chunk>, PointCmp> m_Map;
-
+   glm::vec3 m_LastCamPos;
 };
 
