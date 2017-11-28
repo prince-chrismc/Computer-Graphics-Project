@@ -23,7 +23,7 @@ void main()
 
    float fogCoordinate = abs(eyeSpace.z / eyeSpace.w); //ranged based
    //float fogCoordinate = abs(eyeSpace.z); //plane based
-   vec4 fogColour = { 0.75f, 0.75f, 0.75f, 1.0f };
+   vec4 fogColour = vec4( 0.75f, 0.75f, 0.75f, 1.0f );
    float startFog = 0.0f;
    float endFog = 250.0f;
 
@@ -31,7 +31,7 @@ void main()
 
    //folllowing from ta
    //ambient lighting
-   float ambientStrength = 0.85f;
+   float ambientStrength = 0.75f;
    vec3 ambient_contribution = ambientStrength * lightColor;
 
    //diffuse lighting
