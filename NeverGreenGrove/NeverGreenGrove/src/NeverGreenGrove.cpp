@@ -199,10 +199,15 @@ bool SetupGlew()
 // ------------------------------------------------------------------------------------------------ //
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
+
+    glm::vec3 cam_pos = g_camera.GetPos();
+
+
+
    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
       glfwSetWindowShouldClose(window, true);
 
-   if (key == GLFW_KEY_W && action == GLFW_PRESS)
+   if (key == GLFW_KEY_W && action == GLFW_PRESS && !g_World->HitsAnything(cam_pos))
       g_camera.goForward = true;
    if (key == GLFW_KEY_W && action == GLFW_RELEASE)
       g_camera.goForward = false;

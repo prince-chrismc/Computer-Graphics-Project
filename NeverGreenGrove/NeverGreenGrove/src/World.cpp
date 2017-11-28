@@ -41,3 +41,14 @@ World::World()
 World::~World()
 {
 }
+
+bool World::HitsAnything(glm::vec3 cam_pos)
+{
+   if (cam_pos.x >= 0 && cam_pos.z >= 0)
+   if(m_Map.at(Point{ 0, 0 })->TestForGround(std::floor(cam_pos.x), std::floor(cam_pos.z), cam_pos.y-1.0f)) return true;
+
+   if(cam_pos.x >= 0 && cam_pos.y >= 0)
+      return m_Map.at(Point{ 0, 0 })->TestForTree(std::floor(cam_pos.x), std::floor(cam_pos.z)) || m_Map.at(Point{ 0, 0 })->TestForTree(std::floor(cam_pos.x+1), std::floor(cam_pos.z)) || m_Map.at(Point{ 0, 0 })->TestForTree(std::floor(cam_pos.x + 2), std::floor(cam_pos.z));
+
+    return false;
+}

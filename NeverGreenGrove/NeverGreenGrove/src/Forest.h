@@ -45,6 +45,8 @@ public:
    void Draw() const { for (auto tree : m_Map) { tree.second->Draw(); } }
    void Translate(const glm::vec3& vec) { for (auto tree : m_Map) { tree.second->Translate(vec); } }
 
+   bool IsTreeAt(std::size_t x, std::size_t y);
+
 private:
    class DrawableTree abstract
    {

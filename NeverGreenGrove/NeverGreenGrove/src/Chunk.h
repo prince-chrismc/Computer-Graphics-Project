@@ -40,6 +40,16 @@ public:
    void Draw() const { m_Terrain.Draw(RenderMode::TRIANGLES); m_Forest.Draw(); }
    void Translate(const glm::vec3& vec) { m_Terrain.Translate(vec); m_Forest.Translate((1.0f/ OBJECTSPACE_TO_REALWORLD)*vec); }
 
+   bool TestForTree(std::size_t x, std::size_t y)
+   {
+      return m_Forest.IsTreeAt(x, y);
+   }
+
+   bool TestForGround(std::size_t x, std::size_t y, float z)
+   {
+      return m_Terrain.Get2DGrid().at(x).at(y).y >= z;
+   }
+
    private:
       TerrainBlock m_Terrain;
       Forest m_Forest;

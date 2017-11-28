@@ -360,3 +360,14 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       tree_vec.pop_back();
    }
 }
+
+bool Forest::IsTreeAt(std::size_t x, std::size_t y)
+{
+   try {
+      m_Map.at(Point{x,y});
+      return true;
+      }
+      catch (std::out_of_range ex) {
+   return false;
+   }
+}
