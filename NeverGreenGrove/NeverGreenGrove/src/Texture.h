@@ -32,7 +32,7 @@ public:
    Texture(const char* image_path);
    Texture(const char* image_path1, const char* image_path2);
 
-   unsigned int getTexture(int i) const { if (i == 2) { return texture1; } return texture1; }
+   unsigned int getTexture(int i) const { if (i == 2) { return texture1; } else { return texture1; } }
 
 private:
    unsigned int texture1, texture2;
