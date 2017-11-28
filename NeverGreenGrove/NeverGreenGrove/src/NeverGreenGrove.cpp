@@ -91,8 +91,8 @@ int main()
 
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
-	  shaderProgram->SetUniformVec3("viewPos", g_camera.getCameraPosition());
-	  //shaderProgram->SetUniformVec3("light_position", { 100.0f, 100.0f + counter, 100.0f });
+      shaderProgram->SetUniformVec3("viewPos", g_camera.getCameraPosition());
+      //shaderProgram->SetUniformVec3("light_position", { 100.0f, 100.0f + counter, 100.0f });
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
