@@ -36,6 +36,7 @@ public:
    void Draw() const { for (auto chunk : m_Map) { chunk.second->Draw(); } }
 
    void Update(glm::vec3 cam_pos);
+   bool TreeToClose(glm::vec3 cam_pos);
 
    private:
 

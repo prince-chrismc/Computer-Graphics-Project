@@ -25,3 +25,8 @@ SOFTWARE.
 */
 
 #include "Chunk.h"
+
+float Chunk::MinDistanceToAnyTree(float from_x, float from_y)
+{
+   return m_Forest.MinDistanceToAnyTree(from_x, from_y);
+}

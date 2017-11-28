@@ -360,3 +360,15 @@ Forest::Forest(const std::vector<std::vector<glm::vec3>>& grid_2d)
       tree_vec.pop_back();
    }
 }
+
+float Forest::MinDistanceToAnyTree(float from_x, float from_y)
+{
+   float min_dist = 128.0f;
+   for (auto tree : m_Map)
+   {
+      Point tree_coord = tree.first;
+
+
+   }
+   return min_dist;
+}

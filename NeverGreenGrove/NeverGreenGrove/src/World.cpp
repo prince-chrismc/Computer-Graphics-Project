@@ -42,6 +42,13 @@ World::~World()
 {
 }
 
+bool World::TreeToClose(glm::vec3 cam_pos)
+{
+   Point my_chunk {cam_pos.x/128, cam_pos.z/128};
+
+   return m_Map.at(my_chunk)->MinDistanceToAnyTree(std::abs((long)cam_pos.x % 128), std::abs(long(cam_pos.x) % 128)) < 1.0f;
+}
+
 void World::Update(glm::vec3 cam_pos)
 {
    glm::vec3 cam_dif = m_LastCamPos - cam_pos;
