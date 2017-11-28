@@ -31,9 +31,14 @@ class Texture
 public:
    Texture(const char* image_path);
    Texture(const char* image_path1, const char* image_path2);
+   Texture(const char* image_path1, const char* image_path2, const char* image_path3);
 
-   unsigned int getTexture(int i) const { if (i == 2) { return texture2; } else { return texture1; } }
+   unsigned int getTexture(int i) const {
+	   if (i == 3) { return texture3; }
+	   else if (i == 2) { return texture2; }
+	   else { return texture1; }
+   }
 
 private:
-   unsigned int texture1, texture2;
+   unsigned int texture1, texture2, texture3;
 };

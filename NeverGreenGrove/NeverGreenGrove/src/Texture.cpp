@@ -129,3 +129,97 @@ Texture::Texture(const char* image_path1, const char* image_path2)
 	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture1"), 0);
 	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture2"), 1);
 }
+
+Texture::Texture(const char* image_path1, const char* image_path2, const char* image_path3)
+{
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//uncomment this if you want to use gl_clamp_border
+	//float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width, height, channel;
+	unsigned char* texture_buffer = stbi_load(image_path1, &width, &height, &channel, 0);
+	if (!texture_buffer)
+	{
+		std::cout << "Texture loading failed. Try again!" << std::endl;
+		std::cout << "Press 'enter' to exit." << std::endl;
+		std::getline(std::cin, std::string());
+	}
+	else
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_buffer);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+
+	stbi_image_free(texture_buffer);
+
+	//-----------for texture 2---------------//
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//uncomment this if you want to use gl_clamp_border
+	//float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width2, height2, channel2;
+	unsigned char* texture_buffer2 = stbi_load(image_path2, &width2, &height2, &channel2, 0);
+	if (!texture_buffer2)
+	{
+		std::cout << "Texture loading failed. Try again!" << std::endl;
+		std::cout << "Press 'enter' to exit." << std::endl;
+		std::getline(std::cin, std::string());
+	}
+	else
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width2, height2, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_buffer2);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+
+	stbi_image_free(texture_buffer2);
+
+	//-----------for texture 3---------------//
+	glGenTextures(1, &texture3);
+	glBindTexture(GL_TEXTURE_2D, texture3);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//uncomment this if you want to use gl_clamp_border
+	//float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	//glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width3, height3, channel3;
+	unsigned char* texture_buffer3 = stbi_load(image_path3, &width3, &height3, &channel3, 0);
+	if (!texture_buffer2)
+	{
+		std::cout << "Texture loading failed. Try again!" << std::endl;
+		std::cout << "Press 'enter' to exit." << std::endl;
+		std::getline(std::cin, std::string());
+	}
+	else
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width3, height3, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_buffer3);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+
+	stbi_image_free(texture_buffer3);
+
+
+	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture1"), 0);
+	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture2"), 1);
+	glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture3"), 2);
+}

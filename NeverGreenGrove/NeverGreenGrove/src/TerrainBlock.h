@@ -58,7 +58,8 @@ friend class Chunk;
             const GLuint GetTexture(int i) const { return m_Texture.getTexture(i); }
 
          private:
-            TerrainTexture() : m_Texture("assets/dirt.jpg", "assets/grass.jpg" ) {}
+            TerrainTexture() : m_Texture("assets/dirt.jpg", "assets/grass.jpg", "assets/snow.jpg" ) {}
+			//snowy image source: http://www.10ravens.com/files/product/5/41/12006/preview.jpg
 
             Texture m_Texture;
 
