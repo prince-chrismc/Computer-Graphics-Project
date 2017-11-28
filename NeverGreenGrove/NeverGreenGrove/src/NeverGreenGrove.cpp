@@ -50,7 +50,7 @@ void PerFrameCalc();
 
 // Gloabal objects
 Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
-World g_World;
+std::shared_ptr<World> g_World;
 
 int main()
 {
@@ -77,6 +77,8 @@ int main()
 
    glEnable(GL_DEPTH_TEST);
 
+
+   g_World = std::make_shared<World>();
    // Terrain
    //Chunk terrain1;
    //Chunk terrain2;
@@ -104,7 +106,7 @@ int main()
       //terrain2.Draw();
       //terrain3.Draw();
       //terrain4.Draw();
-      g_World.Draw();
+      g_World->Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers

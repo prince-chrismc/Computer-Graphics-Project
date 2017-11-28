@@ -33,7 +33,8 @@ class World
 public:
    World();
    ~World();
-   void Draw() const { for (auto tree : m_Map) { tree.second->Draw(); } }
+   void Draw() const { for (auto chunk : m_Map) 
+   { chunk.second->Draw(); } }
 
    private:
 

@@ -14,17 +14,17 @@ World::World()
    auto chunk8 = std::make_shared<Chunk>();
    auto chunk9 = std::make_shared<Chunk>();
 
-   chunk1->Translate(glm::vec3(-Chunk::ONE_TRANS_UNIT, 0, -Chunk::ONE_TRANS_UNIT));
-   chunk2->Translate(glm::vec3(-Chunk::ONE_TRANS_UNIT, 0, 0));
-   chunk3->Translate(glm::vec3(-Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+   chunk1->Translate(glm::vec3(-128, 0, -128));
+   chunk2->Translate(glm::vec3(-128, 0, 0));
+   chunk3->Translate(glm::vec3(-128, 0, 128));
 
-   chunk1->Translate(glm::vec3(0, 0, -Chunk::ONE_TRANS_UNIT));
+   chunk1->Translate(glm::vec3(0, 0, -128));
    chunk2->Translate(glm::vec3(0, 0, 0));
-   chunk3->Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
-   
-   chunk1->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, -Chunk::ONE_TRANS_UNIT));
-   chunk2->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
-   chunk3->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
+   chunk3->Translate(glm::vec3(0, 0, 128));
+
+   chunk1->Translate(glm::vec3(128, 0, -128));
+   chunk2->Translate(glm::vec3(128, 0, 0));
+   chunk3->Translate(glm::vec3(128, 0, 128));
 
    m_Map.emplace(Point{ -1, -1 }, chunk1);
    m_Map.emplace(Point{ -1, 0 }, chunk2);
@@ -34,7 +34,7 @@ World::World()
    m_Map.emplace(Point{ 0, 1 }, chunk6);
    m_Map.emplace(Point{ 1, -1 }, chunk7);
    m_Map.emplace(Point{ 1, 0 }, chunk8);
-   m_Map.emplace(Point{ 1,  }, chunk9);
+   m_Map.emplace(Point{ 1, 1 }, chunk9);
 }
 
 
