@@ -136,7 +136,7 @@ std::shared_ptr<Forest::TreeA::TreeObj> Forest::TreeA::TreeObj::s_Instance;
 std::once_flag Forest::TreeB::TreeObj::s_Flag;
 std::shared_ptr<Forest::TreeB::TreeObj> Forest::TreeB::TreeObj::s_Instance;
 
-Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/grass.jpg")
+Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/treeBark.jpg")
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
