@@ -65,8 +65,8 @@ In conclusion, we have created a Post-Apocalyptic world that is procedurally gen
 - apocalypse them song: https://www.youtube.com/watch?v=OMoTcNxpUVg
 - zombie song: https://www.youtube.com/watch?v=9ounTccHNsw
 - power up:
-- power down:
-- dramatic sound: 
+- power down: https://www.youtube.com/watch?v=jKpITiRlhqI
+- dramatic sound: https://www.youtube.com/watch?v=aNkOmR_3D2I
 - snow jpg:http://www.10ravens.com/files/product/5/41/12006/preview.jpg
 - wall jpg:https://learnopengl.com/img/textures/wall.jpg
 - grass jpg:
