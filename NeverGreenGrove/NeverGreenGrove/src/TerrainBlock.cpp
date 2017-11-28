@@ -33,12 +33,13 @@ SOFTWARE.
 
 constexpr float PI = 3.14159265358979323846f;
 
-TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs)
+TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs) : m_Texture("assets/grass.jpg")
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
    GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
+   GLuint UVIndex = shaderProgram->GetAttributeLocation("textureCoordinate");
 
    glGenVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
@@ -49,10 +50,6 @@ TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> vert
    glVertexAttribPointer(PositonIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(PositonIndex);
    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-   glBindTexture(GL_TEXTURE_2D, GetTexture());
-   glDrawArrays(GL_TRIANGLES, 0, verticies.size());
-   glBindTexture(GL_TEXTURE_2D, 0);
 
    glGenBuffers(1, &m_Colors);
    glBindBuffer(GL_ARRAY_BUFFER, m_Colors);
@@ -71,8 +68,8 @@ TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> vert
    glGenBuffers(1, &m_UVs);
    glBindBuffer(GL_ARRAY_BUFFER, m_UVs);
    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs.front(), GL_STATIC_DRAW);
-   glVertexAttribPointer(NormalIndex, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
-   glEnableVertexAttribArray(NormalIndex);
+   glVertexAttribPointer(UVIndex, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(UVIndex);
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
    glGenBuffers(1, &m_Indicies);
@@ -98,7 +95,7 @@ TerrainBlock::DrawableTerrain::~DrawableTerrain()
 
 void TerrainBlock::DrawableTerrain::Draw(const RenderMode& render_mode) const
 {
-   ShaderLinker::GetInstance()->SetUniformInt("object_type", 1);
+   ShaderLinker::GetInstance()->SetUniformInt("object_type", 0);
 
    switch (render_mode)
    {
@@ -120,10 +117,12 @@ void TerrainBlock::DrawableTerrain::Draw(const RenderMode& render_mode) const
 
    case RenderMode::TRIANGLE_STRIPS:
       glBindVertexArray(m_VAO);
+	  glBindTexture(GL_TEXTURE_2D, GetTexture());
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
       glDrawElements(GL_TRIANGLE_STRIP, m_NumIndicies, GL_UNSIGNED_INT, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-      glBindVertexArray(0);
+	  glBindTexture(GL_TEXTURE_2D, 0);
+	  glBindVertexArray(0);
       break;
 
    default: break;

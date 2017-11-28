@@ -48,7 +48,7 @@ friend class Chunk;
       class DrawableTerrain
       {
          public:
-            DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs);
+            DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs) ;
             ~DrawableTerrain();
 
 			const GLuint GetTexture() const { return m_Texture.getTexture(); }
@@ -56,7 +56,7 @@ friend class Chunk;
 
          private:
 			Texture m_Texture;
-            GLuint m_VAO;
+            GLuint m_VAO;	
             GLuint m_Verticies;
             GLuint m_Colors;
             GLuint m_Indicies;
@@ -87,7 +87,7 @@ friend class Chunk;
          std::vector<glm::vec3> GetVerticies() { return grid; }
          std::vector<glm::vec3> GetColors() { return color; }
          std::vector<glm::vec3> GetNormals() { return normals; }
-		 std::vector<glm::vec2> GetUVs() { return normals; }
+		 std::vector<glm::vec2> GetUVs() { return UVs; }
          std::vector<GLuint> GetIndices() { return indices; }
 
       private:
