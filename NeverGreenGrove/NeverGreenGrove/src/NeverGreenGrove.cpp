@@ -74,7 +74,12 @@ int main()
 	   return 0; // error starting up the engine
    }
 
-   engine->play2D("assets/apocalypse.mp3", true); //reference https://www.youtube.com/watch?v=OMoTcNxpUVg
+   ISound* snd = engine->play2D("assets/apocalypse.mp3", true, true); //reference https://www.youtube.com/watch?v=OMoTcNxpUVg
+   if (snd) {
+	   snd->setPlayPosition(500);
+	   snd->setIsPaused(false);
+	   snd->drop();
+   }
 
    glEnable(GL_DEPTH_TEST);
 
@@ -97,6 +102,7 @@ int main()
    terrain8.Translate(glm::vec3(0, 0, -1*Chunk::ONE_TRANS_UNIT));
    terrain9.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, -1*Chunk::ONE_TRANS_UNIT));
    size_t counter = 0;
+
    // Game loop
    while (!window->ShouldClose())
    {
@@ -254,7 +260,11 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
    }
 	   if (key == GLFW_KEY_G && action == GLFW_PRESS) {
 		   if (g_camera.godMode) {
-			   g_camera.godMode = false; engine->play2D("assets/powerDown.mp3", false);
+			   g_camera.godMode = false; 
+			   ISound* snd = engine->play2D("assets/powerDown.mp3", false,true);
+			   snd->setPlayPosition(100);
+			   snd->setIsPaused(false);
+			   snd->drop();
 		   }
 		   else { g_camera.godMode = true; engine->play2D("assets/powerUp2.mp3", false); }
 	   }
