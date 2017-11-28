@@ -35,7 +35,7 @@ public:
       Yaw = yaw;
       Pitch = pitch;
       goForward = goBackward = goRight = goLeft = goUp = goDown = false;
-	  godMode = false;
+	  godMode = true;
 	  sprint = false;
 	  updateCameraVectors();
    }
@@ -48,7 +48,7 @@ public:
       Yaw = yaw;
       Pitch = pitch;
       goForward = goBackward = goRight = goLeft = goUp = goDown = false;
-	  godMode = false;
+	  godMode = true;
 	  sprint = false;
       updateCameraVectors();
    }
