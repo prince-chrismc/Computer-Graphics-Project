@@ -95,7 +95,7 @@ int main()
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
-      if (counter % 1500 == 0) engine->play2D("assets/zombie.mp3", false); //referenced https://www.youtube.com/watch?v=9ounTccHNsw
+      if (counter % 1500 == 0) engine->play2D("assets/zombie.mp3"); //referenced https://www.youtube.com/watch?v=9ounTccHNsw
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
