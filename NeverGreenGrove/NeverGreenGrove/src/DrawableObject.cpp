@@ -25,11 +25,12 @@ SOFTWARE.
 #include "DrawableObject.h"
 #include "Shader.h"
 
-DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies)
+DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies, const std::vector<glm::vec3> normals)
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
    GLuint ColorIndex = shaderProgram->GetAttributeLocation("color");
+   GLuint NormalIndex = shaderProgram->GetAttributeLocation("normal");
 
    glGenVertexArrays(1, &m_VAO);
    glBindVertexArray(m_VAO);
@@ -46,6 +47,13 @@ DrawableObject::DrawableObject(const std::vector<glm::vec3> verticies, const std
    glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), &colors.front(), GL_STATIC_DRAW);
    glVertexAttribPointer(ColorIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
    glEnableVertexAttribArray(ColorIndex);
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+   glGenBuffers(1, &m_Normals);
+   glBindBuffer(GL_ARRAY_BUFFER, m_Normals);
+   glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals.front(), GL_STATIC_DRAW);
+   glVertexAttribPointer(NormalIndex, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   glEnableVertexAttribArray(NormalIndex);
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
    glGenBuffers(1, &m_Indicies);

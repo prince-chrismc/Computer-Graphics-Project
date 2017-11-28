@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+Daniel P, privorotskyd(at)gmail(dot)com
+Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,29 +26,15 @@ SOFTWARE.
 
 #pragma once
 
-#include "RenderMode.h"
-#include "Texture.h"
 #include "glm\vec3.hpp"
-#include <vector>
 
-class DrawableObject
+class Light
 {
    public:
-   DrawableObject() {}
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies, const std::vector<glm::vec3> normals);
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies);
-   virtual void Draw(const RenderMode& render_mode) const;
-   void Delete();
+      Light() : position(100.0f, 100.0f, 100.0f) {}
 
-   protected:
-      GLuint m_VAO;
-      GLuint m_Verticies;
-      GLuint m_Colors;
-      GLuint m_Indicies;
-      GLuint m_Textures;
+      void Draw(float time);
 
-      GLsizei m_NumVertices;
-      GLsizei m_NumIndicies;
-
-      Texture m_Texture;
+   private:
+      glm::vec3 position;
 };

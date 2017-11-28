@@ -29,6 +29,7 @@ SOFTWARE.
 #include "Shader.h"
 #include "ObjLoader.h"
 #include "Chunk.h"
+#include "Light.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
@@ -65,7 +66,7 @@ int main()
 
 #ifdef _DEBUG
    // For wireframe (comment this out unless needed)
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif // _DEBUG
 
    // Terrain
@@ -78,6 +79,9 @@ int main()
    terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
    terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
 
+   //Light
+   Light light;
+   float counter = 0.0f;
    // Game loop
    while (!window->ShouldClose())
    {
@@ -87,12 +91,15 @@ int main()
 
       shaderProgram->SetUniformMat4("view_matrix", g_camera.GetViewMatrix());
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
+      shaderProgram->SetUniformVec3("viewPos", g_camera.getCameraPosition());
+      //shaderProgram->SetUniformVec3("light_position", { 100.0f, 100.0f + counter, 100.0f });
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
       terrain2.Draw();
       terrain3.Draw();
       terrain4.Draw();
+	  light.Draw(counter++); //light position isn't changing. Read something saying its because its uniform...
       /// Render
 
       window->NextBuffer(); // swap buffers

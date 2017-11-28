@@ -1,7 +1,9 @@
 /*
 MIT License
 
-Copyright (c) 2017 Chris McArthur, prince.chrismc(at)gmail(dot)com
+Copyright (c) 2017   Chris McArthur, prince.chrismc(at)gmail(dot)com
+Daniel P, privorotskyd(at)gmail(dot)com
+Nicholas G, dj_nick_gattuso(at)hotmail(dot)com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#include "Light.h"
+#include "Shader.h"
 
-#include "RenderMode.h"
-#include "Texture.h"
-#include "glm\vec3.hpp"
-#include <vector>
-
-class DrawableObject
+void Light::Draw(float time)
 {
-   public:
-   DrawableObject() {}
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<GLuint> indicies, const std::vector<glm::vec3> normals);
-   DrawableObject(const std::vector<glm::vec3> verticies, const std::vector<glm::vec2> uvs, const char *texturePath, const std::vector<GLuint> indicies);
-   virtual void Draw(const RenderMode& render_mode) const;
-   void Delete();
-
-   protected:
-      GLuint m_VAO;
-      GLuint m_Verticies;
-      GLuint m_Colors;
-      GLuint m_Indicies;
-      GLuint m_Textures;
-
-      GLsizei m_NumVertices;
-      GLsizei m_NumIndicies;
-
-      Texture m_Texture;
-};
+   position = { 100.0f + (time * 100), 100.0f + (time * 100), 100.0f + (time * 100) };
+   ShaderLinker::GetInstance()->SetUniformVec3("light_position", position);
+}
