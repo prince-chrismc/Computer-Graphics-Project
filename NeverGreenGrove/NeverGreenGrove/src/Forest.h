@@ -34,7 +34,7 @@ SOFTWARE.
 #include <map>
 #include <vector>
 
-constexpr double OBJECTSPACE_TO_REALWORLD = 1.0 / 128.0 * 50.7;
+constexpr float OBJECTSPACE_TO_REALWORLD = 1.0f / 128.0f * 50.7f;
 
 class Forest
 {
@@ -49,17 +49,19 @@ private:
    class DrawableTree abstract
    {
       public:
-         DrawableTree() : m_ModelMatrix(1.0f) {}
+         DrawableTree() : m_TranslationMatrix(1.0f), m_RotationMatrix(1.0f), m_ScaleMatrix(1.0f) {}
 
          virtual void Draw() const = 0;
-         void Translate(const glm::vec3& vec) { m_ModelMatrix = glm::translate(m_ModelMatrix, vec); }
+         void Translate(const glm::vec3& vec) { m_TranslationMatrix = glm::translate(m_TranslationMatrix, vec); }
+         void Rotate(float angle) { m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
 
       protected:
-         void Scale(glm::vec3 vec) { m_ModelMatrix = glm::scale(m_ModelMatrix, vec); }
-         void Rotate(float angle) { m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)); }
-         void Shear(float deform_x, float deform_z) { m_ModelMatrix = glm::shearY3D(m_ModelMatrix, deform_x, deform_z); }
+         void Scale(glm::vec3 vec) { m_ScaleMatrix = glm::scale(m_ScaleMatrix, vec); }
+         void Shear(float deform_x, float deform_z) { m_TranslationMatrix = glm::shearY3D(m_TranslationMatrix, deform_x, deform_z); }
 
-         glm::mat4 m_ModelMatrix;
+         glm::mat4 m_TranslationMatrix;
+         glm::mat4 m_ScaleMatrix;
+         glm::mat4 m_RotationMatrix;
    };
 
    class TreeA;
