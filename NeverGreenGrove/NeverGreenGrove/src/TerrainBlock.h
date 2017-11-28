@@ -55,10 +55,10 @@ friend class Chunk;
 
             static std::shared_ptr<TerrainTexture> GetInstance() { std::call_once(s_Flag, []() { s_Instance.reset(new TerrainTexture()); }); return s_Instance; }
 
-            const GLuint GetTexture() const { return m_Texture.getTexture(); }
+            const GLuint GetTexture(int i) const { return m_Texture.getTexture(i); }
 
          private:
-            TerrainTexture() : m_Texture("assets/grass.jpg") {}
+            TerrainTexture() : m_Texture("assets/grass.jpg","assets/wall.jpg" ) {}
 
             Texture m_Texture;
 

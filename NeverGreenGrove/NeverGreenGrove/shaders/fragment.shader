@@ -12,13 +12,14 @@ out vec4 color;
 
 uniform int object_type;
 uniform int object_color;
-uniform sampler2D textures;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
 
 void main()
 {
    vec3 lightColor = vec3(0.7f, 0.7f, 0.7f);
 
-   vec3 objColor = vec3(texture(textures, textureCoord));
+   vec3 objColor = vec3(texture(texture2, textureCoord));
    if (object_type == 1){ objColor = vertex_color; }
 
    float fogCoordinate = abs(eyeSpace.z / eyeSpace.w); //ranged based
