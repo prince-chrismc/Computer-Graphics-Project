@@ -15,7 +15,10 @@ W_KEY | Forward (Relative)
 A_KEY | Left (Relative)
 S_KEY | Backwards (Relative)
 D_KEY | Right (Relative)
+--when in God Mode--
 G_KEY | Enable/Disable God Mode
 LEFT_SHIFT_KEY | Down
 SPACEBAR_KEY | Up
+--when in normal mode--
+SHIFT_KEY | Sprint
 Cursor X/Y-axis mouvement | Look At (Follows Cursor)
