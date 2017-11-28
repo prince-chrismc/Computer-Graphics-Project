@@ -12,6 +12,7 @@ out vec4 color;
 
 uniform int object_type;
 uniform int object_color;
+uniform vec3 light_position;
 uniform sampler2D texture1;
 uniform sampler2D texture2;
 uniform sampler2D texture3;
@@ -52,7 +53,7 @@ void main()
    vec3 ambient_contribution = ambientStrength * lightColor;
 
    //diffuse lighting
-   vec3 light_position = vec3(1.0f, 1.0f, 1.0f); //world coords
+   //vec3 light_position = vec3(1.0f, 1.0f, 1.0f); //world coords
 
    vec3 norm = normalize(outNormal);
 
