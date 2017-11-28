@@ -94,12 +94,14 @@ int main()
       shaderProgram->SetUniformVec3("viewPos", g_camera.getCameraPosition());
       //shaderProgram->SetUniformVec3("light_position", { 100.0f, 100.0f + counter, 100.0f });
 
+	  shaderProgram->SetUniformVec3("light_position", glm::vec3(g_camera.GetViewMatrix() * glm::vec4{ 100.0f, 100.0f + counter, 100.0f, 0 }));
+
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
       terrain2.Draw();
       terrain3.Draw();
       terrain4.Draw();
-	  light.Draw(counter++); //light position isn't changing. Read something saying its because its uniform...
+	  //light.Draw(counter++); //light position isn't changing. Read something saying its because its uniform...
       /// Render
 
       window->NextBuffer(); // swap buffers
