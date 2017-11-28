@@ -27,6 +27,7 @@ SOFTWARE.
 #pragma once
 
 #include "RenderMode.h"
+#include "Texture.h"
 #include "glm\vec3.hpp"
 #include "glm\matrix.hpp"
 #include "glm\gtc\matrix_transform.hpp"
@@ -50,9 +51,11 @@ friend class Chunk;
             DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs);
             ~DrawableTerrain();
 
+			const GLuint GetTexture() const { return m_Texture.getTexture(); }
             void Draw(const RenderMode& render_mode) const;
 
          private:
+			Texture m_Texture;
             GLuint m_VAO;
             GLuint m_Verticies;
             GLuint m_Colors;
