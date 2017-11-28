@@ -14,6 +14,7 @@ uniform int object_type;
 uniform int object_color;
 uniform sampler2D texture1;
 uniform sampler2D texture2;
+uniform sampler2D texture3;
 
 void main()
 {
@@ -22,8 +23,19 @@ void main()
    vec3 objColor = vec3(texture(texture1, textureCoord));
    if (object_type == 1)
    { 
-	   if (fragPosition.y > 5.0f) { objColor = vec3(texture(texture1, textureCoord)); }
-	   else { objColor = vec3(mix(texture(texture1, textureCoord), texture(texture2, textureCoord), 0.5)); }
+	   //top of tall hills
+	   if (fragPosition.y >= 12.0f) { objColor = vec3(texture(texture3, textureCoord)); }
+	   //mix between top and middle
+	   else if (fragPosition.y >= 11.0f && fragPosition.y < 12.0f){ 
+		   objColor = vec3(mix(texture(texture1, textureCoord), texture(texture3, textureCoord), 0.6)); }
+	   //middle or top of not so high
+	   else if (fragPosition.y >= 2.0f && fragPosition.y < 11.0f) { objColor = vec3(texture(texture1, textureCoord)); }
+	   //mix of bottom and layer 2
+	   else if (fragPosition.y >= 0.5f && fragPosition.y < 2.0f) {
+		   objColor = vec3(mix(texture(texture1, textureCoord), texture(texture2, textureCoord), 0.3));
+	   }
+	   //ground level
+	   else { objColor = vec3(texture(texture2, textureCoord)); }
    }
 
    float fogCoordinate = abs(eyeSpace.z / eyeSpace.w); //ranged based
