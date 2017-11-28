@@ -254,9 +254,9 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
    }
 	   if (key == GLFW_KEY_G && action == GLFW_PRESS) {
 		   if (g_camera.godMode) {
-			   g_camera.godMode = false; engine->play2D("assets/powerUp.mp3", false);
+			   g_camera.godMode = false; engine->play2D("assets/powerDown.mp3", false);
 		   }
-		   else { g_camera.godMode = true; engine->play2D("assets/powerDown.mp3", false); }
+		   else { g_camera.godMode = true; engine->play2D("assets/powerUp2.mp3", false); }
 	   }
    
 
