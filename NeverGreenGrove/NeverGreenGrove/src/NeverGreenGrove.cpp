@@ -114,7 +114,12 @@ int main()
       shaderProgram->SetUniformMat4("projection_matrix", window->GetProjectionMatrix());
 
       if (counter % 1500 == 0) engine->play2D("assets/zombie.mp3"); //referenced https://www.youtube.com/watch?v=9ounTccHNsw
-	  else if (counter % 750 == 0) engine->play2D("assets/dramaticSound.mp3", false);
+	  else if (counter % 750 == 0) { 
+		  ISound* snd = engine->play2D("assets/dramaticSound.mp3", false, true); 
+		  snd->setPlayPosition(100);
+		  snd->setIsPaused(false);
+		  snd->drop();
+	  }
 
       // Render -------------------------------------------------------------------------------------------------------------------------------------
       terrain1.Draw();
