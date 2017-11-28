@@ -29,12 +29,16 @@ SOFTWARE.
 #include "Shader.h"
 #include "ObjLoader.h"
 #include "Chunk.h"
+#include "irrKlang/irrKlang.h"
 
 #include "GL/glew.h"                            // include GL Extension Wrangler
 
 #include <string>
 #include <iostream>
 #include <vector>
+
+#pragma comment(lib, "lib/irrKlang.lib") // link with irrKlang.dll
+using namespace irrklang;
 
 // Function Declarations
 bool SetupGlew();
@@ -59,6 +63,16 @@ int main()
 
    if (!SetupShaders()) return ExitOnEnter();
    auto shaderProgram = ShaderLinker::GetInstance();
+
+   ISoundEngine* engine = createIrrKlangDevice();
+
+   if (!engine)
+   {
+      printf("Could not startup engine\n");
+      return 0; // error starting up the engine
+   }
+
+   engine->play2D("assets/Kalimba.mp3", true);
 
    glEnable(GL_DEPTH_TEST);
 
@@ -91,6 +105,7 @@ int main()
       window->NextBuffer(); // swap buffers
    }
 
+   engine->drop(); // delete engine
    return 0;
 }
 
