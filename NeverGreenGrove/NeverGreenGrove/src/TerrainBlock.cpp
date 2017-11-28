@@ -33,7 +33,11 @@ SOFTWARE.
 
 constexpr float PI = 3.14159265358979323846f;
 
-TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals, const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs) : m_Texture("assets/grass.jpg")
+std::once_flag TerrainBlock::TerrainTexture::s_Flag;
+std::shared_ptr<TerrainBlock::TerrainTexture> TerrainBlock::TerrainTexture::s_Instance;
+
+TerrainBlock::DrawableTerrain::DrawableTerrain(const std::vector<glm::vec3> verticies, const std::vector<glm::vec3> colors, const std::vector<glm::vec3> normals,
+                                               const std::vector<GLuint> indicies, const std::vector<glm::vec2> uvs)
 {
    auto shaderProgram = ShaderLinker::GetInstance();
    GLuint PositonIndex = shaderProgram->GetAttributeLocation("position");
@@ -108,23 +112,23 @@ void TerrainBlock::DrawableTerrain::Draw(const RenderMode& render_mode) const
       break;
 
    case RenderMode::TRIANGLES:
-	   glBindVertexArray(m_VAO);
-	   glBindTexture(GL_TEXTURE_2D, GetTexture());
-	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
-	   glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, 0);
-	   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	   glBindTexture(GL_TEXTURE_2D, 0);
-	   glBindVertexArray(0);
-	   break;
+      glBindVertexArray(m_VAO);
+      glBindTexture(GL_TEXTURE_2D, TerrainTexture::GetInstance()->GetTexture());
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
+      glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, 0);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+      glBindTexture(GL_TEXTURE_2D, 0);
+      glBindVertexArray(0);
+      break;
 
    case RenderMode::TRIANGLE_STRIPS:
       glBindVertexArray(m_VAO);
-	  glBindTexture(GL_TEXTURE_2D, GetTexture());
+      glBindTexture(GL_TEXTURE_2D, TerrainTexture::GetInstance()->GetTexture());
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
       glDrawElements(GL_TRIANGLE_STRIP, m_NumIndicies, GL_UNSIGNED_INT, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	  glBindTexture(GL_TEXTURE_2D, 0);
-	  glBindVertexArray(0);
+      glBindTexture(GL_TEXTURE_2D, 0);
+      glBindVertexArray(0);
       break;
 
    default: break;
@@ -302,21 +306,21 @@ std::vector <GLuint> TerrainBlock::Builder::createEBO(const std::vector<std::vec
    // https://stackoverflow.com/questions/5915753/generate-a-plane-with-triangle-strips
    std::vector<GLuint> EBO_indices; // TRIANGLE_STRIP EBO
 
-	for (int i = 0; i < index2d.size() - 1; i++)
-	{
-		for (int j = 0; j < index2d.front().size() - 1; j++)
-		{
-			//triangle 1
-			EBO_indices.emplace_back(index2d.at(i + 1).at(j));
-			EBO_indices.emplace_back(index2d.at(i).at(j));
-			EBO_indices.emplace_back(index2d.at(i).at(j + 1));
+   for (int i = 0; i < index2d.size() - 1; i++)
+   {
+      for (int j = 0; j < index2d.front().size() - 1; j++)
+      {
+         //triangle 1
+         EBO_indices.emplace_back(index2d.at(i + 1).at(j));
+         EBO_indices.emplace_back(index2d.at(i).at(j));
+         EBO_indices.emplace_back(index2d.at(i).at(j + 1));
 
-			//triangle 2
-			EBO_indices.emplace_back(index2d.at(i).at(j + 1));
-			EBO_indices.emplace_back(index2d.at(i + 1).at(j + 1));
-			EBO_indices.emplace_back(index2d.at(i + 1).at(j));
-		}
-	}
+         //triangle 2
+         EBO_indices.emplace_back(index2d.at(i).at(j + 1));
+         EBO_indices.emplace_back(index2d.at(i + 1).at(j + 1));
+         EBO_indices.emplace_back(index2d.at(i + 1).at(j));
+      }
+   }
    return EBO_indices;
 }
 
