@@ -61,19 +61,12 @@ int main()
    auto shaderProgram = ShaderLinker::GetInstance();
 
    glEnable(GL_DEPTH_TEST);
-   //glDepthFunc(GL_GREATER);
-
-#ifdef _DEBUG
-   // For wireframe (comment this out unless needed)
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-#endif // _DEBUG
 
    // Terrain
    Chunk terrain1;
    Chunk terrain2;
    Chunk terrain3;
    Chunk terrain4;
-   //terrain1.Translate(glm::vec3(50, 0, 0));
    terrain2.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 0));
    terrain3.Translate(glm::vec3(0, 0, Chunk::ONE_TRANS_UNIT));
    terrain4.Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
@@ -155,9 +148,7 @@ int ExitOnEnter()
 
 void ClearFrame()
 {
-   glClearColor(0.75f, 0.75f, 0.75f, 1.0f);
-   //glClear(GL_COLOR_BUFFER_BIT);             // Clear the color buffer
-   //glClearDepth(0.0);
+   glClearColor(0.05f, 0.075f, 0.075f, 1.0f);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);             // Clear the depth buffer
 }
 

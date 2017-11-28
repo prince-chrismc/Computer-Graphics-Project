@@ -23,7 +23,7 @@ void main()
 
    float fogCoordinate = abs(eyeSpace.z / eyeSpace.w); //ranged based
    //float fogCoordinate = abs(eyeSpace.z); //plane based
-   vec4 fogColour = vec4( 0.75f, 0.75f, 0.75f, 1.0f );
+   vec4 fogColour = vec4(0.05f, 0.075f, 0.075f, 1.0f);
    float startFog = 0.0f;
    float endFog = 250.0f;
 
