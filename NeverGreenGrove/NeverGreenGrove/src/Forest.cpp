@@ -148,7 +148,7 @@ Forest::TreeA::TreeObj::TreeObj() : m_Texture("assets/mapped.jpg")
    std::vector<glm::vec3> colors;
    std::vector<glm::vec3> normals;
    std::vector<glm::vec2> uvs;
-   LoadObjFile("assets/tree_xs_mapped2.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
+   LoadObjFile("assets/tree_xs_mapped.obj", &vertices, &normals, &uvs); //read the vertices from the cube.obj file
 
    m_NumVertices = (GLsizei)vertices.size();
 
