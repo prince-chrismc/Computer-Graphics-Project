@@ -77,7 +77,10 @@ int main()
 
    glEnable(GL_DEPTH_TEST);
 
-
+   //auto chunk1 = std::make_shared<Chunk>();
+   //auto chunk2 = std::make_shared<Chunk>();
+   //chunk1->Translate(glm::vec3(-128, 0, -128));
+   //chunk1->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
    g_World = std::make_shared<World>();
    // Terrain
    //Chunk terrain1;
@@ -107,6 +110,8 @@ int main()
       //terrain3.Draw();
       //terrain4.Draw();
       g_World->Draw();
+      //chunk1->Draw();
+      //chunk2->Draw();
       /// Render
 
       window->NextBuffer(); // swap buffers
