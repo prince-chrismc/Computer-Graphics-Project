@@ -114,26 +114,32 @@ void TerrainBlock::DrawableTerrain::Draw(const RenderMode& render_mode) const
    case RenderMode::TRIANGLES:
 	   glActiveTexture(GL_TEXTURE0);
 	   glBindTexture(GL_TEXTURE_2D, TerrainTexture::GetInstance()->GetTexture(1));
+	   //glBindTexture(GL_TEXTURE_2D, 0);
 	   glActiveTexture(GL_TEXTURE1);
 	   glBindTexture(GL_TEXTURE_2D, TerrainTexture::GetInstance()->GetTexture(2));
+	   //glBindTexture(GL_TEXTURE_2D, 0);
       glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
       glDrawElements(GL_TRIANGLES, m_NumIndicies, GL_UNSIGNED_INT, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-      glBindTexture(GL_TEXTURE_2D, 0);
+	  glBindTexture(GL_TEXTURE_2D, 0);
+	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindVertexArray(0);
       break;
 
    case RenderMode::TRIANGLE_STRIPS:
 	   glActiveTexture(GL_TEXTURE0);
 	   glBindTexture(GL_TEXTURE_2D, TerrainTexture::GetInstance()->GetTexture(1));
+	   //glBindTexture(GL_TEXTURE_2D, 0);
 	   glActiveTexture(GL_TEXTURE1);
 	   glBindTexture(GL_TEXTURE_2D, TerrainTexture::GetInstance()->GetTexture(2));
+	   //glBindTexture(GL_TEXTURE_2D, 0);
 	   glBindVertexArray(m_VAO);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Indicies);
       glDrawElements(GL_TRIANGLE_STRIP, m_NumIndicies, GL_UNSIGNED_INT, 0);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-      glBindTexture(GL_TEXTURE_2D, 0);
+	  glBindTexture(GL_TEXTURE_2D, 0);
+	  glBindTexture(GL_TEXTURE_2D, 0);
       glBindVertexArray(0);
       break;
 

@@ -62,6 +62,8 @@ Texture::Texture(const char* image_path)
    }
 
    stbi_image_free(texture_buffer);
+
+   glUniform1i(ShaderLinker::GetInstance()->GetUniformLocation("texture1"), 0);
 }
 
 Texture::Texture(const char* image_path1, const char* image_path2)

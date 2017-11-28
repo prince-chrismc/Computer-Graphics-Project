@@ -287,6 +287,7 @@ void Forest::TreeB::Draw() const
    shaderProgram->SetUniformInt("object_type", 0);
 
    glBindVertexArray(TreeObj::GetInstance()->GetVAO());
+   glActiveTexture(GL_TEXTURE0);
    glBindTexture(GL_TEXTURE_2D, TreeObj::GetInstance()->GetTexture());
    glDrawArrays(GL_TRIANGLES, 0, TreeObj::GetInstance()->GetNumberOfVertices());
    glBindTexture(GL_TEXTURE_2D, 0);
