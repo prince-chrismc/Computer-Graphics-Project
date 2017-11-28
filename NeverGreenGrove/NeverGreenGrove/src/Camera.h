@@ -64,7 +64,7 @@ public:
       return Position;
    }
 
-   void moveCamera(float deltaTime)
+   void moveCamera(float deltaTime, float height)
    {
 	   float velocity = MovementSpeed * deltaTime;
 	   if (sprint) { velocity *= 2.0f; }

@@ -368,7 +368,7 @@ float Forest::MinDistanceToAnyTree(float from_x, float from_y)
    {
       Point tree_coord = tree.first;
 
-
+      min_dist = std::min(min_dist, std::sqrt(std::pow(from_x - tree_coord.x, 2.0f) + std::pow(from_y - tree_coord.y, 2.0f)));
    }
    return min_dist;
 }

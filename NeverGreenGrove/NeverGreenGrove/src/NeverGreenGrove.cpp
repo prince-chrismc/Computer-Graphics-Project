@@ -49,7 +49,7 @@ void ClearFrame();
 void PerFrameCalc();
 
 // Gloabal objects
-Camera g_camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera g_camera(glm::vec3(0.0f, 3.0f, 0.0f));
 std::shared_ptr<World> g_World;
 
 ISoundEngine* engine;
