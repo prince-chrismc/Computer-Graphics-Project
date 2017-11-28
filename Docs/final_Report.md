@@ -27,8 +27,13 @@ Long into the future, after a devastating event, life on Earth has become a chal
 
 But, what is really going on in this world? We need you to observe what is going on, specifically with the nature, and let us know what your findings are. It's up to you now, the user, to scout and travel this world to see what has happened. However, we helped simplify your task by granting you with the abilities to fly and to keep zombies away. This means, that no zombie will bother you and whenever you want, you can activate your flight in order to travel across the world much easily.
 
-## Accomplishment
+The theme of our project interested us because it allowed us to be creative while keeping along the requirements of the project. It also allowed for us to try new things by playing around with the basic Computer Graphics knowledge. For example, we got to play around with the fog colour and position, with settings various textures on objects (in some cases, more than 1 texture) and, with the placement of our objects.
 
+## Accomplishment
+In the previous section, we discussed the requirements and the theme of the project. Knowing this, we were able to achieve certain task to create our world. This section will discuss the accomplishments that we've had in order to achieve our objectives.
+
+To begin, a terrain is needed as a base of the world. However, on the terrain, we chose to procedurally generate hills of random size. This has been done by generating a grid and during the generation, the program decides how many hills to create and what size for each one. The hills are created by following a sin function; since the points are close to each other, we can generate enough points to simulate the smooth surface. 
+Secondly, it was important to have trees because our goal is to have a forest. For this, we found some tree obj files and loaded them inside the program. From there, we were able to procedurally generate a random number of trees. In addition, we have two different tree objects. 
 
 ## What We Learned
 
