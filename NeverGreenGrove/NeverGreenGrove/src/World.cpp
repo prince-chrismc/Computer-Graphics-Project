@@ -65,11 +65,11 @@ void World::Update(glm::vec3 cam_pos)
 
          chunk7->Translate(glm::vec3(grid*Chunk::ONE_TRANS_UNIT, 0, grid*Chunk::ONE_TRANS_UNIT));
          chunk8->Translate(glm::vec3(grid*Chunk::ONE_TRANS_UNIT, 0, 0));
-         chunk9->Translate( glm::vec3(grid*Chunk::ONE_TRANS_UNIT, 0, -grid*Chunk::ONE_TRANS_UNIT));
+         chunk9->Translate( glm::vec3(-grid*Chunk::ONE_TRANS_UNIT, 0, -grid*Chunk::ONE_TRANS_UNIT));
 
-         //m_Map.emplace(Point{ grid, -1}, chunk7);
+         m_Map.emplace(Point{ grid, -grid}, chunk7);
          m_Map.emplace(Point{ grid, 0 }, chunk8);
-         //m_Map.emplace(Point{ grid, 1 }, chunk9);
+         m_Map.emplace(Point{ grid, grid }, chunk9);
 
          counter = grid;
    }
