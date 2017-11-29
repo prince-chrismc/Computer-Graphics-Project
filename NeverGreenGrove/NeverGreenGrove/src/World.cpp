@@ -54,38 +54,23 @@ void World::Update(glm::vec3 cam_pos)
    glm::vec3 cam_dif = m_LastCamPos - cam_pos;
 
 
-   static std::once_flag blockTL;
-   static std::once_flag blockTR;
-   if (cam_pos.x > 64.0f && cam_pos.z > 64.0f)
+   static long counter = 1;
+   long grid = ((long)cam_pos.x + 64) % 128;
+
+   if (grid > counter)
    {
-      std::call_once(blockTL, [this]{
          auto chunk7 = std::make_shared<Chunk>();
          auto chunk8 = std::make_shared<Chunk>();
          auto chunk9 = std::make_shared<Chunk>();
 
-         chunk7->Translate(glm::vec3(2*Chunk::ONE_TRANS_UNIT, 0, Chunk::ONE_TRANS_UNIT));
-         chunk8->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, 2*Chunk::ONE_TRANS_UNIT));
-         chunk9->Translate( glm::vec3(Chunk::ONE_TRANS_UNIT, 0, 2*Chunk::ONE_TRANS_UNIT));
+         chunk7->Translate(glm::vec3(grid*Chunk::ONE_TRANS_UNIT, 0, grid*Chunk::ONE_TRANS_UNIT));
+         chunk8->Translate(glm::vec3(grid*Chunk::ONE_TRANS_UNIT, 0, 0));
+         chunk9->Translate( glm::vec3(grid*Chunk::ONE_TRANS_UNIT, 0, -grid*Chunk::ONE_TRANS_UNIT));
 
-         m_Map.emplace(Point{2, 1}, chunk7);
-         m_Map.emplace(Point{ 2, 2 }, chunk8);
-         m_Map.emplace(Point{ 1, 2 }, chunk9);
-      });
-   }
-   else if (cam_pos.x > 64.0f && cam_pos.z < -64.0f)
-   {
-      std::call_once(blockTR, [this] {
-         auto chunk7 = std::make_shared<Chunk>();
-         auto chunk8 = std::make_shared<Chunk>();
-         auto chunk9 = std::make_shared<Chunk>();
+         //m_Map.emplace(Point{ grid, -1}, chunk7);
+         m_Map.emplace(Point{ grid, 0 }, chunk8);
+         //m_Map.emplace(Point{ grid, 1 }, chunk9);
 
-         chunk7->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, -Chunk::ONE_TRANS_UNIT));
-         chunk8->Translate(glm::vec3(2 * Chunk::ONE_TRANS_UNIT, 0, -2 * Chunk::ONE_TRANS_UNIT));
-         chunk9->Translate(glm::vec3(Chunk::ONE_TRANS_UNIT, 0, -2 * Chunk::ONE_TRANS_UNIT));
-
-         m_Map.emplace(Point{ 2, -1 }, chunk7);
-         m_Map.emplace(Point{ 2, -2 }, chunk8);
-         m_Map.emplace(Point{ 1, -2 }, chunk9);
-      });
+         counter = grid;
    }
 }
